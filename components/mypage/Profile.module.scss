@@ -1,0 +1,220 @@
+.my_profile {
+  margin-top: 20px;
+  position: relative;
+  border-radius: 6px;
+  padding: 10px 10px 40px; 
+  // background: #fcf9e1;
+  border: 1px solid #979797;
+  box-shadow: 2px 2px 6px #999;
+
+  h2 {
+    border-bottom: 2px solid #ccc;
+    padding: 0 0 10px 0;
+    margin-bottom: 15px;
+    color: #111;
+  }
+  
+  div.my_nickname{
+    padding:0 0 5px;
+    border-bottom:1px solid #eee;
+    display: flex;
+    
+    .nickname{
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      .caption{
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        white-space: nowrap;
+        margin-right: 4px;
+        &::before{
+          display: block;
+          content: "";
+          background: url(../../public/848006.png);
+          background-size: 100% 100%;
+          width: 20px;
+          height: 20px;
+          margin-right: 4px;
+        }
+      }
+  
+      input {
+        width: 100%;
+        min-width: 90px;
+        margin-left: 5px;
+        padding: 4px;
+        border:1px solid #ccc;
+      }
+      
+    }
+
+    .error_message{
+      padding:4px;
+      color: crimson;
+    }
+
+    .button_group{
+      display: flex;
+
+      button {
+        min-width: 30px;
+        font-size: 12px;
+        margin-left: 2px;
+        border: 1px solid #111;
+        padding: 3px 8px; 
+        box-shadow: 1px 1px 1px #999;
+        white-space: nowrap;
+        &:hover{
+          box-shadow: 1px 1px 4px #913ef0;
+        }
+
+        &.change_button{
+          margin-left:10px;
+        }
+      }
+
+    }
+
+  }
+
+  div.change_password{
+    padding:10px 0 5px;
+    border-bottom:1px solid #eee;
+
+    .password{
+      display: flex;
+      align-items: center;
+      span{
+        font-size: 14px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+
+        &::before{
+          display: block;
+          content: "";
+          background: url(../../public/2889676.png);
+          background-size: 100% 100%;
+          width: 20px;
+          height: 20px;
+          margin-right: 4px;
+        }
+
+        &.open{
+            
+          &::before{
+            display: block;
+            content: "";
+            background: url(../../public/6862102.png);
+            background-size: 100% 100%;
+            width: 20px;
+            height: 20px;
+            margin-right: 4px;
+          }
+        }
+      }
+
+      button {
+        font-size: 12px;
+        margin-left: 8px;
+        border: 1px solid #111;
+        padding: 3px 5px; 
+        box-shadow: 1px 1px 1px #999;
+        white-space: nowrap;
+        &:hover{
+          box-shadow: 1px 1px 4px #913ef0;
+        }
+      }
+ 
+    }
+
+       
+    .change_box{
+      position: relative;
+      max-width: 320px;
+      margin-top: 10px;
+
+      .box{
+        max-width:200px;
+        position: relative;
+        margin-top:5px;
+        border:1px solid #ddd;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        input {
+          max-width: 200px;
+          padding:10px 8px;
+          margin-bottom: 4px;
+          &:focus{
+            transition: 0.3s;
+            border-bottom:1px solid #242442
+          }
+        }
+       
+        button{
+          position: absolute;
+          top:50%;
+          transform: translateY(-50%);
+          right: 10px;
+          &:focus{
+            outline: 1px solid #ccc;
+          }
+        }
+        .password_hidden{
+          background: url(../../public/eye1.png);
+          background-size: 100% 100%;
+          width: 16px;
+          height: 16px;
+          min-width: 16px;
+          min-height: 16px;
+          z-index: 12;
+          cursor: pointer;
+        }
+
+        .password_on{
+          background: url(../../public/eye2.png);
+          background-size: 100% 100%;
+          width: 16px;
+          height: 16px;
+          min-width: 16px;
+          min-height: 16px;
+          cursor: pointer;
+        }
+      }
+      
+      .button_group{
+        button{
+          margin-top:5px;
+          width: 100%;
+          max-width: 200px;
+          border:1px solid #ddd;
+          font-size: 12px;
+          font-weight: bold;
+          height: 35px;
+          background: linear-gradient(-180deg, rgba(255, 255, 255, 0.09) 0%, rgba(17, 17, 17, 0.04) 100%);
+          // background: #000;
+          // color:#fff;
+          &:hover {
+            background: #242442;
+            color: #fff;
+          }
+        }
+      }
+    }
+    .error_message{
+      padding:4px;
+      font-size: 12px;
+      color: crimson;
+    }
+  }
+
+  .my_point{
+    font-size: 14px;
+    margin-top:8px;
+  }
+}

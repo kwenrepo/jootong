@@ -1,0 +1,92 @@
+.wrap{
+  
+  .inner{
+    padding: 20px 10px 0;
+    max-width: 1024px;
+    margin: 0 auto;
+    
+    nav{
+      max-width: 1024px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      h1 {
+        color: #111;
+        font-size: 14px;
+      }
+
+      button{
+        background-image: url(../public/8544931.png);
+        background-size: 80%;
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 24px;
+        height: 24px;
+        border:1px solid #111;
+        border-radius: 2px;
+        transition: 0.2s;
+        &:hover{
+          background-color: #f1f1f1;
+          border:1px solid #ccc;
+        }
+      }
+    }
+
+    div.box{
+      margin-top: 10px;
+      position: relative;
+      border-radius: 6px;
+      border: 1px solid #979797;
+      box-shadow: 4px 2px 8px #999;
+
+      &:hover{
+        box-shadow: 4px 2px 8px #242442;
+      }
+    }
+
+    .set_title{
+      position: relative;
+      margin-top:40px;
+
+      input{
+        width: 100%;
+        font-size: 20px;
+        padding:0 0 10px 0;
+        background: none;
+        border-bottom:1px solid #ddd;
+        color: #555;
+      }
+      
+    }
+
+    .content{
+      position: relative;
+      width: 100%;
+      height: min(calc(100vh - 400px), 800px);
+      border-bottom:1px solid #ddd;
+      overflow-y: auto;
+    }
+
+    .button_box{
+      display: flex;
+      justify-content: center;
+      margin-top:20px;
+
+      button{
+        padding:8px 16px ;
+        font-size: 16px;
+        border-radius: 6px;
+        border: 1px solid #979797;
+        box-shadow: 2px 2px 6px #999;
+
+        &:hover {
+          background: #242442;
+          color: #fff;
+        }
+      }
+      .confirm{
+        margin-right:10px;
+      }
+    }
+  }
+}

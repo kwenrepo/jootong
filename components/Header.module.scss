@@ -1,0 +1,33 @@
+.wrap{
+  position: relative;
+  width: 100%;
+  // box-shadow: 2px 2px 20px #ddd;
+  border-bottom:1px solid #ccc;
+  z-index: 2;
+  background: #f8f8f8;
+  .inner{
+    display: flex;
+    height: 50px;
+    max-width: 950px;
+    margin:0 auto;
+    padding:0 10px;
+
+    .left_area{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      .logo{
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+    .right_area{
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+  
+    }
+  }
+  
+}

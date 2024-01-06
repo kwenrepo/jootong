@@ -1,0 +1,61 @@
+.user_status{
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  > span{
+    cursor: pointer;
+    position: relative;
+    font-weight: bold;
+    white-space: nowrap;
+    &:hover{
+      color:#6615c4;
+    }
+
+    &.alarm{
+      padding-right: 10px;
+      &::after{
+        position: absolute;
+        right:0;
+        top:0;
+        display: block;
+        content: "";
+        width: 5px;
+        height: 5px;
+        background: red;
+        border-radius: 5px;
+      }
+    }
+  }
+  
+  .my_point{
+    margin-right:20px;
+  }
+  > button{
+    margin-left:10px;
+    border:1px solid #ddd;
+    padding: 5px 10px ;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 2px 2px 6px #ccc;
+    white-space: nowrap;
+    &:hover {
+      background: #242442;
+      color: #fff;
+    }
+  }
+
+  aside{
+    position: absolute;
+    top:-10px;
+    right: 0;
+    width: 320px;
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+    background-color: #fdfdfd;
+    z-index: 10;
+    border:1px solid #ccc;
+
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "jootong",
+  "version": "0.1.0",
+  "scripts": {
+    "next-dev": "cross-env NODE_ENV=development nodemon server.js",
+    "dev": "cross-env NODE_ENV=development pm2 start ecosystem.config.js --only web-dev",
+    "build": "npm cache verify && next build",
+    "start": "cross-env NODE_ENV=development && npm run build && pm2 start ecosystem.config.js --only web-prod"
+  },
+  "dependencies": {
+    "@toast-ui/editor": "^3.2.2",
+    "@toast-ui/react-editor": "^3.2.3",
+    "browser-image-compression": "^2.0.2",
+    "cross-env": "^7.0.3",
+    "express": "^4.18.2",
+    "heic2any": "^0.0.4",
+    "mysql2": "^3.3.4",
+    "next": "13.1.1",
+    "next-auth": "^4.18.8",
+    "nodemailer": "^6.9.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "request-ip": "^3.3.0",
+    "sass": "^1.57.1",
+    "socket.io": "^4.5.4",
+    "socket.io-client": "^4.6.0",
+    "ua-parser-js": "^1.0.35"
+  },
+  "imports": {
+    "#database/*": "./database/*",
+    "#utils/*": "./utils/*",
+    "#components/*": "./components/*",
+    "#context/*": "./context/*"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

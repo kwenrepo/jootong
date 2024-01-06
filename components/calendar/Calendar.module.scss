@@ -1,0 +1,156 @@
+
+.set_title{
+  position: relative;
+  margin-top:40px;
+
+  input{
+    width: 100%;
+    font-size: 20px;
+    padding:0 0 10px 0;
+    background: none;
+    border-bottom:1px solid #ddd;
+    color: #555;
+  }
+  
+}
+
+.calendar_wrap{
+  margin-top:20px;
+  position: relative;
+  padding:20px 10px;
+  // &:hover{
+  //   box-shadow: 2px 2px 8px #111;
+  // }
+
+  .calendar_header{
+    font-size: 24px;
+  }
+
+  .data_list{
+    margin-top:4px;
+    padding-bottom: 10px;
+    .add_button{
+      padding: 2px 0;
+      font-size: 14px;
+      color:#999;
+
+      &:hover{
+        color:#111;
+      }
+    }
+
+    .add_item_input{
+      margin-top:8px;
+      width: min-content;
+
+      input{
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .button_wrap{
+        margin-top:4px;
+
+        button{
+          padding:4px;
+          font-size: 14px;
+          margin-right:4px;
+        }
+      }
+    }
+
+    .item_list{
+      margin-top:20px;
+
+      li{
+        margin-top:2px;
+        span{
+          font-size: 14px;
+          color:#222;
+          margin-right:6px;
+        }
+      }
+    }
+  }
+  .calendar_days{
+    display: flex;
+    margin-top:20px;
+    li{
+      border-bottom:1px solid #ccc;
+      width: calc((100% / 7));
+      padding:10px;
+      text-align: center;
+      margin-right:5px;
+    }
+  }
+
+  .calendar_date{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top:5px;
+    > div{
+      width: calc((100% / 7));
+      padding:10px;
+      height: 80px;
+      text-align: center;
+      border-right:1px solid #ddd;
+      border-bottom:1px solid #ddd;
+      cursor: pointer;
+      &:nth-child(-n+7){
+        border-top: 1px solid #ddd;
+      }
+      &:nth-child(7n){
+        background: rgb(181, 211, 255);
+      }
+      &:nth-child(7n+1){
+        background: rgb(255, 184, 175);
+        border-left: 1px solid #ddd;
+      }
+
+      &.disable{
+        background: none;
+        border:none;
+
+      }
+
+      &.start{
+        border-left: 1px solid #ddd;
+      }
+
+      .day_number{
+        font-size: 12px;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+
+    .disable{
+      opacity: 0.3;
+    }
+    .able{
+      position: relative;
+    }
+  }
+}
+
+.button_box{
+  display: flex;
+  justify-content: center;
+  margin-top:20px;
+
+  button{
+    padding:8px 16px ;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #979797;
+    box-shadow: 2px 2px 6px #999;
+
+    &:hover {
+      background: #242442;
+      color: #fff;
+    }
+  }
+  .confirm{
+    margin-right:10px;
+  }
+}
