@@ -2,7 +2,7 @@
   "name": "jootong",
   "version": "0.1.0",
   "scripts": {
-    "next-dev": "cross-env NODE_ENV=development nodemon server.js",
+    "next-dev": "cross-env NODE_ENV=development node server.js",
     "dev": "cross-env NODE_ENV=development pm2 start ecosystem.config.js --only web-dev",
     "build": "npm cache verify && next build",
     "start": "cross-env NODE_ENV=development && npm run build && pm2 start ecosystem.config.js --only web-prod"

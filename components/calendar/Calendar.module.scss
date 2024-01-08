@@ -1,15 +1,21 @@
-
+.wrap{
+  padding:0 0 100px 0;
+}
 .set_title{
   position: relative;
   margin-top:40px;
 
   input{
     width: 100%;
-    font-size: 20px;
+    font-size: 16px;
     padding:0 0 10px 0;
     background: none;
     border-bottom:1px solid #ddd;
     color: #555;
+
+    &:focus{
+      font-size: 24px;
+    }
   }
   
 }
@@ -18,49 +24,67 @@
   margin-top:20px;
   position: relative;
   padding:20px 10px;
+  border-bottom:1px solid #ddd;
   // &:hover{
   //   box-shadow: 2px 2px 8px #111;
   // }
 
   .calendar_header{
     font-size: 24px;
-  }
-
-  .data_list{
-    margin-top:4px;
-    padding-bottom: 10px;
-    .add_button{
-      padding: 2px 0;
-      font-size: 14px;
-      color:#999;
-
-      &:hover{
-        color:#111;
-      }
+    display: flex;
+    align-items: center;
+    h1{
+      width: 160px;
+      white-space: nowrap;
     }
-
-    .add_item_input{
-      margin-top:8px;
-      width: min-content;
-
-      input{
-        padding-bottom: 4px;
-        border-bottom: 1px solid #ccc;
-      }
-
-      .button_wrap{
-        margin-top:4px;
-
-        button{
-          padding:4px;
-          font-size: 14px;
-          margin-right:4px;
+    .button_wrap{
+      margin-left:20px;
+      
+      button{
+        transition: 0.3s;
+        &:hover{
+          transform: translateX(4px);
         }
       }
+      .prev{
+        transform: rotate(180deg);
+        width: 32px;
+        height: 32px;
+        background: url('../../public/arrow1.png');
+        background-size: cover;
+        white-space: nowrap;
+        text-indent: 100%;
+        overflow: hidden;
+        margin-right:20px;
+        &:hover{
+          transform: rotate(180deg) translateX(4px);
+        }
+      }
+
+      .next{
+        width: 32px;
+        height: 32px;
+        background: url('../../public/arrow1.png');
+        background-size: cover;
+        white-space: nowrap;
+        text-indent: 100%;
+        overflow: hidden;
+    
+      }
+    }
+  }
+
+  .summary_list{
+    margin-top:4px;
+    padding-bottom: 10px;
+
+    .title{
+      margin-top:10px;
+      font-size: 16px;
+      color: rgb(235, 15, 26);
     }
 
     .item_list{
-      margin-top:20px;
 
       li{
         margin-top:2px;
@@ -72,6 +96,7 @@
       }
     }
   }
+
   .calendar_days{
     display: flex;
     margin-top:20px;
@@ -81,18 +106,27 @@
       padding:10px;
       text-align: center;
       margin-right:5px;
+
+      &:first-child{
+        color: rgb(235, 15, 26);
+        border-bottom:1px solid rgb(235, 15, 26);
+      }
+      
+      &:last-child{
+        color: rgb(22, 183, 247);
+        border-bottom:1px solid rgb(22, 183, 247);
+      }
     }
   }
 
   .calendar_date{
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
     margin-top:5px;
     > div{
-      width: calc((100% / 7));
+      position: relative;
       padding:10px;
-      height: 80px;
-      text-align: center;
+      min-height: 80px;
       border-right:1px solid #ddd;
       border-bottom:1px solid #ddd;
       cursor: pointer;
@@ -100,36 +134,156 @@
         border-top: 1px solid #ddd;
       }
       &:nth-child(7n){
-        background: rgb(181, 211, 255);
+        background: rgb(129, 215, 221, 0.3);
       }
       &:nth-child(7n+1){
-        background: rgb(255, 184, 175);
+        background: rgb(255, 227, 227);
         border-left: 1px solid #ddd;
       }
 
-      &.disable{
-        background: none;
-        border:none;
-
+      &:hover {
+        .day_number{
+          transform: translateY(-2px);
+        }
       }
-
-      &.start{
-        border-left: 1px solid #ddd;
-      }
-
       .day_number{
         font-size: 12px;
         display: flex;
         justify-content: flex-end;
+        transition: 0.1s;
+      }
+
+      .history_item{
+        display: flex;
+        margin-top:10px;
+
+        .text{
+          width: 100%;
+       
+          span{
+            font-size: 14px;
+            margin-right:4px;
+          
+          }
+        }
+       
+
+        .delete{
+          margin-left:auto;
+          display: block;
+          min-width: 16px;
+          width: 16px;
+          height: 16px;
+          background: url('../../public/11081257.png') no-repeat;
+          background-size: cover;
+        }
+      }
+
+    }
+
+    > p{
+      border-bottom: 1px solid #ddd;
+      &:last-of-type{
+        border-right:1px solid #ddd;
       }
     }
 
-    .disable{
-      opacity: 0.3;
-    }
     .able{
       position: relative;
     }
+  }
+
+  .edit_box{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left:0;
+    background:rgba(0, 0, 0, 0.5);
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding:10px;
+    overflow-y: auto;
+
+    .inner{
+      margin:auto 0;
+      width: 100%;
+      max-width: 500px;
+      padding:10px;
+      background: #fff;
+      border-radius: 4px;
+      h1{
+        font-size: 14px;
+        color:rgb(223, 42, 42);
+        font-weight: 400;
+        text-align: right;
+      }
+      dl{
+        display: flex;
+        flex-direction: column;
+        margin-top:16px;
+        dt{
+          font-size: 16px;
+          color:rgb(90, 95, 95);
+          margin-right:6px;
+        }
+
+        dd{
+          margin-top:6px;
+      
+          input{
+            font-size: 16px;
+            color:#222;
+            border-bottom: 1px solid #eee;
+            padding:2px 0;
+            width: 100%;
+            transition: 0.3s;
+            
+            &::placeholder{
+              color: #ccc;
+              font-size: 16px;
+            transition: 0.3s;
+
+            }
+
+            &:focus{
+              font-size: 24px;
+              
+            &::placeholder{
+              font-size: 24px;
+            }
+            }
+          }
+        }
+      }
+
+      .button_wrap{
+        margin-top: 40px;
+        display: flex;
+        button{
+          width: 50%;
+          padding:5px;
+          margin-right:2px;
+          border-radius: 4px;
+          transition: 0.3s;
+          &:hover{
+            transform: translateY(-2px);
+          }
+          &:first-child{
+            background: #242442;
+            color: #fff;
+          }
+          &:last-child{
+            background: #6f7a81;
+            color: #fff;
+          }
+        }
+      }
+    }
+    
+    
   }
 }
 
@@ -141,16 +295,30 @@
   button{
     padding:8px 16px ;
     font-size: 16px;
-    border-radius: 6px;
-    border: 1px solid #979797;
+    border-radius: 4px;
     box-shadow: 2px 2px 6px #999;
-
+    background: #242442;
+    transition: all 0.3s;
     &:hover {
-      background: #242442;
       color: #fff;
+      transform: translateY(-2px);
     }
   }
   .confirm{
+    color:#fff;
     margin-right:10px;
+
+    &:hover{
+      background: #111;
+    }
+  }
+
+  .capture{
+    color:#fff;
+    background: rgb(0, 174, 255, 1);
+
+    &:hover{
+      background: rgb(0, 174, 255, 0.9);
+    }
   }
 }

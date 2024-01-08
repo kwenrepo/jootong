@@ -19,8 +19,6 @@ export default function create() {
   });
   
 
-
-
   return (
     <div className={css.wrap}>
       <Header />
