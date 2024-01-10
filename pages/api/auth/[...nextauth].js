@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
-import { getTime } from "#utils/getTime";
+import { getFormatedDate } from "#utils/date";
 import crypto from 'crypto';
 
 export const authOptions = {
@@ -37,7 +37,7 @@ export const authOptions = {
               }
             } 
             // else {
-            //   const diff = new Date(getTime()) - new Date("", data[0].withdraw_date);
+            //   const diff = new Date(getFormatedDate()) - new Date("", data[0].withdraw_date);
             //   const day = parseInt(diff / (1000 * 60 * 60 * 24));
             //   // console.log("DELETE day", day)
             //   if(day >= 0){
@@ -131,7 +131,7 @@ export const authOptions = {
               });
   
             } else {
-              const diff = new Date(getTime()) - new Date(data[0].withdraw_date);
+              const diff = new Date(getFormatedDate()) - new Date(data[0].withdraw_date);
               const day = parseInt(diff / (1000 * 60 * 60 * 24));
               if(day >= 0){
                 return await executeQuery("DELETE FROM user WHERE user_key = ? ", [data[0].user_key]).then(async function(data){

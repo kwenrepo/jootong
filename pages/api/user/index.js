@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import nodeMailer from 'nodemailer';
 import { executeQuery } from '#database/index';
 import { randomUUID } from "#utils/randomUUID";
-import { getTime } from "#utils/getTime";
+import { getFormatedDate } from "#utils/date";
 import { isEmail } from "#utils/regexp/isEmail";
 import { isPassword } from "#utils/regexp/isPassword";
 import { isNickname } from "#utils/regexp/isNickname";
@@ -109,7 +109,7 @@ export default async function handler(req, res) {
               crypto.pbkdf2(hashPassword, salt, 9132, 16, 'sha512', async (err, key) => {
                 const finishPassword = key.toString('hex');
                 await executeQuery('INSERT INTO user(email, password, password_salt, provider, nickname, sign_date, user_key) values (?, ?, ?, ?, ?, ?, ?)',
-                [email, finishPassword, salt, req.body.provider, nickname, getTime(), user_key]).then( async function(data){
+                [email, finishPassword, salt, req.body.provider, nickname, getFormatedDate(), user_key]).then( async function(data){
                   if(data.affectedRows){
                     await executeQuery("INSERT INTO item_all(user_key) values (?)", [user_key]).then(function(){
                       console.log('[회원가입성공] : ', req.body);
@@ -172,7 +172,7 @@ export default async function handler(req, res) {
           let nickname = randomUUID(4);
           let user_key = randomUUID(5);
 
-          await executeQuery("INSERT INTO user(email, provider, nickname, sign_date, user_key) values (?, ?, ?, ?, ?)", [email, req.body.provider, nickname, getTime(), user_key]).then( async function(data){
+          await executeQuery("INSERT INTO user(email, provider, nickname, sign_date, user_key) values (?, ?, ?, ?, ?)", [email, req.body.provider, nickname, getFormatedDate(), user_key]).then( async function(data){
             console.log("[SNS회원가입성공]: ", data)
             if(data.insertId){
               await executeQuery("INSERT INTO item_all(user_key) values (?)", [user_key]).then(function(){

@@ -1,16 +1,13 @@
 import css from './lobby.module.scss';
 import ListArea from '#components/lobby/ListArea';
-import ChatArea from '#components/lobby/ChatArea';
+import Layout from '#components/Layout';
 
 export default function lobby() {
   return (
-    <div className={css.wrap}>
-
-      <div className={css.lobby}>
+    <Layout>
+      <div className={css.wrap}>
         <ListArea />
-        {/* <ChatArea /> */}
       </div>
-
-    </div>
+    </Layout>
   );
 }

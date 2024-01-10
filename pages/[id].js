@@ -2,12 +2,17 @@ import css from './view.module.scss'
 import { useSession } from 'next-auth/react';
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router';
+import Layout from '#components/Layout';
+import html2canvas from "html2canvas";
+import saveAs from "file-saver";
 import { getToday } from '#utils/date';
 import Alert from '#components/modal/Alert';
 
 export default function calendar(){
   const {data: session} = useSession();
   const router = useRouter();
+  const [title, setTitle] = useState('')
+  const captureRef = useRef(null);
 
   const [alertData, setAlertData] = useState({
     isAlert:false,
@@ -15,7 +20,6 @@ export default function calendar(){
     confirm:<button></button>,
     cancel:<button></button>
   });
-  const [title, setTitle] = useState('')
   const [selectMonth, setSelectMonth] = useState(new Date(getToday()));
   const [currentCalendar, setCurrentCalendar] = useState({
     year:0,
@@ -125,8 +129,46 @@ export default function calendar(){
   }
 
   function share(){
-
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      /* clipboard successfully set */
+      setAlertData({
+        isAlert:true,
+        message:<span>URL 이 복사되었습니다.</span>,
+        confirm:<button onClick={()=>{
+          setAlertData({
+            isAlert:false
+          })
+         }}>확인</button>,
+      })
+    }, () => {
+      /* clipboard write failed */
+      setAlertData({
+        isAlert:true,
+        message:<span>죄송합니다 다시 시도해 주세요.</span>,
+        confirm:<button onClick={()=>{
+          setAlertData({
+            isAlert:false
+          })
+         }}>확인</button>,
+      })
+    });
   }
+
+  async function capture() {
+    if (!captureRef.current) return;
+
+    try {
+      const target = captureRef.current;
+      const canvas = await html2canvas(target, { scale: 1 });
+      canvas.toBlob((blob) => {
+        if (blob !== null) {
+          saveAs(blob, `calendar_${currentCalendar.year}_${currentCalendar.month + 1}.png`);
+        }
+      });
+    } catch (error) {
+      console.error("Error converting div to image:", error);
+    }
+  };
 
   const changeCalendar = {
     prev : function(){
@@ -164,7 +206,7 @@ export default function calendar(){
 
       console.log(id[0])
       
-      fetch(`/api/board?id=${id[0]}`, {
+      fetch(`/api/data?key=${id[0]}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -186,53 +228,54 @@ export default function calendar(){
   }, [router])
 
   return(
-    <>
-      <section className={css.wrap}>
-                 
-        <div className={`${css.set_title}`}>
-          <input type="text" value={title} readOnly />
-        </div>
-
-        <div className={css.calendar_wrap}>
-          <div className={css.calendar_header}>
-            <h1>{currentCalendar.year}. {currentCalendar.month + 1}월</h1>
-            <div className={css.button_wrap}>
-              <button className={css.prev} onClick={()=>{changeCalendar['prev']()}}>prev</button>
-              <button className={css.next} onClick={()=>{changeCalendar['next']()}}>next</button>
-            </div>
+    <Layout title={title}>
+      <section className={css.wrap} ref={captureRef}>
+        <div className={css.inner}>
+          <div className={`${css.set_title}`}>
+            <span>{title}</span>
           </div>
           
-          {summaryList['month' + currentCalendar.yearMonth]?.length > 0 && <div className={css.summary_list}>
-            <div className={css.title}>이번달 간추린 내역</div>
-            <ul className={css.item_list}>
-              {summaryList['month' + currentCalendar.yearMonth].map((item)=>{
-                return (
-                  <li key={item.key}>
-                    <span>{item.key}</span>
-                    <span>{(item.total).toLocaleString('ko-KR')}</span>
-                  </li>
-                )
-              })}
+          <div className={css.calendar_wrap}>
+            <div className={css.calendar_header}>
+              <h1>{currentCalendar.year}. {currentCalendar.month + 1}월</h1>
+              <div className={css.button_wrap}>
+                <button className={css.prev} onClick={()=>{changeCalendar['prev']()}}>prev</button>
+                <button className={css.next} onClick={()=>{changeCalendar['next']()}}>next</button>
+              </div>
+            </div>
+            
+            {summaryList['month' + currentCalendar.yearMonth]?.length > 0 && <div className={css.summary_list}>
+              <div className={css.title}>이번달 간추린 내역</div>
+              <ul className={css.item_list}>
+                {summaryList['month' + currentCalendar.yearMonth].map((item)=>{
+                  return (
+                    <li key={item.key}>
+                      <span>{item.key}</span>
+                      <span>{(item.total).toLocaleString('ko-KR')}</span>
+                    </li>
+                  )
+                })}
+              </ul>
+          </div>}
+
+            <ul className={css.calendar_days}>
+              <li>일</li>
+              <li>월</li>
+              <li>화</li>
+              <li>수</li>
+              <li>목</li>
+              <li>금</li>
+              <li>토</li>
             </ul>
-         </div>}
+            <RenderDaysElement />
 
-          <ul className={css.calendar_days}>
-            <li>일</li>
-            <li>월</li>
-            <li>화</li>
-            <li>수</li>
-            <li>목</li>
-            <li>금</li>
-            <li>토</li>
-          </ul>
-          <RenderDaysElement />
-
-        </div>
-        
-        <div className={css.button_box}>
-          <button className={css.confirm} onClick={()=> share()}>공유하기</button>
-          <button className={css.capture} onClick={()=> capture()}>캡쳐하기</button>
-        </div>
+          </div>
+          
+          <div className={css.button_box}>
+            <button className={css.confirm} onClick={()=> share()}>공유하기</button>
+            <button className={css.capture} onClick={()=> capture()}>캡쳐하기</button>
+          </div>
+        </div>   
       </section>
 
       {alertData.isAlert && <Alert
@@ -242,6 +285,6 @@ export default function calendar(){
           cancel: alertData.cancel,
         }}
       />}
-    </>
+    </Layout>
   )
 }

@@ -6,7 +6,7 @@ import { SocketContext } from '#context/SocketContext';
 import { useRouter } from 'next/router';
 import Alert from '#components/modal/Alert';
 import Room from '#components/lobby/Room';
-import { getTimeDiff } from '#utils/getTimeDiff';
+import { getDateDiff } from '#utils/date';
 import { openWindow } from '#utils/openwindow'
 
 export default function admy(){
@@ -416,7 +416,7 @@ export default function admy(){
                   <li className={css.list_data} key={data.create_date}>
                     <div className={css.meta}>
                       <div>
-                        날짜:{getTimeDiff(data.create_date).text}
+                        날짜:{getDateDiff(data.create_date).text}
                         {data.answer && <span className={css.answer_status}>[답변완료]</span> } 
                       </div>
            

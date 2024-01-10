@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import { executeQuery } from '#database/index';
 import { randomUUID } from "#utils/randomUUID";
-import { getTime } from "#utils/getTime";
+import { getFormatedDate } from "#utils/date";
 
 export default async function handler(req, res) {
   if (req.method === "POST"){
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
           crypto.pbkdf2(hashPassword, salt, 9132, 16, 'sha512', async (err, key) => {
             const finishPassword = key.toString('hex');
             await executeQuery('INSERT INTO user(email, password, password_salt, provider, nickname, sign_date, user_key) values (?, ?, ?, ?, ?, ?, ?)',
-            [email, finishPassword, salt, req.body.provider, nickname, getTime(), user_key]).then( async function(data){
+            [email, finishPassword, salt, req.body.provider, nickname, getFormatedDate(), user_key]).then( async function(data){
               if(data.affectedRows){
                 await executeQuery("INSERT INTO item_all(user_key) values (?)", [user_key]).then(function(){
                   res.send({

@@ -3,18 +3,19 @@
 }
 .set_title{
   position: relative;
-  margin-top:40px;
+  margin-top:30px;
 
   input{
     width: 100%;
-    font-size: 16px;
+    font-size: 24px;
     padding:0 0 10px 0;
     background: none;
     border-bottom:1px solid #ddd;
     color: #555;
+    transition: 0.3s;
 
     &:focus{
-      font-size: 24px;
+      font-size: 26px;
     }
   }
   

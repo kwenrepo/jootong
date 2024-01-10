@@ -2,14 +2,12 @@ import css from './SnsSignup.module.scss';
 import { useSession, getSession, signOut } from "next-auth/react";
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useRouter } from 'next/router';
-import { SocketContext } from '#context/SocketContext';
 
 import Link from "next/link";
 import Loading from '#components/Loading';
 
 export default function SnsSignup({setAlertData, setSnsSignup, callbackURL}) {
   const {data: session, update} = useSession();
-  const {setUserKey} = useContext(SocketContext);
 
   const router = useRouter();
   const agree = useRef(false);

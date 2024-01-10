@@ -1,7 +1,7 @@
 .wrap{
   
   .inner{
-    padding: 20px 10px 0;
+    padding: 20px 0;
     max-width: 1024px;
     margin: 0 auto;
     
@@ -42,21 +42,6 @@
       &:hover{
         box-shadow: 4px 2px 8px #242442;
       }
-    }
-
-    .set_title{
-      position: relative;
-      margin-top:40px;
-
-      input{
-        width: 100%;
-        font-size: 20px;
-        padding:0 0 10px 0;
-        background: none;
-        border-bottom:1px solid #ddd;
-        color: #555;
-      }
-      
     }
 
     .content{

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { getToday } from '#utils/date';
 import Alert from '#components/modal/Alert';
 
-export default function Calendar(){
+export default function Calendar({title, titleHandler}){
   const {data: session} = useSession();
   const router = useRouter();
 
@@ -15,7 +15,6 @@ export default function Calendar(){
     confirm:<button></button>,
     cancel:<button></button>
   });
-  const title = useRef();
   const [selectMonth, setSelectMonth] = useState(new Date(getToday()));
   const [currentCalendar, setCurrentCalendar] = useState({
     year:0,
@@ -26,7 +25,6 @@ export default function Calendar(){
     yearMonth:0,
     monthItem:[]
   });
-  const [addButton, setAddButton] = useState(false);
   const [editDate, setEditDate] = useState(0);
   const [monthItemList, setMonthItemList] = useState([]);
   const [summaryList, setSummaryList] = useState([]);
@@ -101,10 +99,6 @@ export default function Calendar(){
     return <div className={css.calendar_date}>{days}</div>
   }
 
-  function setTitle(e){
-    title.current = e.target.value;
-  }
-
   function updateSummary(){
     const groupValues = monthItemList.reduce((acc, current) => {
       if(currentCalendar.yearMonth === current.yearMonth){
@@ -137,7 +131,7 @@ export default function Calendar(){
   }
 
   function save(){
-    if(!title.current){
+    if(title===""){
       setAlertData({
         isAlert:true,
         message:<span>제목을 작성해 주세요.</span>,
@@ -165,12 +159,12 @@ export default function Calendar(){
 
     let data = {
       user_key : session ? session?.user?.user_key : 'empty',
-      title : title.current,
+      title,
       content : jsonArray,
       create_name : session ? session?.user?.user_name : 'empty'
     }
 
-    fetch("/api/board?type=calendar", {
+    fetch("/api/data?keyword=calendar", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -329,7 +323,7 @@ export default function Calendar(){
       <section className={css.wrap}>
                  
         <div className={`${css.set_title}`}>
-          <input type="text" onChange={(e)=> setTitle(e)} placeholder="제목을 작성해 주세요." />
+          <input type="text" value={title || ""} onChange={(e)=> titleHandler(e)} placeholder="제목을 작성해 주세요." />
         </div>
 
         <div className={css.calendar_wrap}>
@@ -401,7 +395,7 @@ export default function Calendar(){
         
         <div className={css.button_box}>
           <button className={css.confirm} onClick={()=> save()}>저장하고 공유하기</button>
-          <button className={css.capture} onClick={()=> capture()}>캡쳐하기</button>
+          {/* <button className={css.capture} onClick={()=> capture()}>캡쳐하기</button> */}
         </div>
       </section>
 

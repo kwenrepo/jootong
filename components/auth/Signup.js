@@ -3,13 +3,11 @@ import { signIn, getSession} from "next-auth/react"
 import { useRouter } from 'next/router';
 import Link from "next/link";
 import { useRef, useState, useContext } from 'react';
-import { SocketContext } from '#context/SocketContext';
 import { isEmail } from "#utils/regexp/isEmail";
 import { isPassword } from "#utils/regexp/isPassword";
 import Loading from '#components/Loading'
 
 export default function Signup({ setSignupArea, setAlertData}) {
-  const {setUserKey} = useContext(SocketContext);
   const router = useRouter()
   const email = useRef();
   const password = useRef();

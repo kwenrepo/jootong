@@ -1,15 +1,13 @@
 import css from './UserCard.module.scss';
 import { useSession } from "next-auth/react";
 import { useState, useEffect, useContext } from "react";
-import { SocketContext } from '#context/SocketContext';
 import Link from "next/link";
 import Loading from '#components/Loading'
 import { openWindow } from '#utils/openwindow';
-import { getTimeDiff } from '#utils/getTimeDiff';
+import { getDateDiff } from '#utils/date';
 
 export default function UserCard({ setUserArea, setAlarm, privateRoomList, setPrivateRoomList, setAlertData }) {
   const {data: session} = useSession();
-  const {socket} = useContext(SocketContext);
   const [loading, setLoading] = useState(false);
 
   function deleteRoom(room_id){
@@ -81,7 +79,7 @@ export default function UserCard({ setUserArea, setAlarm, privateRoomList, setPr
             </div>
             <div className={css.date}>
               {item.alarm && <span className={css.red_dot}></span>}
-              <span>{getTimeDiff(item.last_date)?.text}</span>
+              <span>{getDateDiff(item.last_date)?.text}</span>
             </div>
           </div>
         </div> 

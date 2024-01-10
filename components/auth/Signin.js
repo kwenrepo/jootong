@@ -1,13 +1,10 @@
 import css from './Signin.module.scss';
 import { signIn, getSession, useSession } from "next-auth/react"
 import { useEffect, useState, useRef, useContext} from 'react';
-import { SocketContext } from '#context/SocketContext';
 import Link from "next/link";
 import Loading from '#components/Loading';
 
 export default function Signin({ setLoginArea, setSignupArea }) {
-  const {data: session} = useSession();
-  const {setUserKey} = useContext(SocketContext);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("")
@@ -29,7 +26,6 @@ export default function Signin({ setLoginArea, setSignupArea }) {
 
       if(ok && session){
         if(agree) localStorage.setItem("login", email);
-        setUserKey(session.user.user_key);
       }else{
         setErrorMessage(error);
       }

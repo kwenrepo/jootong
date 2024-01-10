@@ -1,17 +1,19 @@
 import css from './UserStatus.module.scss';
-import { signOut, useSession } from "next-auth/react";
-import { useState, useEffect, useContext } from "react";
+import { signOut, getSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { user, userSelector } from "#recoilStore/index"
 import { useRouter } from 'next/router';
 import Signin from '#components/auth/Signin';
 import Signup from '#components/auth/Signup';
 import SnsSignup from "#components/auth/SnsSignup";
 import UserCard from '#components/auth/UserCard';
 import Alert from '#components/modal/Alert';
-import { getTime } from '#utils/getTime';
 
 export default function UserStatus() {
-  const {data: session} = useSession();
-  const router = useRouter();
+  const getUser = useRecoilValue(user);
+  const setUser = useSetRecoilState(userSelector);
+ 
   const [alertData, setAlertData] = useState({
     isAlert:false,
     message:"",
@@ -25,23 +27,35 @@ export default function UserStatus() {
   const [alarm, setAlarm] = useState(false);
   const [privateRoomList, setPrivateRoomList] = useState([])
 
+  useEffect(()=>{
+    async function session(){
+      return await getSession();
+    }
+    session().then((res)=>{
+      setUser(res.user)
+    })
+  }, [])
+
+  useEffect(()=>{
+    console.log(getUser)
+  }, [getUser])
   return (
     <>
-      {session && session?.user.user_key ? (
-        <div className={css.user_status}>
-          <span onClick={()=>{ setUserArea(!userArea)}} className={`${ alarm ? css.alarm : ""}`}>
-            {session.user.nickname} 님
-          </span>
-          
-          <button onClick={() => {
-              signOut({
-                callbackUrl: `${window.location.origin}`,
-              });
-          }}>로그아웃
-          </button>
+      {getUser?.user_key ? (
+          <div className={css.user_status}>
+            <span onClick={()=>{ setUserArea(!userArea)}} className={`${ alarm ? css.alarm : ""}`}>
+              {getUser.nickname} 님
+            </span>
+            
+            <button onClick={() => {
+                signOut({
+                  callbackUrl: `${window.location.origin}`,
+                });
+            }}>로그아웃
+            </button>
 
-          {userArea && <UserCard setAlarm={setAlarm} setUserArea={setUserArea} privateRoomList={privateRoomList} setPrivateRoomList={setPrivateRoomList} setAlertData={setAlertData}/>}
-        </div>
+            {userArea && <UserCard setAlarm={setAlarm} setUserArea={setUserArea} privateRoomList={privateRoomList} setPrivateRoomList={setPrivateRoomList} setAlertData={setAlertData}/>}
+          </div>
       ) : (
         <div className={css.user_status}>
           <button onClick={() => setLoginArea(true)}>로그인</button>

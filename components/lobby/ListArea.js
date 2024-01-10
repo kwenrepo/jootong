@@ -1,81 +1,96 @@
 import css from './ListArea.module.scss';
 import { useEffect, useState } from 'react';
 import Loading from '#components/Loading';
-import { getTimeDiff } from '#utils/getTimeDiff';
+import { getDateDiff } from '#utils/date';
 import Link from "next/link";
+
 
 export default function ListArea() {
   
   const [loading, setLoading] = useState(true);
   const [weather, setWeather] = useState({});
+  const [totalList, setTotalList] = useState([]);
 
   useEffect(() => {
+    getCalendarList();
+  }, [])
 
-    fetch('/api/weather', {
+  useEffect(()=>{
+    console.log(totalList)
+  }, [totalList])
+
+  function getCalendarList(){
+    
+    fetch('/api/data', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       }
     })
     .then((response) => response.json())
-    .then((data) => {
-      if(data.status){
-        console.log(data)
-        setWeather(data.data[0])
+    .then((result) => {
+      if(result.status){
+        let {data} = result;
+        data[0].summaryOfContent = Object.values(JSON.parse(data[0].content))[0]
+
+        setTotalList([...totalList, data[0]])
       }
     });
-
-  }, [])
-
-  useEffect(()=>{
-
-    if(weather){
-      console.log(weather)
-      setLoading(false);
-    }
-  }, [weather])
-
+  }
 
   return (
     <div className={css.wrap}>
       <div className={css.inner}>
-        <div className={css.list_top}>
-          <div className={css.search}>
-            <form>
-              <label>
-                <input type="text" placeholder="검색 키워드" onChange={(e)=>{  }}/>
-                <button onClick={(e)=> {}}></button>
-              </label>
-            </form>
-            <button className={css.refresh} onClick={()=>{}}></button>
-          </div>
+        {totalList.length > 0 ? 
+        <div className={css.item_list_wrap}>
+          <ul className={css.item_list_grid}>
+            {totalList.map((item)=>{
+              return (
+                <li key={item.id}>
+                  {item.create_user_key !== "jt" ?
+                    <Link href={`/${item.id}@${item.title}`}>
+                      <div className={css.item_header}>
+                        <span className={css.item_title}>{item.title}</span>
+                      </div>
+                      <div className={css.item_body}>
+                        <div className={css.cap}>요약달력</div>
 
-          <div className={css.button_group}>
-            <Link className={css.create_room} href="/create">만들기</Link>
-            <button
-              className={css.total_chat}
-              onClick={() => {}}
-            >
-            </button>
-            
-          </div>
-        </div>
+                        <div className={css.summary_calendar}>
+                          <div>
+                            <div className={css.day_number}>
+                              {item.summaryOfContent.year}.{" "}
+                              {item.summaryOfContent.month + 1}.{" "}
+                              {item.summaryOfContent.date}
+                            </div>
 
-        {!loading && weather ? <div className={css.item_list_wrap}>
-          <ul className={css.item_list}>
-            <li>
-              <div className={css.item_header}>
-                날씨
-              </div>
-              <div className={css.item_body}>
-                <span>
-                  {weather?.dataTime}                
-                </span>
-                <span>{weather?.informCause}</span>
-                
-              </div>
-            </li>
-            
+                            <div className={css.history_item}>
+                              <div className={css.text}>
+                                <span>
+                                  {item.summaryOfContent.description
+                                    ? item.summaryOfContent.description
+                                    : item.summaryOfContent.key}
+                                </span>
+                                <span>
+                                  {item.summaryOfContent.value.toLocaleString(
+                                    "ko-KR"
+                                  )}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={css.item_bottom}>
+                        <span className={ getDateDiff(item.create_date).type !== 'day' ? `${css.from_date} ${css.new}` : `${css.from_date}` }>
+                          {getDateDiff(item.create_date).text}
+                        </span>
+                      </div>
+                    </Link>
+                  : ''}
+                </li>
+              );
+            })}
           </ul>
         </div> : <Loading />}
 

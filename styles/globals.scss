@@ -20,6 +20,11 @@
   font-family: 'Pretendard-Light', 'Noto Sans KR', sans-serif;
 }
 
+:root{
+  --page-max-width : 1024px;
+  --header-height : 60px;
+}
+
 html,
 body,
 #__next {

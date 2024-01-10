@@ -1,0 +1,10 @@
+#root{
+  
+  .container {
+    position: relative;
+    max-width: var(--page-max-width);
+    height: max(calc(100svh - var(--header-height)), 400px);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+}

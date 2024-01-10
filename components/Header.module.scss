@@ -1,17 +1,15 @@
 .wrap{
   position: relative;
   width: 100%;
-  // box-shadow: 2px 2px 20px #ddd;
-  border-bottom:1px solid #ccc;
-  z-index: 2;
   background: #f8f8f8;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 8px;
+  z-index: 2;
   .inner{
     display: flex;
-    height: 50px;
-    max-width: 950px;
     margin:0 auto;
-    padding:0 10px;
-
+    padding:0 24px;
+    max-width: var(--page-max-width);
+    height: var(--header-height);
     .left_area{
       width: 100%;
       display: flex;
@@ -26,7 +24,36 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
-  
+
+      .create_room{
+        color: #242424;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        margin-right:10px;
+        &::before{
+          display: block;
+          content: "";
+          background: url(../public/2740678.png);
+          background-size: 100% 100%;
+          width: 22px;
+          height: 22px;
+        }
+    
+      } 
+
+      .search{
+        position: relative;
+        display: flex;
+        align-items: center;
+ 
+
+        button{
+          margin-right:5px;
+          margin-top:2px;
+        }
+       
+      }
     }
   }
   

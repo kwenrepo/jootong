@@ -1,7 +1,7 @@
 import css from './SupportHistory.module.scss';
 import { useState, useEffect, useRef } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { getTime } from "#utils/getTime";
+import { getFormatedDate } from "#utils/data";
 import { useRouter } from 'next/router';
 import Link from "next/link";
 
@@ -53,7 +53,7 @@ export default function SupportHistory(){
               <div className={css.item_meta}>
                 <div className={css.item_top}>
                   <span>문의날짜</span>
-                  <span>{getTime({"format": "YYYY/MM/DD", date:item.answer_date})}</span>
+                  <span>{getFormatedDate({format: "YYYY/MM/DD", target:item.answer_date})}</span>
                   <span>{item.answer ? "답변완료" : "미답변"}</span>
                 </div>
                 <div className={css.item_title} onClick={()=>{ historyItemViewHandle(item.idx) }}>
