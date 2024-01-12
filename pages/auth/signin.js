@@ -1,7 +1,8 @@
 import css from './signin.module.scss';
-import { signIn, useSession, getSession } from "next-auth/react"
+import { signIn } from "next-auth/react"
 import { useState, useEffect, useRef, useContext } from "react";
-import { SocketContext } from '#context/SocketContext';
+import { useRecoilValue } from 'recoil';
+import { user } from "#recoilStore/index";
 import { useRouter } from 'next/router';
 import Link from "next/link";
 import SnsSignup from "#components/auth/SnsSignup";
@@ -9,7 +10,8 @@ import Loading from '#components/Loading';
 import Alert from '#components/modal/Alert';
 
 export default function signin() {
-  const {data: session} = useSession();
+  const getUser = useRecoilValue(user);
+
   const {setUserKey} = useContext(SocketContext);
   const router = useRouter()
   const [errorMessage, setErrorMessage] = useState('');
@@ -23,9 +25,6 @@ export default function signin() {
     confirm:<button></button>,
     cancel:<button></button>
   });
-  const user = useRef({
-    password: ""
-  })
 
   
   const login = function(e){
@@ -47,8 +46,8 @@ export default function signin() {
   }
   
   useEffect(()=>{
-    if(session) {
-      if(!session.user.user_key){
+    if(getUser) {
+      if(!getUser.user.user_key){
         setSnsSignup(true);
       }else{
         if(window.location.href.includes("callback")){
@@ -62,7 +61,7 @@ export default function signin() {
       if(localStorage.getItem("login")) setEmail(localStorage.getItem("login")) 
 
     }
-  }, [session])
+  }, [getUser])
 
 
   return (
@@ -82,7 +81,7 @@ export default function signin() {
             </div>
             <div className={css.password}>
               <input
-                type="password" maxLength={20} onChange={(e) => { user.current.password = e.target.value; }} required placeholder="비밀번호" />
+                type="password" maxLength={20} onChange={(e) => { }} required placeholder="비밀번호" />
             </div>
             {errorMessage && (
               <div className={css.error_message}>{errorMessage}</div>

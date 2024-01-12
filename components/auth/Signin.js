@@ -1,31 +1,36 @@
 import css from './Signin.module.scss';
 import { signIn, getSession, useSession } from "next-auth/react"
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { user, userSelector } from "#recoilStore/index";
 import { useEffect, useState, useRef, useContext} from 'react';
 import Link from "next/link";
 import Loading from '#components/Loading';
 
 export default function Signin({ setLoginArea, setSignupArea }) {
+  const getUser = useRecoilValue(user);
+  const setUser = useSetRecoilState(userSelector);
+
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("")
-  const [agree, setAgree] = useState(false)
-  const user = useRef({
-    password: ""
-  })
+  const [email, setEmail] = useState('');
+  const [agree, setAgree] = useState(false);
+  const [password, setPassword] = useState('');
 
   const login = function(e){
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     signIn('credentials', {
       email,
-      password: user.current.password,
+      password,
       callbackUrl: window.location.href,
       redirect: false
     }).then( async({ok, error})=>{
       const session = await getSession();
-
+      console.log(session)
       if(ok && session){
         if(agree) localStorage.setItem("login", email);
+        setUser(session.user)
+
       }else{
         setErrorMessage(error);
       }
@@ -35,12 +40,12 @@ export default function Signin({ setLoginArea, setSignupArea }) {
   }
 
   useEffect(()=>{
-    if(session){
+    if(getUser.user_key){
       setLoginArea(false)
       return false;
     }
     if(localStorage.getItem("login")) setEmail(localStorage.getItem("login")) ;
-  }, [session])
+  }, [getUser])
 
   return (
     <div className={css.wrap}>
@@ -57,7 +62,7 @@ export default function Signin({ setLoginArea, setSignupArea }) {
             </div>
             <div className={css.password}>
               <input
-                type="password" maxLength={20} onChange={(e) => { user.current.password = e.target.value; }} required placeholder="비밀번호" />
+                type="password" value={password} maxLength={20} onChange={(e) => { setPassword(e.target.value) }} required placeholder="비밀번호" />
             </div>
             {errorMessage && (
               <div className={css.error_message}>{errorMessage}</div>

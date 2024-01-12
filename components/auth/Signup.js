@@ -1,5 +1,7 @@
 import css from './Signup.module.scss';
-import { signIn, getSession} from "next-auth/react"
+import { signIn, getSession} from "next-auth/react";
+import { useSetRecoilState } from 'recoil';
+import { userSelector } from "#recoilStore/index"
 import { useRouter } from 'next/router';
 import Link from "next/link";
 import { useRef, useState, useContext } from 'react';
@@ -8,6 +10,7 @@ import { isPassword } from "#utils/regexp/isPassword";
 import Loading from '#components/Loading'
 
 export default function Signup({ setSignupArea, setAlertData}) {
+  const setUser = useSetRecoilState(userSelector);
   const router = useRouter()
   const email = useRef();
   const password = useRef();
@@ -91,7 +94,7 @@ export default function Signup({ setSignupArea, setAlertData}) {
             const session = await getSession();
 
             if(ok && session){
-              setUserKey(session.user.user_key)
+              setUser(session.user)
               setAlertData({
                 isAlert:true,
                 message:<span>🎉회원가입을 축하합니다!🔥🔥 <br /> [기념선물지급 - 닉네임변경권] <br /> 마이페이지에서 사용 가능합니다</span>,

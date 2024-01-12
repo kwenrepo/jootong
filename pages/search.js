@@ -4,7 +4,7 @@ import Alert from '#components/modal/Alert';
 import Layout from '#components/Layout';
 import { useRouter } from 'next/router';
 import Link from "next/link";
-import { getTimeDiff } from '#utils/getTimeDiff';
+import { getDateDiff } from '#utils/date';
 import Loading from '#components/Loading';
 
 export default function search() {
@@ -127,12 +127,12 @@ export default function search() {
                       <div className={css.item_bottom}>
                         <span
                           className={
-                            getTimeDiff(item.create_date).type !== "day"
+                            getDateDiff(item.create_date).type !== "day"
                               ? `${css.from_date} ${css.new}`
                               : `${css.from_date}`
                           }
                         >
-                          {getTimeDiff(item.create_date).text}
+                          {getDateDiff(item.create_date).text}
                         </span>
                       </div>
                     </Link>

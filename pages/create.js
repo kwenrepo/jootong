@@ -1,15 +1,15 @@
 import css from "./create.module.scss";
-import Header from '#components/Header';
 import { useState, useEffect, useRef } from "react";
-import { useSession, signOut } from "next-auth/react"
+import { useRecoilValue } from 'recoil';
+import { user } from "#recoilStore/index"
 import { useRouter } from 'next/router';
 import Layout from '#components/Layout';
 import Alert from '#components/modal/Alert';
-import { openWindow } from '#utils/openwindow'
+import { openWindow } from '#utils/openwindow';
 import Calendar from "#components/calendar/Calendar";
 
 export default function create() {
-  const {data: session} = useSession();
+  const getUser = useRecoilValue(user);
   const [title, setTitle] = useState("");
   const router = useRouter();
   const [alertData, setAlertData] = useState({
@@ -25,7 +25,7 @@ export default function create() {
   }
 
   return (
-    <Layout title={"[" + title + "달력 만들기]"}>
+    <Layout title={title}>
       <div className={css.wrap}>
         <div className={css.inner}>
           <nav>
@@ -37,7 +37,7 @@ export default function create() {
             ></button>
           </nav>
 
-          <Calendar title={title} titleHandler={titleHandler}/>
+          <Calendar title={title} setTitle={setTitle}/>
         </div>
 
         {alertData.isAlert && (

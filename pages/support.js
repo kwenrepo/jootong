@@ -1,13 +1,14 @@
 import css from './support.module.scss'
-import Header from '#components/Header';
+import Layout from '#components/Layout';
 import {useState, useEffect, useRef, useCallback } from "react"
-import { useSession, signOut } from "next-auth/react"
+import { useRecoilValue } from 'recoil';
+import { user } from "#recoilStore/index"
 import { useRouter } from 'next/router';
 import Alert from '#components/modal/Alert';
 import { openWindow } from '#utils/openwindow'
 
 export default function support(){
-  const {data: session} = useSession();
+  const getUser = useRecoilValue(user);
   const router = useRouter();
   const [alertData, setAlertData] = useState({
     isAlert:false,
@@ -22,7 +23,7 @@ export default function support(){
   })
 
   function setTitle(e){
-    if(!session) {
+    if(!getUser) {
       openWindow('/auth/signin', '로그인', '_blank')
       return false;
     }
@@ -30,7 +31,7 @@ export default function support(){
   }
 
   function setContent(e){
-    if(!session) {
+    if(!getUser) {
       openWindow('/auth/signin', '로그인', '_blank')
       return false;
     }
@@ -38,7 +39,7 @@ export default function support(){
   }
 
   function confirm(){
-    if(!session) {
+    if(!getUser) {
       openWindow('/auth/signin', '로그인', '_blank')
       return false;
     }
@@ -60,7 +61,7 @@ export default function support(){
     }
 
     let data = {
-      user_key : session.user.user_key,
+      user_key : getUser.user_key,
       question : question.current
     }
 
@@ -87,25 +88,25 @@ export default function support(){
   }
 
   return(
-    <div className={css.wrap}>
-      <Header />
+    <Layout title={"문의하기"}>
+      <div className={css.wrap}>
+        <div className={css.inner}>
+          <nav>
+            <h2>1:1 문의하기</h2>
+            <button onClick={()=>{router.back()}}></button>
+          </nav>
+          
+          <div className={`${css.title} ${css.box}`}>
+            <input type="text" onChange={(e)=> setTitle(e)} placeholder="필요하신 문의 제목을 작성해 주세요." />
+          </div>
+          <div className={`${css.content} ${css.box}`}>
+            <textarea onChange={(e)=> setContent(e)} placeholder="문의 내용을 작성해 주세요."></textarea>
+          </div>
 
-      <div className={css.inner}>
-        <nav>
-          <h2>1:1 문의하기</h2>
-          <button onClick={()=>{router.back()}}></button>
-        </nav>
-         
-        <div className={`${css.title} ${css.box}`}>
-          <input type="text" onChange={(e)=> setTitle(e)} placeholder="필요하신 문의 제목을 작성해 주세요." />
-        </div>
-        <div className={`${css.content} ${css.box}`}>
-          <textarea onChange={(e)=> setContent(e)} placeholder="상세한 문의 내용을 작성해 주세요."></textarea>
-        </div>
-
-        <div className={css.button_box}>
-          <button className={css.confirm} onClick={()=>confirm()}>완료</button>
-          <button onClick={()=> router.back()}>취소</button>
+          <div className={css.button_box}>
+            <button className={css.confirm} onClick={()=>confirm()}>완료</button>
+            <button onClick={()=> router.back()}>취소</button>
+          </div>
         </div>
       </div>
 
@@ -116,6 +117,6 @@ export default function support(){
           cancel:alertData.cancel
         }}
       />}
-    </div>
+    </Layout>
   )
 }

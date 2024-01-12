@@ -31,31 +31,29 @@ export default function UserStatus() {
     async function session(){
       return await getSession();
     }
-    session().then((res)=>{
-      setUser(res.user)
+    session().then((session)=>{
+      console.log("session?", session)
+      if(session) setUser(session.user);
     })
   }, [])
 
-  useEffect(()=>{
-    console.log(getUser)
-  }, [getUser])
   return (
     <>
       {getUser?.user_key ? (
-          <div className={css.user_status}>
-            <span onClick={()=>{ setUserArea(!userArea)}} className={`${ alarm ? css.alarm : ""}`}>
-              {getUser.nickname} 님
-            </span>
-            
-            <button onClick={() => {
-                signOut({
-                  callbackUrl: `${window.location.origin}`,
-                });
-            }}>로그아웃
-            </button>
+        <div className={css.user_status}>
+          <span onClick={()=>{ setUserArea(!userArea)}} className={`${ alarm ? css.alarm : ""}`}>
+            {getUser.nickname} 님
+          </span>
+          
+          <button onClick={() => {
+              signOut({
+                callbackUrl: `${window.location.origin}`,
+              });
+          }}>로그아웃
+          </button>
 
-            {userArea && <UserCard setAlarm={setAlarm} setUserArea={setUserArea} privateRoomList={privateRoomList} setPrivateRoomList={setPrivateRoomList} setAlertData={setAlertData}/>}
-          </div>
+          {userArea && <UserCard setAlarm={setAlarm} setUserArea={setUserArea} privateRoomList={privateRoomList} setPrivateRoomList={setPrivateRoomList} setAlertData={setAlertData}/>}
+        </div>
       ) : (
         <div className={css.user_status}>
           <button onClick={() => setLoginArea(true)}>로그인</button>

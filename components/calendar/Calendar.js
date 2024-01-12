@@ -1,12 +1,13 @@
 import css from './Calendar.module.scss'
-import { useSession } from 'next-auth/react';
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
+import { user } from "#recoilStore/index";
 import { getToday } from '#utils/date';
 import Alert from '#components/modal/Alert';
 
-export default function Calendar({title, titleHandler}){
-  const {data: session} = useSession();
+export default function Calendar({title, setTitle, editDataList}){
+  const getUser = useRecoilValue(user);
   const router = useRouter();
 
   const [alertData, setAlertData] = useState({
@@ -155,13 +156,12 @@ export default function Calendar({title, titleHandler}){
       return false;
     }
     let jsonArray = JSON.stringify(monthItemList);
-    console.log('jsonArray', jsonArray)
 
     let data = {
-      user_key : session ? session?.user?.user_key : 'empty',
+      user_key : getUser.user_key || 'empty',
       title,
       content : jsonArray,
-      create_name : session ? session?.user?.user_name : 'empty'
+      create_name : getUser.nickname || 'empty'
     }
 
     fetch("/api/data?keyword=calendar", {
@@ -172,19 +172,18 @@ export default function Calendar({title, titleHandler}){
       body: JSON.stringify(data)
     })
     .then((response) => response.json())
-    .then((data) => {
-      if(data.status){
-        console.log('return data', data)
+    .then((result) => {
+      if(result.status){
+        console.log('return result', result)
+        const { data } = result;
         setAlertData({
           isAlert:true,
           message:<span>저장이 완료 되었습니다.</span>,
           confirm:<button onClick={()=>{ 
-
             router.push({
               pathname: '/' + data.boardID + '@' + data.title
             })
-          
-          }}>공유하러 가기</button>,
+          }}>달력 보기</button>,
           cancel:<button onClick={()=>{ router.back(); }}>확인</button>
         })
       }
@@ -193,6 +192,7 @@ export default function Calendar({title, titleHandler}){
     
 
   }
+
   const addItemHandler = {
     add : function(e){
       let {name, value} = e.target;
@@ -267,9 +267,9 @@ export default function Calendar({title, titleHandler}){
     },
     delete: function(date, target){
       let deleteList = monthItemList.filter((item)=>{
-        return item.date !== date || item.description !== target.description || item.key !== target.key || item.yearMonth !== target.yearMonth ;
+        return item.date !== date || item.description !== target.description || item.key !== target.key || item.yearMonth !== target.yearMonth;
       })
-
+      console.log('deleteList', deleteList)
       setMonthItemList(deleteList);
     },
     edit: function(){
@@ -294,13 +294,9 @@ export default function Calendar({title, titleHandler}){
     }
   }
 
-
-
   useEffect(()=>{
-    if(monthItemList.length){
-      console.log('monthItemList', monthItemList)
-      updateCurrentCalendar();
-    }
+
+     updateCurrentCalendar();
     
   }, [monthItemList])
 
@@ -317,13 +313,19 @@ export default function Calendar({title, titleHandler}){
     }
   }, [currentCalendar])
 
-
+  useEffect(()=>{
+    console.log(editDataList)
+    if(editDataList){
+      setTitle(title)
+      setMonthItemList(editDataList);
+    }
+  }, [editDataList])
   return(
     <>
       <section className={css.wrap}>
                  
         <div className={`${css.set_title}`}>
-          <input type="text" value={title || ""} onChange={(e)=> titleHandler(e)} placeholder="제목을 작성해 주세요." />
+          <input type="text" value={title || ""} onChange={(e)=> setTitle(e.target.value)} placeholder="제목을 작성해 주세요." />
         </div>
 
         <div className={css.calendar_wrap}>

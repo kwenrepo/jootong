@@ -1,6 +1,8 @@
 import css from './mypage.module.scss';
 import {useState, useEffect, useRef } from "react";
-import { useSession, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import { useRecoilValue } from 'recoil';
+import { user } from "#recoilStore/index"
 import Header from '#components/Header';
 import Footer from '#components/Footer'
 import { useRouter } from 'next/router';
@@ -10,7 +12,8 @@ import SupportHistory  from "#components/mypage/SupportHistory"
 import Loading from '#components/Loading';
 
 export default function mypage(){
-  const {data: session, update} = useSession();
+  const getUser = useRecoilValue(user);
+
   const router = useRouter();
   const [alertData, setAlertData] = useState({
     isAlert:false,
@@ -27,8 +30,8 @@ export default function mypage(){
     if(password.current.value){
       let userData = {
         password : password.current.value,
-        user_key : session?.user.user_key,
-        nickname : session?.user.nickname
+        user_key : getUser.user_key,
+        nickname : getUser.nickname
       }
 
       fetch("/api/user?checkPassword", {
@@ -67,8 +70,8 @@ export default function mypage(){
     setIsLoading(true);
 
     let userData = {
-      user_key : session?.user.user_key,
-      nickname : session?.user.nickname
+      user_key : getUser.user_key,
+      nickname : getUser.nickname
     }
     fetch("/api/user", {
       method: "DELETE",
@@ -108,10 +111,10 @@ export default function mypage(){
   }
 
   useEffect(()=>{
-    if(session){
+    if(getUser){
       setIsLoading(false)
     }
-  }, [session])
+  }, [getUser])
   return (
     <div className={css.wrap}>
       <Header />
@@ -126,15 +129,15 @@ export default function mypage(){
         <div className={`${css.my_item} ${css.box}`}>
           <h2>보유 아이템</h2>
           <ul>
-            <li>닉네임 변경권 | {session?.user.item?.item_nickname || 0}개</li>
+            <li>닉네임 변경권 | {getUser.item?.item_nickname || 0}개</li>
           </ul>
         </div>
 
         <SupportHistory />
 
-        {session && <div className={css.button_box}>
+        {getUser && <div className={css.button_box}>
           <button className={css.withdraw} onClick={()=>{
-            if(session.user.provider){
+            if(getUser.provider){
               setAlertData({
                 isAlert:true,
                 message:<span>탈퇴 하시면 회원 정보가 모두 삭제됩니다. <br /> 정말 탈퇴 하시겠습니까?</span>,

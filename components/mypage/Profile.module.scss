@@ -66,8 +66,10 @@
         padding: 3px 8px; 
         box-shadow: 1px 1px 1px #999;
         white-space: nowrap;
+        transition: 0.1s;
+
         &:hover{
-          box-shadow: 1px 1px 4px #913ef0;
+          transform: translateY(-1px);
         }
 
         &.change_button{
@@ -123,8 +125,9 @@
         padding: 3px 5px; 
         box-shadow: 1px 1px 1px #999;
         white-space: nowrap;
+        transition: 0.1s;
         &:hover{
-          box-shadow: 1px 1px 4px #913ef0;
+          transform: translateY(-1px);
         }
       }
  

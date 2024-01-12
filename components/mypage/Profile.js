@@ -1,12 +1,12 @@
 import css from './Profile.module.scss';
 import { useState, useEffect, useRef } from "react";
-import { useSession } from "next-auth/react";
+import { useRecoilValue } from 'recoil';
+import { user } from "#recoilStore/index";
 import { isNickname } from "#utils/regexp/isNickname";
 import { isPassword } from "#utils/regexp/isPassword";
 
 export default function Profile({setIsLoading, setAlertData}){
-  const {data: session, update } = useSession();
-  
+  const getUser = useRecoilValue(user);
   const [changeNickname, setChangeNickname] = useState("없음");
   const [isNicknameChange, setIsNicknameChange] = useState(false);
   const [isPasswordChange, setIsPasswordChange] = useState(false);
@@ -22,7 +22,7 @@ export default function Profile({setIsLoading, setAlertData}){
 
 
   function checkItemNickname() {
-    if(!session?.user?.item?.item_nickname){
+    if(!getUser.item_nickname){
       setAlertData({
         isAlert:true,
         message:<span>닉네임 변경권이 없습니다.</span>,
@@ -92,7 +92,7 @@ export default function Profile({setIsLoading, setAlertData}){
   }
 
   function startNicknameChange(){
-    if(session?.user.item.item_nickname === 0){
+    if(getUser.item_nickname === 0){
       setAlertData({
         isAlert:true,
         message:<span>닉네임 변경권이 없습니다.</span>,
@@ -113,8 +113,8 @@ export default function Profile({setIsLoading, setAlertData}){
       setErrorMessage("");
       let data = {
         newNickname : changeNickname,
-        nickname : session.user.nickname,
-        user_key: session.user.user_key,
+        nickname : getUser.nickname,
+        user_key: getUser.user_key,
       }
       
       fetch("/api/user?target=nickname", {
@@ -127,19 +127,19 @@ export default function Profile({setIsLoading, setAlertData}){
       .then((response) => response.json())
       .then(async (data) => {
         if(data.status){
-          session.user.nickname = data.nickname;
-          session.user.item.item_nickname -= 1;
+          getUser.nickname = data.nickname;
+          getUser.item.item_nickname -= 1;
 
           await update({
-            ...session,
+            ...getUser,
             user:{
-              ...session?.user,
+              ...getUser,
               nickname : data.nickname
             }
           })
           setAlertData({
             isAlert:true,
-            message:<span>{`닉네임 [${session.user.nickname}] 변경 성공`}</span>,
+            message:<span>{`닉네임 [${getUser.nickname}] 변경 성공`}</span>,
             confirm:<button onClick={()=>( setAlertData({isAlert:false}))}>확인</button>
           })
           
@@ -163,7 +163,7 @@ export default function Profile({setIsLoading, setAlertData}){
       setIsLoading(true);
       setErrorMessage('');
       let data = {
-        user_key : session?.user.user_key,
+        user_key : getUser.user_key,
         current : password.current.currentPassword,
         new : password.current.newPassword
       }
@@ -202,19 +202,19 @@ export default function Profile({setIsLoading, setAlertData}){
 
   useEffect(() => {
     if(!isNicknameChange) {
-      setChangeNickname(session?.user.nickname);
+      setChangeNickname(getUser.nickname);
       setErrorMessage("");
     }
   }, [isNicknameChange])
 
   useEffect(() => {
-    if(session) {
-      setChangeNickname(session?.user.nickname);
+    if(getUser) {
+      setChangeNickname(getUser.nickname);
     }
-  }, [session])
+  }, [getUser])
 
   // useEffect(() => {
-  //   if(!session?.user.nickname) router.push("/")
+  //   if(!getUser.nickname) router.push("/")
   // }, [])
 
   return(
@@ -250,7 +250,7 @@ export default function Profile({setIsLoading, setAlertData}){
 
       </div>
       
-      { session?.user.provider === "credential" &&
+      { getUser.provider === "credential" &&
       <div className={css.change_password}>
         <div className={css.password}>
           <span className={isPasswordChange ? css.open : ''}>비밀번호</span>
@@ -297,7 +297,7 @@ export default function Profile({setIsLoading, setAlertData}){
        </div>}
 
       {/* <div className={css.my_point}>
-        포인트 : {session?.user.item?.item_point ? session?.user.item?.item_point : 0 }
+        포인트 : {getUser.item?.item_point ? getUser.item?.item_point : 0 }
       </div> */}
     </div>
   )

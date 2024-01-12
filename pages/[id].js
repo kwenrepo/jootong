@@ -1,15 +1,17 @@
 import css from './view.module.scss'
-import { useSession } from 'next-auth/react';
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { user, calendarDataList, calendarDataListSelector  } from "#recoilStore/index";
 import { useRouter } from 'next/router';
 import Layout from '#components/Layout';
 import html2canvas from "html2canvas";
 import saveAs from "file-saver";
 import { getToday } from '#utils/date';
 import Alert from '#components/modal/Alert';
+import Calendar from "#components/calendar/Calendar";
 
 export default function calendar(){
-  const {data: session} = useSession();
+  const getUser = useRecoilValue(user);
   const router = useRouter();
   const [title, setTitle] = useState('')
   const captureRef = useRef(null);
@@ -30,8 +32,8 @@ export default function calendar(){
     yearMonth:0,
     monthItem:[]
   });
-  const [monthItemList, setMonthItemList] = useState([]);
   const [summaryList, setSummaryList] = useState([]);
+  const [monthItemList, setMonthItemList] = useState([]);
 
   function updateCurrentCalendar(){
     const year = selectMonth.getFullYear();
@@ -203,8 +205,6 @@ export default function calendar(){
   useEffect(()=>{
     if(router.isReady){
       let id = router.query.id.split("@");
-
-      console.log(id[0])
       
       fetch(`/api/data?key=${id[0]}`, {
         method: "GET",
@@ -217,10 +217,10 @@ export default function calendar(){
 
         if(result.status){
           let {data} = result;
-          let toJSONData = JSON.parse(data[0].content);
+          console.log(data)
+          let jsonParseData = JSON.parse(data[0].content);
           setTitle(data[0].title)
-          console.log(toJSONData,  title)
-          setMonthItemList(toJSONData);
+          setMonthItemList(jsonParseData)
         }
   
       });
@@ -231,49 +231,55 @@ export default function calendar(){
     <Layout title={title}>
       <section className={css.wrap} ref={captureRef}>
         <div className={css.inner}>
-          <div className={`${css.set_title}`}>
-            <span>{title}</span>
-          </div>
-          
-          <div className={css.calendar_wrap}>
-            <div className={css.calendar_header}>
-              <h1>{currentCalendar.year}. {currentCalendar.month + 1}월</h1>
-              <div className={css.button_wrap}>
-                <button className={css.prev} onClick={()=>{changeCalendar['prev']()}}>prev</button>
-                <button className={css.next} onClick={()=>{changeCalendar['next']()}}>next</button>
+          {getUser.user_key && monthItemList.length > 0 
+          ? <Calendar title={title} setTitle={setTitle} editDataList={monthItemList}/> 
+          : <>
+              <div className={`${css.set_title}`}>
+                <span>{title}</span>
               </div>
-            </div>
-            
-            {summaryList['month' + currentCalendar.yearMonth]?.length > 0 && <div className={css.summary_list}>
-              <div className={css.title}>이번달 간추린 내역</div>
-              <ul className={css.item_list}>
-                {summaryList['month' + currentCalendar.yearMonth].map((item)=>{
-                  return (
-                    <li key={item.key}>
-                      <span>{item.key}</span>
-                      <span>{(item.total).toLocaleString('ko-KR')}</span>
-                    </li>
-                  )
-                })}
-              </ul>
-          </div>}
+              
+              <div className={css.calendar_wrap}>
+                <div className={css.calendar_header}>
+                  <h1>{currentCalendar.year}. {currentCalendar.month + 1}월</h1>
+                  <div className={css.button_wrap}>
+                    <button className={css.prev} onClick={()=>{changeCalendar['prev']()}}>prev</button>
+                    <button className={css.next} onClick={()=>{changeCalendar['next']()}}>next</button>
+                  </div>
+                </div>
+                
+                {summaryList['month' + currentCalendar.yearMonth]?.length > 0 && 
+                <div className={css.summary_list}>
+                  <div className={css.title}>이번달 간추린 내역</div>
+                  <ul className={css.item_list}>
+                    {summaryList['month' + currentCalendar.yearMonth].map((item)=>{
+                      return (
+                        <li key={item.key}>
+                          <span>{item.key}</span>
+                          <span>{(item.total).toLocaleString('ko-KR')}</span>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>}
 
-            <ul className={css.calendar_days}>
-              <li>일</li>
-              <li>월</li>
-              <li>화</li>
-              <li>수</li>
-              <li>목</li>
-              <li>금</li>
-              <li>토</li>
-            </ul>
-            <RenderDaysElement />
-
-          </div>
+                <ul className={css.calendar_days}>
+                  <li>일</li>
+                  <li>월</li>
+                  <li>화</li>
+                  <li>수</li>
+                  <li>목</li>
+                  <li>금</li>
+                  <li>토</li>
+                </ul>
+                <RenderDaysElement /> 
+              </div>
+            </>
+          }
           
           <div className={css.button_box}>
             <button className={css.confirm} onClick={()=> share()}>공유하기</button>
             <button className={css.capture} onClick={()=> capture()}>캡쳐하기</button>
+            {getUser.user_key && <button className={css.edit} onClick={()=> edit()}>수정하기</button> }
           </div>
         </div>   
       </section>

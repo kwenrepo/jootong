@@ -2,58 +2,30 @@
   position: absolute;
   top:30px;
   right: 0;
-  width: 300px;
   background-color: #fdfdfd;
   z-index: 12;
-  border:1px solid #ccc;
+  border:1px solid #ddd;
   padding:10px 10px 20px;
-
+  border-radius: 4px;
   .title{
     display: flex;
     justify-content: space-between;
     font-size: 16px;
-    padding:0px 0 0px;
-    border-bottom:1px solid #eee;
     .nickname{
       font-weight: bold;
       padding-bottom:10px;
-      font-size: 24px;
-      
+      font-size: 15px;
+      white-space: nowrap;
       &:hover{
         color:#6615c4;
       }
     }
 
-    .cancel{
-      border:1px solid #ddd;
-      font-size: 12px;
-      font-weight: bold;
-      width: 24px;
-      height: 24px;
-      background: linear-gradient(-180deg, rgba(255, 255, 255, 0.09) 0%, rgba(17, 17, 17, 0.04) 100%);
-      display: flex;
-      align-items: center;
-      justify-content:center;
-      &::before{
-        content: "";
-        display: block;
-        background-image: url('../../public/8373819.png');
-        background-size: 100% 100%;
-        width: 24px;
-        height: 24px;
-      }
-      &:hover {
-        background: #fff;
-        border-bottom:1px solid #7c25df;
-      }
-    }
   }
-
   .bridge{
-    padding:5px 0 10px;
     div{
       display: flex;
-      padding: 5px;
+      padding:5px 0;
       border-bottom: 1px solid #f1f1f1;
 
       .mypage{
@@ -63,41 +35,11 @@
         display: flex;
         align-items: center;
 
-        &::before{
-          content: "";
-          display: block;
-          background-image: url('../../public/848006.png');
-          background-size: 100%;
-          width: 24px;
-          height: 24px;
-          margin-right:6px;
-        }
-
         &:hover{
           color:#7c25df
         }
       }
-
-      .market{
-        color:#777;
-        font-size: 14px;
-        white-space: nowrap;
-        display: flex;
-        align-items: center;
-        opacity: 0.3;
-        pointer-events: none;
-        
-        &::before{
-          content: "";
-          display: block;
-          background-image: url('../../public/8903190.png');
-          background-size: 100%;
-          width: 24px;
-          height: 24px;
-          margin-right:6px;
-
-        }
-      }
+   
     }
   }
 

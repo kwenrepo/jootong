@@ -1,12 +1,15 @@
 import css from './ListArea.module.scss';
 import { useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { dataList, dataListSelector } from "#recoilStore/index";
 import Loading from '#components/Loading';
 import { getDateDiff } from '#utils/date';
 import Link from "next/link";
 
-
 export default function ListArea() {
-  
+  const setDataList = useSetRecoilState(dataListSelector);
+  const getDataList = useRecoilValue(dataList);
+
   const [loading, setLoading] = useState(true);
   const [weather, setWeather] = useState({});
   const [totalList, setTotalList] = useState([]);
@@ -15,12 +18,7 @@ export default function ListArea() {
     getCalendarList();
   }, [])
 
-  useEffect(()=>{
-    console.log(totalList)
-  }, [totalList])
-
   function getCalendarList(){
-    
     fetch('/api/data', {
       method: 'GET',
       headers: {
@@ -31,9 +29,7 @@ export default function ListArea() {
     .then((result) => {
       if(result.status){
         let {data} = result;
-        data[0].summaryOfContent = Object.values(JSON.parse(data[0].content))[0]
-
-        setTotalList([...totalList, data[0]])
+        setDataList(data);
       }
     });
   }
@@ -41,10 +37,10 @@ export default function ListArea() {
   return (
     <div className={css.wrap}>
       <div className={css.inner}>
-        {totalList.length > 0 ? 
+        {getDataList.length > 0 ? 
         <div className={css.item_list_wrap}>
           <ul className={css.item_list_grid}>
-            {totalList.map((item)=>{
+            {getDataList.map((item)=>{
               return (
                 <li key={item.id}>
                   {item.create_user_key !== "jt" ?
@@ -53,7 +49,7 @@ export default function ListArea() {
                         <span className={css.item_title}>{item.title}</span>
                       </div>
                       <div className={css.item_body}>
-                        <div className={css.cap}>요약달력</div>
+                        <div className={css.cap}>요약</div>
 
                         <div className={css.summary_calendar}>
                           <div>
@@ -82,6 +78,9 @@ export default function ListArea() {
                       </div>
 
                       <div className={css.item_bottom}>
+                        <span className={css.creator}>
+                          {item.create_name === 'empty' ? '익명' : item.create_name }
+                        </span>
                         <span className={ getDateDiff(item.create_date).type !== 'day' ? `${css.from_date} ${css.new}` : `${css.from_date}` }>
                           {getDateDiff(item.create_date).text}
                         </span>

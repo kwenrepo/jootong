@@ -1,12 +1,13 @@
 import css from './SupportHistory.module.scss';
 import { useState, useEffect, useRef } from "react";
-import { useSession, signOut } from "next-auth/react";
-import { getFormatedDate } from "#utils/data";
+import { useRecoilValue } from 'recoil';
+import { user } from "#recoilStore/index"
+import { getFormatedDate } from "#utils/date";
 import { useRouter } from 'next/router';
 import Link from "next/link";
 
 export default function SupportHistory(){
-  const {data: session} = useSession();
+  const getUser = useRecoilValue(user);
   const router = useRouter();
 
   const [isHistory, setIsHistory] = useState(false)
@@ -22,8 +23,8 @@ export default function SupportHistory(){
   }
 
   useEffect(()=>{
-    if(session){
-      let user_key = session.user.user_key
+    if(getUser){
+      let user_key = getUser.user_key
       fetch("/api/support?user_key="+user_key, {
         method: "get"
       })
@@ -37,7 +38,7 @@ export default function SupportHistory(){
         setSupportList(list)
       });
     }
-  }, [session])
+  }, [getUser])
 
   return(
     <div className={`${css.my_history} ${css.box}`}>
