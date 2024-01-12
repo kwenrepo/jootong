@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import Layout from '#components/Layout';
 import Alert from '#components/modal/Alert';
 import { openWindow } from '#utils/openwindow';
-import Calendar from "#components/calendar/Calendar";
+import {Editor} from "#components/calendar";
 
 export default function create() {
   const getUser = useRecoilValue(user);
@@ -37,7 +37,7 @@ export default function create() {
             ></button>
           </nav>
 
-          <Calendar title={title} setTitle={setTitle}/>
+          <Editor title={title} setTitle={setTitle}/>
         </div>
 
         {alertData.isAlert && (
