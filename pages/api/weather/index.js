@@ -1,5 +1,5 @@
 
-import { getDateFormat } from '#utils/getDateFormat';
+import { getFormatedDate } from '#utils/date';
 
 export default async function handler(req, res) {
   if(req.method === "GET"){
@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     const url = 'http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMinuDustFrcstDspth'; /*URL*/
     let queryParams = '?' + encodeURIComponent('serviceKey') + '=' + 'GHwA0ggnlqf2BHlg8AgzTpPqnqB0TUpQ8z9jjRBArg4fbLLAhHu7kxzr1Lb1pzJv9kSc%2BFQdg%2BXJ1t0Qc1BoTA%3D%3D'; /*Service Key*/
     queryParams += '&' + encodeURIComponent('returnType') + '=' + encodeURIComponent('json'); /**/
-    queryParams += '&' + encodeURIComponent('searchDate') + '=' + encodeURIComponent(getDateFormat('YYYY-MM-DD')); /**/
+    queryParams += '&' + encodeURIComponent('searchDate') + '=' + encodeURIComponent(getFormatedDate({format:'YYYY-MM-DD'})); /**/
     queryParams += '&' + encodeURIComponent('InformCode') + '=' + encodeURIComponent('PM10'); /**/
 
     fetch(url + queryParams, {

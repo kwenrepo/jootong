@@ -1,17 +1,17 @@
 import css from './signup.module.scss';
-import { useSession, signIn, signOut, getSession} from "next-auth/react"
+import { signIn, getSession} from "next-auth/react"
 import { useRouter } from 'next/router';
 import Link from "next/link";
-import { useRef, useState, useEffect, useContext } from 'react';
-import { SocketContext } from '#context/SocketContext';
+import { useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { user } from "#recoilStore/index";
 import { isEmail } from "#utils/regexp/isEmail";
 import { isPassword } from "#utils/regexp/isPassword";
 import Loading from '#components/Loading'
 import Alert from '#components/modal/Alert';
 
 export default function signup({}) {
-  const {data: session} = useSession();
-  const {setUserKey} = useContext(SocketContext);
+  const getUser = useRecoilValue(user);
 
   const router = useRouter()
   const email = useRef();
@@ -31,7 +31,7 @@ export default function signup({}) {
   });
 
   const changeEmail = function(e){
-    if(session){
+    if(getUser){
       setAlertData({
         isAlert:true,
         message:<span>이미 로그인 하셨습니다.</span>,
@@ -114,7 +114,6 @@ export default function signup({}) {
             const session = await getSession();
 
             if(ok && session){
-              setUserKey(session.user.user_key)
               setAlertData({
                 isAlert:true,
                 message:<span>🎉회원가입을 축하합니다!🔥🔥 <br /> [기념선물지급 - 닉네임변경권] <br /> 마이페이지에서 사용 가능합니다</span>,

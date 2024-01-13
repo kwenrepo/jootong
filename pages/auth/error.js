@@ -1,16 +1,17 @@
-import { useSession } from "next-auth/react";
+import { useRecoilValue } from 'recoil';
+import { user } from "#recoilStore/index";
 import { useEffect } from 'react';
 import { useRouter } from "next/router";
 
 export default function error({  }) {
-  const {data: session} = useSession();
+  const getUser = useRecoilValue(user);
   const router = useRouter()
 
   useEffect(()=>{
-    if(!session){
+    if(!getUser){
       router.push('/')
     }
-  }, [session])
+  }, [getUser])
 
   return (
     <div>

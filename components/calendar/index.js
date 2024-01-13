@@ -1,4 +1,4 @@
-import Editor from "./Editor";
-import Viewer from "./Viewer";
+import CalendarEditor from "./CalendarEditor";
+import CalendarViewer from "./CalendarViewer";
 
-export { Editor, Viewer }
+export { CalendarEditor, CalendarViewer }

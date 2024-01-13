@@ -1,17 +1,17 @@
 import css from './admin.module.scss'
 import Header from '#components/Header';
 import {useState, useEffect, useRef, useContext} from "react"
-import { useSession, signIn, signOut, getSession } from "next-auth/react"
-import { SocketContext } from '#context/SocketContext';
+import { useSession, signIn, getSession } from "next-auth/react"
+import { useRecoilValue } from 'recoil';
+import { user } from "#recoilStore/index";
 import { useRouter } from 'next/router';
 import Alert from '#components/modal/Alert';
-import Room from '#components/lobby/Room';
 import { getDateDiff } from '#utils/date';
 import { openWindow } from '#utils/openwindow'
 
 export default function admy(){
-  const {data: session, update} = useSession();
-  const {socket, socketConnect, user_key, reload, setReload} = useContext(SocketContext);
+  const getUser = useRecoilValue(user);
+
   const router = useRouter();
   const [alertData, setAlertData] = useState({
     isAlert:false,
@@ -331,9 +331,9 @@ export default function admy(){
   }
 
   useEffect(()=>{
-    if(session?.user.user_key === "8N2885B0883C" || 
-      session?.user.user_key === "XFD84427C21D" ||
-      session?.user.user_key === "O3E995E25F27" ){
+    if(getUser.user_key === "8N2885B0883C" || 
+      getUser.user_key === "XFD84427C21D" ||
+      getUser.user_key === "O3E995E25F27" ){
       setIsLogin(true)
       getTotalMember();
       getTotalRoomList();
@@ -341,16 +341,8 @@ export default function admy(){
       getSupportList();
     }
     
-  }, [session])
+  }, [getUser])
 
-  useEffect(()=>{
-    if(socket){
-      socket.on("count", (data)=>{
-        setCount(data)
-      })
-    }
-    
-  }, [socket])
   return(
     <div className={css.wrap}>
       <Header />

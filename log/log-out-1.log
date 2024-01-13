@@ -92,3 +92,9 @@
 2024-01-03T22:11:11: wait  - compiling /_error (client and server)...
 2024-01-03T22:11:11: event - compiled client and server successfully in 156 ms (206 modules)
 2024-01-03T22:11:17: wait  - compiling /create (client and server)...
+info  - Loaded env from C:\Users\teamguug\Desktop\jootong3\.env
+========================================== APP Prepare Done production ==========================================================
+server is runing at port 3000
+ready signal dev
+server is runing at port undefined
+ready signal production

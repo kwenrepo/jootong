@@ -1,0 +1,9 @@
+@function Icon($iconName) {
+  $iconList: ( 
+    plus: "%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='none'%3E%3Cpath fill='%23fff' fill-rule='evenodd' d='M5.055 0a.77.77 0 0 0-.77.77v3.516H.77a.77.77 0 0 0 0 1.538h3.517v3.407a.77.77 0 0 0 1.538 0V5.824h3.407a.77.77 0 0 0 0-1.538H5.824V.769A.77.77 0 0 0 5.054 0Z' clip-rule='evenodd'/%3E%3C/svg%3E",
+    arrowDown: "%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='9' fill='none'%3E%3Cpath stroke='%2317252F' stroke-linecap='round' stroke-width='3' d='M10 2 6 6 2 2'/%3E%3C/svg%3E",
+    temp: "",
+  );
+  $icon: map-get($iconList, $iconName);
+  @return url("data:image/svg+xml;charset=utf8,#{$icon}");
+}

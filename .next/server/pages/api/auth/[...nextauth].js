@@ -1,145 +1,263 @@
 "use strict";
-/*
- * ATTENTION: An "eval-source-map" devtool has been used.
- * This devtool is neither made for production nor for readable output files.
- * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
- * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
- * or disable the default devtool with "devtool: false".
- * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
- */
 (() => {
 var exports = {};
-exports.id = "pages/api/auth/[...nextauth]";
-exports.ids = ["pages/api/auth/[...nextauth]"];
+exports.id = 748;
+exports.ids = [748];
 exports.modules = {
 
-/***/ "mysql2":
-/*!*************************!*\
-  !*** external "mysql2" ***!
-  \*************************/
+/***/ 7993:
 /***/ ((module) => {
 
 module.exports = require("mysql2");
 
 /***/ }),
 
-/***/ "next-auth":
-/*!****************************!*\
-  !*** external "next-auth" ***!
-  \****************************/
-/***/ ((module) => {
-
-module.exports = require("next-auth");
-
-/***/ }),
-
-/***/ "next-auth/providers/credentials":
-/*!**************************************************!*\
-  !*** external "next-auth/providers/credentials" ***!
-  \**************************************************/
-/***/ ((module) => {
-
-module.exports = require("next-auth/providers/credentials");
-
-/***/ }),
-
-/***/ "next-auth/providers/google":
-/*!*********************************************!*\
-  !*** external "next-auth/providers/google" ***!
-  \*********************************************/
-/***/ ((module) => {
-
-module.exports = require("next-auth/providers/google");
-
-/***/ }),
-
-/***/ "next-auth/providers/kakao":
-/*!********************************************!*\
-  !*** external "next-auth/providers/kakao" ***!
-  \********************************************/
-/***/ ((module) => {
-
-module.exports = require("next-auth/providers/kakao");
-
-/***/ }),
-
-/***/ "next-auth/providers/naver":
-/*!********************************************!*\
-  !*** external "next-auth/providers/naver" ***!
-  \********************************************/
-/***/ ((module) => {
-
-module.exports = require("next-auth/providers/naver");
-
-/***/ }),
-
-/***/ "crypto":
-/*!*************************!*\
-  !*** external "crypto" ***!
-  \*************************/
+/***/ 6113:
 /***/ ((module) => {
 
 module.exports = require("crypto");
 
 /***/ }),
 
-/***/ "(api)/./database/index.js":
-/*!***************************!*\
-  !*** ./database/index.js ***!
-  \***************************/
+/***/ 7004:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"executeQuery\": () => (/* binding */ executeQuery)\n/* harmony export */ });\nconst { createPool  } = __webpack_require__(/*! mysql2 */ \"mysql2\");\nconst pool = createPool({\n    host: process.env.DB_HOST,\n    user: process.env.DB_USER,\n    password: process.env.DB_PASSWORD,\n    port: process.env.DB_PORT,\n    database: process.env.DB_DATABASE,\n    connectionLimit: 30\n});\npool.getConnection((err, connection)=>{\n    if (err) {\n        console.log(\"error connect to db..\" + process.env.DB_HOST);\n    // setTimeout(function() { pool.getConnection(); }, 2500);\n    }\n    console.log(\"[DB 연결 성공] : \" + process.env.DB_HOST);\n    connection.release();\n});\nconst executeQuery = (query, arrParams)=>{\n    return new Promise((resolve, reject)=>{\n        try {\n            pool.query(query, arrParams, (err, data)=>{\n                if (err) {\n                    reject(err);\n                }\n                resolve(data);\n            });\n        } catch (err) {\n            reject(err);\n        }\n    });\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9kYXRhYmFzZS9pbmRleC5qcy5qcyIsIm1hcHBpbmdzIjoiOzs7O0FBQUEsTUFBTSxFQUFDQSxXQUFVLEVBQUMsR0FBR0MsbUJBQU9BLENBQUM7QUFDN0IsTUFBTUMsT0FBT0YsV0FBVztJQUN0QkcsTUFBS0MsUUFBUUMsR0FBRyxDQUFDQyxPQUFPO0lBQ3hCQyxNQUFLSCxRQUFRQyxHQUFHLENBQUNHLE9BQU87SUFDeEJDLFVBQVNMLFFBQVFDLEdBQUcsQ0FBQ0ssV0FBVztJQUNoQ0MsTUFBS1AsUUFBUUMsR0FBRyxDQUFDTyxPQUFPO0lBQ3hCQyxVQUFTVCxRQUFRQyxHQUFHLENBQUNTLFdBQVc7SUFDaENDLGlCQUFpQjtBQUNuQjtBQUVBYixLQUFLYyxhQUFhLENBQUMsQ0FBQ0MsS0FBS0MsYUFBZTtJQUN0QyxJQUFHRCxLQUFJO1FBQ0xFLFFBQVFDLEdBQUcsQ0FBQywwQkFBMEJoQixRQUFRQyxHQUFHLENBQUNDLE9BQU87SUFDekQsMERBQTBEO0lBQzVELENBQUM7SUFDRGEsUUFBUUMsR0FBRyxDQUFDLGtCQUFrQmhCLFFBQVFDLEdBQUcsQ0FBQ0MsT0FBTztJQUNqRFksV0FBV0csT0FBTztBQUNwQjtBQUVPLE1BQU1DLGVBQWUsQ0FBQ0MsT0FBT0MsWUFBYztJQUNoRCxPQUFPLElBQUlDLFFBQVEsQ0FBQ0MsU0FBU0MsU0FBUztRQUNwQyxJQUFHO1lBQ0R6QixLQUFLcUIsS0FBSyxDQUFDQSxPQUFPQyxXQUFXLENBQUNQLEtBQUtXLE9BQVE7Z0JBQ3pDLElBQUdYLEtBQUk7b0JBQ0xVLE9BQU9WO2dCQUNULENBQUM7Z0JBQ0RTLFFBQVFFO1lBQ1Y7UUFDRixFQUFFLE9BQU9YLEtBQUk7WUFDWFUsT0FBT1Y7UUFDVDtJQUNGO0FBQ0YsRUFBQyIsInNvdXJjZXMiOlsid2VicGFjazovL2pvb3RvbmcvLi9kYXRhYmFzZS9pbmRleC5qcz8yZWMzIl0sInNvdXJjZXNDb250ZW50IjpbImNvbnN0IHtjcmVhdGVQb29sfSA9IHJlcXVpcmUoJ215c3FsMicpO1xyXG5jb25zdCBwb29sID0gY3JlYXRlUG9vbCh7XHJcbiAgaG9zdDpwcm9jZXNzLmVudi5EQl9IT1NULFxyXG4gIHVzZXI6cHJvY2Vzcy5lbnYuREJfVVNFUixcclxuICBwYXNzd29yZDpwcm9jZXNzLmVudi5EQl9QQVNTV09SRCxcclxuICBwb3J0OnByb2Nlc3MuZW52LkRCX1BPUlQsXHJcbiAgZGF0YWJhc2U6cHJvY2Vzcy5lbnYuREJfREFUQUJBU0UsXHJcbiAgY29ubmVjdGlvbkxpbWl0OiAzMFxyXG59KVxyXG5cclxucG9vbC5nZXRDb25uZWN0aW9uKChlcnIsIGNvbm5lY3Rpb24pID0+IHtcclxuICBpZihlcnIpe1xyXG4gICAgY29uc29sZS5sb2coJ2Vycm9yIGNvbm5lY3QgdG8gZGIuLicgKyBwcm9jZXNzLmVudi5EQl9IT1NUKVxyXG4gICAgLy8gc2V0VGltZW91dChmdW5jdGlvbigpIHsgcG9vbC5nZXRDb25uZWN0aW9uKCk7IH0sIDI1MDApO1xyXG4gIH1cclxuICBjb25zb2xlLmxvZygnW0RCIOyXsOqysCDshLHqs7VdIDogJyArIHByb2Nlc3MuZW52LkRCX0hPU1QpXHJcbiAgY29ubmVjdGlvbi5yZWxlYXNlKCk7XHJcbn0pXHJcblxyXG5leHBvcnQgY29uc3QgZXhlY3V0ZVF1ZXJ5ID0gKHF1ZXJ5LCBhcnJQYXJhbXMpID0+IHtcclxuICByZXR1cm4gbmV3IFByb21pc2UoKHJlc29sdmUsIHJlamVjdCk9PntcclxuICAgIHRyeXtcclxuICAgICAgcG9vbC5xdWVyeShxdWVyeSwgYXJyUGFyYW1zLCAoZXJyLCBkYXRhKSA9PntcclxuICAgICAgICBpZihlcnIpe1xyXG4gICAgICAgICAgcmVqZWN0KGVycik7XHJcbiAgICAgICAgfVxyXG4gICAgICAgIHJlc29sdmUoZGF0YSlcclxuICAgICAgfSlcclxuICAgIH0gY2F0Y2ggKGVycil7XHJcbiAgICAgIHJlamVjdChlcnIpXHJcbiAgICB9XHJcbiAgfSlcclxufSJdLCJuYW1lcyI6WyJjcmVhdGVQb29sIiwicmVxdWlyZSIsInBvb2wiLCJob3N0IiwicHJvY2VzcyIsImVudiIsIkRCX0hPU1QiLCJ1c2VyIiwiREJfVVNFUiIsInBhc3N3b3JkIiwiREJfUEFTU1dPUkQiLCJwb3J0IiwiREJfUE9SVCIsImRhdGFiYXNlIiwiREJfREFUQUJBU0UiLCJjb25uZWN0aW9uTGltaXQiLCJnZXRDb25uZWN0aW9uIiwiZXJyIiwiY29ubmVjdGlvbiIsImNvbnNvbGUiLCJsb2ciLCJyZWxlYXNlIiwiZXhlY3V0ZVF1ZXJ5IiwicXVlcnkiLCJhcnJQYXJhbXMiLCJQcm9taXNlIiwicmVzb2x2ZSIsInJlamVjdCIsImRhdGEiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(api)/./database/index.js\n");
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "J": () => (/* binding */ executeQuery)
+/* harmony export */ });
+const { createPool  } = __webpack_require__(7993);
+const pool = createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
+    database: process.env.DB_DATABASE,
+    connectionLimit: 30
+});
+pool.getConnection((err, connection)=>{
+    if (err) {
+        console.log("error connect to db.." + process.env.DB_HOST);
+    // setTimeout(function() { pool.getConnection(); }, 2500);
+    }
+    console.log("[DB 연결 성공] : " + process.env.DB_HOST);
+    connection.release();
+});
+const executeQuery = (query, arrParams)=>{
+    return new Promise((resolve, reject)=>{
+        try {
+            pool.query(query, arrParams, (err, data)=>{
+                if (err) {
+                    reject(err);
+                }
+                resolve(data);
+            });
+        } catch (err) {
+            reject(err);
+        }
+    });
+};
+
 
 /***/ }),
 
-/***/ "(api)/./pages/api/auth/[...nextauth].js":
-/*!*****************************************!*\
-  !*** ./pages/api/auth/[...nextauth].js ***!
-  \*****************************************/
+/***/ 8718:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"authOptions\": () => (/* binding */ authOptions),\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _database_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! #database/index */ \"(api)/./database/index.js\");\n/* harmony import */ var next_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! next-auth */ \"next-auth\");\n/* harmony import */ var next_auth__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_auth__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var next_auth_providers_credentials__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next-auth/providers/credentials */ \"next-auth/providers/credentials\");\n/* harmony import */ var next_auth_providers_credentials__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_auth_providers_credentials__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var next_auth_providers_google__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! next-auth/providers/google */ \"next-auth/providers/google\");\n/* harmony import */ var next_auth_providers_google__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(next_auth_providers_google__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var next_auth_providers_naver__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! next-auth/providers/naver */ \"next-auth/providers/naver\");\n/* harmony import */ var next_auth_providers_naver__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_auth_providers_naver__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var next_auth_providers_kakao__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! next-auth/providers/kakao */ \"next-auth/providers/kakao\");\n/* harmony import */ var next_auth_providers_kakao__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(next_auth_providers_kakao__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var _utils_date__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! #utils/date */ \"(api)/./utils/date/index.js\");\n/* harmony import */ var _utils_date__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_utils_date__WEBPACK_IMPORTED_MODULE_6__);\n/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! crypto */ \"crypto\");\n/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_7__);\n\n\n\n\n\n\n\n\nconst authOptions = {\n    providers: [\n        next_auth_providers_credentials__WEBPACK_IMPORTED_MODULE_2___default()({\n            async authorize (credentials, req) {\n                let user = {\n                    provider: \"credential\"\n                };\n                return await (0,_database_index__WEBPACK_IMPORTED_MODULE_0__.executeQuery)(\"SELECT * FROM user WHERE email = ?\", [\n                    credentials.email\n                ]).then(async function(data) {\n                    // console.log(\"credencial data\" ,data)\n                    if (data[0]) {\n                        if (data[0].status) {\n                            const currentPassword = crypto__WEBPACK_IMPORTED_MODULE_7___default().createHash(\"sha512\").update(credentials.password).digest(\"hex\");\n                            const hashedPassword = crypto__WEBPACK_IMPORTED_MODULE_7___default().pbkdf2Sync(currentPassword, data[0].password_salt, 9132, 16, \"sha512\").toString(\"hex\");\n                            if (hashedPassword === data[0].password) {\n                                return await (0,_database_index__WEBPACK_IMPORTED_MODULE_0__.executeQuery)(\"SELECT item_nickname FROM item_all WHERE user_key = ? \", [\n                                    data[0].user_key\n                                ]).then(function(item) {\n                                    user.nickname = data[0].nickname;\n                                    user.item = item[0];\n                                    user.user_key = data[0].user_key;\n                                    credentials.email === \"admin\" ? user.email = \"admin\" : \"\";\n                                    return user;\n                                }, function(err) {\n                                    return user;\n                                });\n                            } else {\n                                user.message = \"비밀번호가 맞지 않습니다.\";\n                                return user;\n                            }\n                        }\n                    // else {\n                    //   const diff = new Date(getFormatedDate()) - new Date(\"\", data[0].withdraw_date);\n                    //   const day = parseInt(diff / (1000 * 60 * 60 * 24));\n                    //   // console.log(\"DELETE day\", day)\n                    //   if(day >= 0){\n                    //     return await executeQuery(\"DELETE FROM user WHERE user_key = ? \", [data[0].user_key]).then(async function(data){\n                    //       return session;\n                    //     }, function(err){\n                    //       console.log(\"nextauth [DELETE FROM user WHERE user_key] error: \", err)\n                    //       return session;\n                    //     });\n                    //   } else {\n                    //     session.user.status = data[0].status;\n                    //     return session;\n                    //   }\n                    // }\n                    } else {\n                        user.message = \"존재하지 않는 이메일입니다.\";\n                        return user;\n                    }\n                }, function(err) {\n                    user.message = err;\n                    return user;\n                });\n            }\n        }),\n        next_auth_providers_google__WEBPACK_IMPORTED_MODULE_3___default()({\n            clientId: process.env.GOOGLE_CLIENT_ID,\n            clientSecret: process.env.GOOGLE_SECRET\n        }),\n        next_auth_providers_naver__WEBPACK_IMPORTED_MODULE_4___default()({\n            clientId: process.env.NAVER_CLIENT_ID,\n            clientSecret: process.env.NAVER_SECRET\n        }),\n        next_auth_providers_kakao__WEBPACK_IMPORTED_MODULE_5___default()({\n            clientId: process.env.KAKAO_CLIENT_ID,\n            clientSecret: process.env.KAKAO_SECRET\n        })\n    ],\n    pages: {\n        signIn: \"/auth/signin\",\n        signOut: \"/auth/signout\"\n    },\n    secret: process.env.JWT_SECRET,\n    session: {\n        maxAge: 60 * 300\n    },\n    callbacks: {\n        async signIn ({ user  }) {\n            // console.log(\"signUser:\", user)\n            if (user.email) {\n                return true;\n            } else if (!user.user_key) {\n                return  false ? 0 : \"http://localhost:3000?error=\" + user.message;\n            }\n            return true;\n        },\n        async jwt ({ token , account , user , trigger , session  }) {\n            if (trigger === \"update\") {\n                token.user = session.user;\n            } else if (user) {\n                token.user = user;\n            }\n            if (account) {\n                token.provider = account.provider;\n            }\n            return token;\n        },\n        async session ({ session , token  }) {\n            if (token.user.provider === \"credential\") {\n                session.user = token.user;\n                return session;\n            } else {\n                // console.log(\"session\", session)\n                return await (0,_database_index__WEBPACK_IMPORTED_MODULE_0__.executeQuery)(\"SELECT * FROM user WHERE email = ?\", [\n                    session.user.email\n                ]).then(async (data)=>{\n                    if (data.length) {\n                        if (data[0].status) {\n                            return await (0,_database_index__WEBPACK_IMPORTED_MODULE_0__.executeQuery)(\"SELECT item_nickname FROM item_all WHERE user_key = ? \", [\n                                data[0].user_key\n                            ]).then(function(item) {\n                                session.user.nickname = data[0].nickname;\n                                session.user.user_key = data[0].user_key;\n                                session.user.provider = data[0].provider;\n                                session.user.item = item[0];\n                                return session;\n                            }, function(err) {\n                                return session;\n                            });\n                        } else {\n                            const diff = new Date((0,_utils_date__WEBPACK_IMPORTED_MODULE_6__.getFormatedDate)()) - new Date(data[0].withdraw_date);\n                            const day = parseInt(diff / (1000 * 60 * 60 * 24));\n                            if (day >= 0) {\n                                return await (0,_database_index__WEBPACK_IMPORTED_MODULE_0__.executeQuery)(\"DELETE FROM user WHERE user_key = ? \", [\n                                    data[0].user_key\n                                ]).then(async function(data) {\n                                    return session;\n                                }, function(err) {\n                                    console.log(\"nextauth [DELETE FROM user WHERE user_key] error: \", err);\n                                    return session;\n                                });\n                            } else {\n                                session.user.status = data[0].status;\n                                return session;\n                            }\n                        }\n                    } else {\n                        session.user.provider = token.provider;\n                        return session;\n                    }\n                }, function(err) {\n                    return session;\n                });\n            }\n        },\n        async redirect ({ url  }) {\n            return url;\n        }\n    }\n};\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (next_auth__WEBPACK_IMPORTED_MODULE_1___default()(authOptions));\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9wYWdlcy9hcGkvYXV0aC9bLi4ubmV4dGF1dGhdLmpzLmpzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQStDO0FBQ2Q7QUFDaUM7QUFDVjtBQUNGO0FBQ0E7QUFDUjtBQUNsQjtBQUVyQixNQUFNUSxjQUFjO0lBQ3pCQyxXQUFXO1FBQ1RQLHNFQUFtQkEsQ0FBQztZQUNsQixNQUFNUSxXQUFVQyxXQUFXLEVBQUVDLEdBQUcsRUFBRTtnQkFDaEMsSUFBSUMsT0FBTztvQkFDVEMsVUFBUztnQkFDWDtnQkFDQSxPQUFPLE1BQU1kLDZEQUFZQSxDQUFDLHNDQUFzQztvQkFBQ1csWUFBWUksS0FBSztpQkFBQyxFQUFFQyxJQUFJLENBQUUsZUFBZUMsSUFBSSxFQUFFO29CQUM5Ryx1Q0FBdUM7b0JBQ3ZDLElBQUlBLElBQUksQ0FBQyxFQUFFLEVBQUU7d0JBQ1gsSUFBR0EsSUFBSSxDQUFDLEVBQUUsQ0FBQ0MsTUFBTSxFQUFDOzRCQUNoQixNQUFNQyxrQkFBa0JaLHdEQUFpQixDQUFDLFVBQVVjLE1BQU0sQ0FBQ1YsWUFBWVcsUUFBUSxFQUFFQyxNQUFNLENBQUM7NEJBQ3hGLE1BQU1DLGlCQUFpQmpCLHdEQUFpQixDQUFDWSxpQkFBaUJGLElBQUksQ0FBQyxFQUFFLENBQUNTLGFBQWEsRUFBRSxNQUFNLElBQUksVUFBVUMsUUFBUSxDQUFDOzRCQUM5RyxJQUFJSCxtQkFBbUJQLElBQUksQ0FBQyxFQUFFLENBQUNLLFFBQVEsRUFBRTtnQ0FDdkMsT0FBTyxNQUFNdEIsNkRBQVlBLENBQUMsMERBQTBEO29DQUFDaUIsSUFBSSxDQUFDLEVBQUUsQ0FBQ1csUUFBUTtpQ0FBQyxFQUFFWixJQUFJLENBQUMsU0FBU2EsSUFBSSxFQUFDO29DQUN6SGhCLEtBQUtpQixRQUFRLEdBQUdiLElBQUksQ0FBQyxFQUFFLENBQUNhLFFBQVE7b0NBQ2hDakIsS0FBS2dCLElBQUksR0FBR0EsSUFBSSxDQUFDLEVBQUU7b0NBQ25CaEIsS0FBS2UsUUFBUSxH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OEI7NEJBQ1QsQ0FBQzt3QkFDSCxDQUFDO29CQUVILE9BQU87d0JBQ0xBLFFBQVFuQyxJQUFJLENBQUNDLFFBQVEsR0FBR3NDLE1BQU10QyxRQUFRO3dCQUN0QyxPQUFPa0M7b0JBQ1QsQ0FBQztnQkFFSCxHQUFHLFNBQVNqQixHQUFHLEVBQUM7b0JBQ2QsT0FBT2lCO2dCQUNUO1lBQ0YsQ0FBQztRQUVIO1FBQ0EsTUFBTWUsVUFBUyxFQUFFQyxJQUFHLEVBQUUsRUFBRTtZQUN0QixPQUFPQTtRQUNUO0lBQ0Y7QUFDRixFQUFDO0FBQ0QsaUVBQWUvRCxnREFBUUEsQ0FBQ08sWUFBWUEsRUFBQyIsInNvdXJjZXMiOlsid2VicGFjazovL2pvb3RvbmcvLi9wYWdlcy9hcGkvYXV0aC9bLi4ubmV4dGF1dGhdLmpzPzUyN2YiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgZXhlY3V0ZVF1ZXJ5IH0gZnJvbSAnI2RhdGFiYXNlL2luZGV4JztcclxuaW1wb3J0IE5leHRBdXRoIGZyb20gXCJuZXh0LWF1dGhcIjtcclxuaW1wb3J0IENyZWRlbnRpYWxzUHJvdmlkZXIgZnJvbSBcIm5leHQtYXV0aC9wcm92aWRlcnMvY3JlZGVudGlhbHNcIjtcclxuaW1wb3J0IEdvb2dsZVByb3ZpZGVyIGZyb20gXCJuZXh0LWF1dGgvcHJvdmlkZXJzL2dvb2dsZVwiO1xyXG5pbXBvcnQgTmF2ZXJQcm92aWRlciBmcm9tIFwibmV4dC1hdXRoL3Byb3ZpZGVycy9uYXZlclwiO1xyXG5pbXBvcnQgS2FrYW9Qcm92aWRlciBmcm9tIFwibmV4dC1hdXRoL3Byb3ZpZGVycy9rYWthb1wiO1xyXG5pbXBvcnQgeyBnZXRGb3JtYXRlZERhdGUgfSBmcm9tIFwiI3V0aWxzL2RhdGVcIjtcclxuaW1wb3J0IGNyeXB0byBmcm9tICdjcnlwdG8nO1xyXG5cclxuZXhwb3J0IGNvbnN0IGF1dGhPcHRpb25zID0ge1xyXG4gIHByb3ZpZGVyczogW1xyXG4gICAgQ3JlZGVudGlhbHNQcm92aWRlcih7XHJcbiAgICAgIGFzeW5jIGF1dGhvcml6ZShjcmVkZW50aWFscywgcmVxKSB7XHJcbiAgICAgICAgbGV0IHVzZXIgPSB7XHJcbiAgICAgICAgICBwcm92aWRlcjpcImNyZWRlbnRpYWxcIlxyXG4gICAgICAgIH1cclxuICAgICAgICByZXR1cm4gYXdhaXQgZXhlY3V0ZVF1ZXJ5KFwiU0VMRUNUICogRlJPTSB1c2VyIFdIRVJFIGVtYWlsID0gP1wiLCBbY3JlZGVudGlhbHMuZW1haWxdKS50aGVuKCBhc3luYyBmdW5jdGlvbihkYXRhKSB7XHJcbiAgICAgICAgICAvLyBjb25zb2xlLmxvZyhcImNyZWRlbmNpYWwgZGF0YVwiICxkYXRhKVxyXG4gICAgICAgICAgaWYgKGRhdGFbMF0pIHtcclxuICAgICAgICAgICAgaWYoZGF0YVswXS5zdGF0dXMpe1xyXG4gICAgICAgICAgICAgIGNvbnN0IGN1cnJlbnRQYXNzd29yZCA9IGNyeXB0by5jcmVhdGVIYXNoKFwic2hhNTEyXCIpLnVwZGF0ZShjcmVkZW50aWFscy5wYXNzd29yZCkuZGlnZXN0KFwiaGV4XCIpO1xyXG4gICAgICAgICAgICAgIGNvbnN0IGhhc2hlZFBhc3N3b3JkID0gY3J5cHRvLnBia2RmMlN5bmMoY3VycmVudFBhc3N3b3JkLCBkYXRhWzBdLnBhc3N3b3JkX3NhbHQsIDkxMzIsIDE2LCBcInNoYTUxMlwiKS50b1N0cmluZyhcImhleFwiKTtcclxuICAgICAgICAgICAgICBpZiAoaGFzaGVkUGFzc3dvcmQgPT09IGRhdGFbMF0ucGFzc3dvcmQpIHtcclxuICAgICAgICAgICAgICAgIHJldHVybiBhd2FpdCBleGVjdXRlUXVlcnkoXCJTRUxFQ1QgaXRlbV9uaWNrbmFtZSBGUk9NIGl0ZW1fYWxsIFdIRVJFIHVzZXJfa2V5ID0gPyBcIiwgW2RhdGFbMF0udXNlcl9rZXldKS50aGVuKGZ1bmN0aW9uKGl0ZW0pe1xyXG4gICAgICAgICAgICAgICAgICB1c2VyLm5pY2tuYW1lID0gZGF0YVswXS5uaWNrbmFtZTtcclxuICAgICAgICAgICAgICAgICAgdXNlci5pdGVtID0gaXRlbVswXTtcclxuICAgICAgICAgICAgICAgICAgdXNlci51c2VyX2tleSA9IGRhdGFbMF0udXNlcl9rZXk7XHJcbiAgICAgICAgICAgICAgICAgIGNyZWRlbnRpYWxzLmVtYWlsID09PSBcImFkbWluXCIgPyB1c2VyLmVtYWlsID0gXCJhZG1pblwiIDogXCJcIlxyXG4gICAgICAgICAgICAgICAgICByZXR1cm4gdXNlcjtcclxuICAgICAgICAgICAgICAgIH0sIGZ1bmN0aW9uKGVycil7XHJcbiAgICAgICAgICAgICAgICAgIHJldHVybiB1c2VyO1xyXG4gICAgICAgICAgICAgICAgfSk7XHJcbiAgICAgICAgXHJcbiAgICAgICAgICAgICAgfSBlbHNlIHtcclxuICAgICAgICAgICAgICAgIHVzZXIubWVzc2FnZSA9IFwi67mE67CA67KI7Zi46rCAIOunnuyngCDslYrsirXri4jri6QuXCI7XHJcbiAgICAgICAgICAgICAgICByZXR1cm4gdXNlcjtcclxuICAgICAgICAgICAgICB9XHJcbiAgICAgICAgICAgIH0gXHJcbiAgICAgICAgICAgIC8vIGVsc2Uge1xyXG4gICAgICAgICAgICAvLyAgIGNvbnN0IGRpZmYgPSBuZXcgRGF0ZShnZXRGb3JtYXRlZERhdGUoKSkgLSBuZXcgRGF0ZShcIlwiLCBkYXRhWzBdLndpdGhkcmF3X2RhdGUpO1xyXG4gICAgICAgICAgICAvLyAgIGNvbnN0IGRheSA9IHBhcnNlSW50KGRpZmYgLyAoMTAwMCAqIDYwICogNjAgKiAyNCkpO1xyXG4gICAgICAgICAgICAvLyAgIC8vIGNvbnNvbGUubG9nKFwiREVMRVRFIGRheVwiLCBkYXkpXHJcbiAgICAgICAgICAgIC8vICAgaWYoZGF5ID49IDApe1xyXG4gICAgICAgICAgICAvLyAgICAgcmV0dXJuIGF3YWl0IGV4ZWN1dGVRdWVyeShcIkRFTEVURSBGUk9NIHVzZXIgV0hFUkUgdXNlcl9rZXkgPSA/IFwiLCBbZGF0YVswXS51c2VyX2tleV0pLnRoZW4oYXN5bmMgZnVuY3Rpb24oZGF0YSl7XHJcbiAgICAgICAgICAgIC8vICAgICAgIHJldHVybiBzZXNzaW9uO1xyXG4gICAgICAgICAgICAvLyAgICAgfSwgZnVuY3Rpb24oZXJyKXtcclxuICAgICAgICAgICAgLy8gICAgICAgY29uc29sZS5sb2coXCJuZXh0YXV0aCBbREVMRVRFIEZST00gdXNlciBXSEVSRSB1c2VyX2tleV0gZXJyb3I6IFwiLCBlcnIpXHJcbiAgICAgICAgICAgIC8vICAgICAgIHJldHVybiBzZXNzaW9uO1xyXG4gICAgICAgICAgICAvLyAgICAgfSk7XHJcbiAgICAgICAgICAgIC8vICAgfSBlbHNlIHtcclxuICAgICAgICAgICAgLy8gICAgIHNlc3Npb24udXNlci5zdGF0dXMgPSBkYXRhWzBdLnN0YXR1cztcclxuICAgICAgICAgICAgLy8gICAgIHJldHVybiBzZXNzaW9uO1xyXG4gICAgICAgICAgICAvLyAgIH1cclxuICAgICAgICAgICAgLy8gfVxyXG4gICAgICAgICAgICBcclxuICAgICAgICAgIH0gZWxzZSB7XHJcbiAgICAgICAgICAgIHVzZXIubWVzc2FnZSA9IFwi7KG07J6s7ZWY7KeAIOyViuuKlCDsnbTrqZTsnbzsnoXri4jri6QuXCJcclxuICAgICAgICAgICAgcmV0dXJuIHVzZXI7XHJcbiAgICAgICAgICB9XHJcbiAgICAgICAgfSwgZnVuY3Rpb24oZXJyKXtcclxuICAgICAgICAgIHVzZXIubWVzc2FnZSA9IGVyclxyXG4gICAgICAgICAgcmV0dXJuIHVzZXJcclxuXHJcbiAgICAgICAgfSlcclxuICAgICAgfSxcclxuICAgIH0pLFxyXG4gICAgR29vZ2xlUHJvdmlkZXIoe1xyXG4gICAgICBjbGllbnRJZDogcHJvY2Vzcy5lbnYuR09PR0xFX0NMSUVOVF9JRCxcclxuICAgICAgY2xpZW50U2VjcmV0OiBwcm9jZXNzLmVudi5HT09HTEVfU0VDUkVULFxyXG4gICAgfSksXHJcbiAgICBOYXZlclByb3ZpZGVyKHtcclxuICAgICAgY2xpZW50SWQ6IHByb2Nlc3MuZW52Lk5BVkVSX0NMSUVOVF9JRCxcclxuICAgICAgY2xpZW50U2VjcmV0OiBwcm9jZXNzLmVudi5OQVZFUl9TRUNSRVQsXHJcbiAgICB9KSxcclxuICAgIEtha2FvUHJvdmlkZXIoe1xyXG4gICAgICBjbGllbnRJZDogcHJvY2Vzcy5lbnYuS0FLQU9fQ0xJRU5UX0lELFxyXG4gICAgICBjbGllbnRTZWNyZXQ6IHByb2Nlc3MuZW52LktBS0FPX1NFQ1JFVCxcclxuICAgIH0pLFxyXG4gIF0sXHJcbiAgcGFnZXM6IHtcclxuICAgIHNpZ25JbjogJy9hdXRoL3NpZ25pbicsXHJcbiAgICBzaWduT3V0OiAnL2F1dGgvc2lnbm91dCdcclxuICB9LFxyXG4gIHNlY3JldDogcHJvY2Vzcy5lbnYuSldUX1NFQ1JFVCxcclxuICBzZXNzaW9uOiB7XHJcbiAgICBtYXhBZ2U6IDYwICogMzAwLFxyXG4gIH0sXHJcbiAgY2FsbGJhY2tzOiB7XHJcbiAgICBhc3luYyBzaWduSW4oe3VzZXJ9KSB7XHJcbiAgICAgIC8vIGNvbnNvbGUubG9nKFwic2lnblVzZXI6XCIsIHVzZXIpXHJcbiAgICAgIGlmKHVzZXIuZW1haWwpIHtcclxuICAgICAgICByZXR1cm4gdHJ1ZVxyXG4gICAgICB9IGVsc2UgaWYgKCF1c2VyLnVzZXJfa2V5KSB7XHJcbiAgICAgIFxyXG4gICAgICAgIHJldHVybiBwcm9jZXNzLmVudi5OT0RFX0VOViA9PT0gXCJwcm9kdWN0aW9uXCIgPyAnaHR0cHM6Ly93d3cuam9vdG9uZy5jb20/ZXJyb3I9JyArIHVzZXIubWVzc2FnZSA6ICdodHRwOi8vbG9jYWxob3N0OjMwMDA/ZXJyb3I9JyArIHVzZXIubWVzc2FnZVxyXG4gICAgICB9XHJcbiAgICAgIHJldHVybiB0cnVlO1xyXG4gICAgfSxcclxuICAgIGFzeW5jIGp3dCh7dG9rZW4sIGFjY291bnQsIHVzZXIsIHRyaWdnZXIsIHNlc3Npb24gfSkge1xyXG4gICAgICBpZih0cmlnZ2VyID09PSBcInVwZGF0ZVwiKXtcclxuICAgICAgICB0b2tlbi51c2VyID0gc2Vzc2lvbi51c2VyXHJcbiAgICAgIH1lbHNlIGlmKHVzZXIpe1xyXG4gICAgICAgIHRva2VuLnVzZXIgPSB1c2VyO1xyXG4gICAgICB9XHJcbiAgICAgIGlmKGFjY291bnQpe1xyXG4gICAgICAgIHRva2VuLnByb3ZpZGVyID0gYWNjb3VudC5wcm92aWRlcjtcclxuICAgICAgfVxyXG4gICAgICByZXR1cm4gdG9rZW47XHJcbiAgICB9LFxyXG4gICAgYXN5bmMgc2Vzc2lvbih7IHNlc3Npb24sIHRva2VufSkge1xyXG4gICAgICBpZih0b2tlbi51c2VyLnByb3ZpZGVyID09PSAnY3JlZGVudGlhbCcpe1xyXG4gICAgICAgIHNlc3Npb24udXNlciA9IHRva2VuLnVzZXI7XHJcblxyXG4gICAgICAgIHJldHVybiBzZXNzaW9uO1xyXG4gICAgICB9IGVsc2Uge1xyXG4gICAgICAgIC8vIGNvbnNvbGUubG9nKFwic2Vzc2lvblwiLCBzZXNzaW9uKVxyXG4gICAgICAgIHJldHVybiBhd2FpdCBleGVjdXRlUXVlcnkoXCJTRUxFQ1QgKiBGUk9NIHVzZXIgV0hFUkUgZW1haWwgPSA/XCIsIFtzZXNzaW9uLnVzZXIuZW1haWxdKS50aGVuKGFzeW5jIChkYXRhKT0+e1xyXG5cclxuICAgICAgICAgIGlmKGRhdGEubGVuZ3RoKXtcclxuXHJcbiAgICAgICAgICAgIGlmKGRhdGFbMF0uc3RhdHVzKXtcclxuICAgICAgICAgICAgICByZXR1cm4gYXdhaXQgZXhlY3V0ZVF1ZXJ5KFwiU0VMRUNUIGl0ZW1fbmlja25hbWUgRlJPTSBpdGVtX2FsbCBXSEVSRSB1c2VyX2tleSA9ID8gXCIsIFtkYXRhWzBdLnVzZXJfa2V5XSkudGhlbihmdW5jdGlvbihpdGVtKXtcclxuICAgICAgICAgICAgICAgIHNlc3Npb24udXNlci5uaWNrbmFtZSA9IGRhdGFbMF0ubmlja25hbWU7XHJcbiAgICAgICAgICAgICAgICBzZXNzaW9uLnVzZXIudXNlcl9rZXkgPSBkYXRhWzBdLnVzZXJfa2V5O1xyXG4gICAgICAgICAgICAgICAgc2Vzc2lvbi51c2VyLnByb3ZpZGVyID0gZGF0YVswXS5wcm92aWRlcjtcclxuICAgICAgICAgICAgICAgIHNlc3Npb24udXNlci5pdGVtID0gaXRlbVswXTtcclxuXHJcbiAgICAgICAgICAgICAgICByZXR1cm4gc2Vzc2lvbjtcclxuICAgICAgICAgICAgICB9LCBmdW5jdGlvbihlcnIpe1xyXG4gICAgICAgICAgICAgICAgcmV0dXJuIHNlc3Npb247XHJcbiAgICAgICAgICAgICAgfSk7XHJcbiAgXHJcbiAgICAgICAgICAgIH0gZWxzZSB7XHJcbiAgICAgICAgICAgICAgY29uc3QgZGlmZiA9IG5ldyBEYXRlKGdldEZvcm1hdGVkRGF0ZSgpKSAtIG5ldyBEYXRlKGRhdGFbMF0ud2l0aGRyYXdfZGF0ZSk7XHJcbiAgICAgICAgICAgICAgY29uc3QgZGF5ID0gcGFyc2VJbnQoZGlmZiAvICgxMDAwICogNjAgKiA2MCAqIDI0KSk7XHJcbiAgICAgICAgICAgICAgaWYoZGF5ID49IDApe1xyXG4gICAgICAgICAgICAgICAgcmV0dXJuIGF3YWl0IGV4ZWN1dGVRdWVyeShcIkRFTEVURSBGUk9NIHVzZXIgV0hFUkUgdXNlcl9rZXkgPSA/IFwiLCBbZGF0YVswXS51c2VyX2tleV0pLnRoZW4oYXN5bmMgZnVuY3Rpb24oZGF0YSl7XHJcbiAgICAgICAgICAgICAgICAgIHJldHVybiBzZXNzaW9uO1xyXG4gICAgICAgICAgICAgICAgfSwgZnVuY3Rpb24oZXJyKXtcclxuICAgICAgICAgICAgICAgICAgY29uc29sZS5sb2coXCJuZXh0YXV0aCBbREVMRVRFIEZST00gdXNlciBXSEVSRSB1c2VyX2tleV0gZXJyb3I6IFwiLCBlcnIpXHJcbiAgICAgICAgICAgICAgICAgIHJldHVybiBzZXNzaW9uO1xyXG4gICAgICAgICAgICAgICAgfSk7XHJcbiAgICAgICAgICAgICAgfSBlbHNlIHtcclxuICAgICAgICAgICAgICAgIHNlc3Npb24udXNlci5zdGF0dXMgPSBkYXRhWzBdLnN0YXR1cztcclxuICAgICAgICAgICAgICAgIHJldHVybiBzZXNzaW9uO1xyXG4gICAgICAgICAgICAgIH1cclxuICAgICAgICAgICAgfVxyXG4gICAgICAgICAgICBcclxuICAgICAgICAgIH0gZWxzZSB7XHJcbiAgICAgICAgICAgIHNlc3Npb24udXNlci5wcm92aWRlciA9IHRva2VuLnByb3ZpZGVyO1xyXG4gICAgICAgICAgICByZXR1cm4gc2Vzc2lvbjtcclxuICAgICAgICAgIH1cclxuICAgICAgICAgIFxyXG4gICAgICAgIH0sIGZ1bmN0aW9uKGVycil7XHJcbiAgICAgICAgICByZXR1cm4gc2Vzc2lvbjtcclxuICAgICAgICB9KTtcclxuICAgICAgfVxyXG5cclxuICAgIH0sXHJcbiAgICBhc3luYyByZWRpcmVjdCh7IHVybCB9KSB7XHJcbiAgICAgIHJldHVybiB1cmxcclxuICAgIH1cclxuICB9XHJcbn1cclxuZXhwb3J0IGRlZmF1bHQgTmV4dEF1dGgoYXV0aE9wdGlvbnMpOyJdLCJuYW1lcyI6WyJleGVjdXRlUXVlcnkiLCJOZXh0QXV0aCIsIkNyZWRlbnRpYWxzUHJvdmlkZXIiLCJHb29nbGVQcm92aWRlciIsIk5hdmVyUHJvdmlkZXIiLCJLYWthb1Byb3ZpZGVyIiwiZ2V0Rm9ybWF0ZWREYXRlIiwiY3J5cHRvIiwiYXV0aE9wdGlvbnMiLCJwcm92aWRlcnMiLCJhdXRob3JpemUiLCJjcmVkZW50aWFscyIsInJlcSIsInVzZXIiLCJwcm92aWRlciIsImVtYWlsIiwidGhlbiIsImRhdGEiLCJzdGF0dXMiLCJjdXJyZW50UGFzc3dvcmQiLCJjcmVhdGVIYXNoIiwidXBkYXRlIiwicGFzc3dvcmQiLCJkaWdlc3QiLCJoYXNoZWRQYXNzd29yZCIsInBia2RmMlN5bmMiLCJwYXNzd29yZF9zYWx0IiwidG9TdHJpbmciLCJ1c2VyX2tleSIsIml0ZW0iLCJuaWNrbmFtZSIsImVyciIsIm1lc3NhZ2UiLCJjbGllbnRJZCIsInByb2Nlc3MiLCJlbnYiLCJHT09HTEVfQ0xJRU5UX0lEIiwiY2xpZW50U2VjcmV0IiwiR09PR0xFX1NFQ1JFVCIsIk5BVkVSX0NMSUVOVF9JRCIsIk5BVkVSX1NFQ1JFVCIsIktBS0FPX0NMSUVOVF9JRCIsIktBS0FPX1NFQ1JFVCIsInBhZ2VzIiwic2lnbkluIiwic2lnbk91dCIsInNlY3JldCIsIkpXVF9TRUNSRVQiLCJzZXNzaW9uIiwibWF4QWdlIiwiY2FsbGJhY2tzIiwiand0IiwidG9rZW4iLCJhY2NvdW50IiwidHJpZ2dlciIsImxlbmd0aCIsImRpZmYiLCJEYXRlIiwid2l0aGRyYXdfZGF0ZSIsImRheSIsInBhcnNlSW50IiwiY29uc29sZSIsImxvZyIsInJlZGlyZWN0IiwidXJsIl0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(api)/./pages/api/auth/[...nextauth].js\n");
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
 
-/***/ }),
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  "authOptions": () => (/* binding */ authOptions),
+  "default": () => (/* binding */ _nextauth_)
+});
 
-/***/ "(api)/./utils/date/getDateDiff.js":
-/*!***********************************!*\
-  !*** ./utils/date/getDateDiff.js ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+// EXTERNAL MODULE: ./database/index.js
+var database = __webpack_require__(7004);
+;// CONCATENATED MODULE: external "next-auth"
+const external_next_auth_namespaceObject = require("next-auth");
+var external_next_auth_default = /*#__PURE__*/__webpack_require__.n(external_next_auth_namespaceObject);
+;// CONCATENATED MODULE: external "next-auth/providers/credentials"
+const credentials_namespaceObject = require("next-auth/providers/credentials");
+var credentials_default = /*#__PURE__*/__webpack_require__.n(credentials_namespaceObject);
+;// CONCATENATED MODULE: external "next-auth/providers/google"
+const google_namespaceObject = require("next-auth/providers/google");
+var google_default = /*#__PURE__*/__webpack_require__.n(google_namespaceObject);
+;// CONCATENATED MODULE: external "next-auth/providers/naver"
+const naver_namespaceObject = require("next-auth/providers/naver");
+var naver_default = /*#__PURE__*/__webpack_require__.n(naver_namespaceObject);
+;// CONCATENATED MODULE: external "next-auth/providers/kakao"
+const kakao_namespaceObject = require("next-auth/providers/kakao");
+var kakao_default = /*#__PURE__*/__webpack_require__.n(kakao_namespaceObject);
+// EXTERNAL MODULE: ./utils/date/index.js
+var date = __webpack_require__(7297);
+// EXTERNAL MODULE: external "crypto"
+var external_crypto_ = __webpack_require__(6113);
+var external_crypto_default = /*#__PURE__*/__webpack_require__.n(external_crypto_);
+;// CONCATENATED MODULE: ./pages/api/auth/[...nextauth].js
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"getDateDiff\": () => (/* binding */ getDateDiff)\n/* harmony export */ });\n/* harmony import */ var _getFormatedDate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getFormatedDate */ \"(api)/./utils/date/getFormatedDate.js\");\n\nconst getDateDiff = (target)=>{\n    const diff = new Date((0,_getFormatedDate__WEBPACK_IMPORTED_MODULE_0__.getFormatedDate)()) - new Date(target);\n    const day = parseInt(diff / (1000 * 60 * 60 * 24));\n    const hour = parseInt(diff / (60 * 60 * 1000));\n    const minute = parseInt(diff / (60 * 1000));\n    if (day) {\n        return {\n            type: \"day\",\n            number: day,\n            text: day + \"일전\"\n        };\n    } else if (hour) {\n        return {\n            type: \"hour\",\n            number: hour,\n            text: hour + \"시간전\"\n        };\n    } else {\n        return {\n            number: minute,\n            text: minute + \"분전\"\n        };\n    }\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi91dGlscy9kYXRlL2dldERhdGVEaWZmLmpzLmpzIiwibWFwcGluZ3MiOiI7Ozs7O0FBQW9EO0FBRTdDLE1BQU1DLGNBQWMsQ0FBQ0MsU0FBVTtJQUNwQyxNQUFNQyxPQUFPLElBQUlDLEtBQUtKLGlFQUFlQSxNQUFNLElBQUlJLEtBQUtGO0lBQ3BELE1BQU1HLE1BQU1DLFNBQVNILE9BQVEsUUFBTyxLQUFLLEtBQUssRUFBQztJQUMvQyxNQUFNSSxPQUFPRCxTQUFTSCxPQUFRLE1BQUssS0FBSyxJQUFHO0lBQzNDLE1BQU1LLFNBQVNGLFNBQVNILE9BQVEsTUFBSyxJQUFHO0lBRXhDLElBQUdFLEtBQUk7UUFDTCxPQUFPO1lBQ0xJLE1BQUs7WUFDTEMsUUFBU0w7WUFDVE0sTUFBT04sTUFBTTtRQUNmO0lBQ0YsT0FBTyxJQUFHRSxNQUFLO1FBQ2IsT0FBTztZQUNMRSxNQUFLO1lBQ0xDLFFBQVNIO1lBQ1RJLE1BQU9KLE9BQU87UUFDaEI7SUFDRixPQUFPO1FBQ0wsT0FBTztZQUNMRyxRQUFTRjtZQUNURyxNQUFPSCxTQUFTO1FBQ2xCO0lBQ0YsQ0FBQztBQUNILEVBQUMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9qb290b25nLy4vdXRpbHMvZGF0ZS9nZXREYXRlRGlmZi5qcz8zNDMxIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGdldEZvcm1hdGVkRGF0ZSB9IGZyb20gJy4vZ2V0Rm9ybWF0ZWREYXRlJztcclxuXHJcbmV4cG9ydCBjb25zdCBnZXREYXRlRGlmZiA9ICh0YXJnZXQpID0+e1xyXG4gIGNvbnN0IGRpZmYgPSBuZXcgRGF0ZShnZXRGb3JtYXRlZERhdGUoKSkgLSBuZXcgRGF0ZSh0YXJnZXQpO1xyXG4gIGNvbnN0IGRheSA9IHBhcnNlSW50KGRpZmYgLyAoMTAwMCAqIDYwICogNjAgKiAyNCkpO1xyXG4gIGNvbnN0IGhvdXIgPSBwYXJzZUludChkaWZmIC8gKDYwICogNjAgKiAxMDAwKSk7XHJcbiAgY29uc3QgbWludXRlID0gcGFyc2VJbnQoZGlmZiAvICg2MCAqIDEwMDApKTtcclxuXHJcbiAgaWYoZGF5KXtcclxuICAgIHJldHVybiB7XHJcbiAgICAgIHR5cGU6XCJkYXlcIixcclxuICAgICAgbnVtYmVyIDogZGF5LFxyXG4gICAgICB0ZXh0IDogZGF5ICsgXCLsnbzsoIRcIlxyXG4gICAgfVxyXG4gIH0gZWxzZSBpZihob3VyKXtcclxuICAgIHJldHVybiB7XHJcbiAgICAgIHR5cGU6XCJob3VyXCIsXHJcbiAgICAgIG51bWJlciA6IGhvdXIsXHJcbiAgICAgIHRleHQgOiBob3VyICsgXCLsi5zqsITsoIRcIlxyXG4gICAgfVxyXG4gIH0gZWxzZSB7XHJcbiAgICByZXR1cm4ge1xyXG4gICAgICBudW1iZXIgOiBtaW51dGUsXHJcbiAgICAgIHRleHQgOiBtaW51dGUgKyBcIuu2hOyghFwiXHJcbiAgICB9XHJcbiAgfVxyXG59XHJcblxyXG4iXSwibmFtZXMiOlsiZ2V0Rm9ybWF0ZWREYXRlIiwiZ2V0RGF0ZURpZmYiLCJ0YXJnZXQiLCJkaWZmIiwiRGF0ZSIsImRheSIsInBhcnNlSW50IiwiaG91ciIsIm1pbnV0ZSIsInR5cGUiLCJudW1iZXIiLCJ0ZXh0Il0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(api)/./utils/date/getDateDiff.js\n");
 
-/***/ }),
 
-/***/ "(api)/./utils/date/getFormatedDate.js":
-/*!***************************************!*\
-  !*** ./utils/date/getFormatedDate.js ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"getFormatedDate\": () => (/* binding */ getFormatedDate)\n/* harmony export */ });\nconst getFormatedDate = (data = {})=>{\n    let date = data.target ? new Date(data.target) : new Date();\n    let year = date.getFullYear();\n    let month = date.getMonth() + 1;\n    month < 10 ? month = \"0\" + month : null;\n    let day = date.getDate();\n    day < 10 ? day = \"0\" + day : null;\n    let hour = date.getHours();\n    hour < 10 ? hour = \"0\" + hour : null;\n    let minute = date.getMinutes();\n    minute < 10 ? minute = \"0\" + minute : null;\n    let second = date.getSeconds();\n    second < 10 ? second = \"0\" + second : null;\n    switch(data.format){\n        case \"YYYY/MM/DD\":\n            return year + \"/\" + month + \"/\" + day;\n        case \"HH:mm\":\n            return hour + \":\" + minute;\n        case \"HH\":\n            return hour;\n        case \"YYYY, MM, DD\":\n            return year + \",\" + month + \",\" + day;\n        case \"YYYYMMDD\":\n            return year + month + day;\n        case \"YYYY-MM-DD\":\n            return year + \"-\" + month + \"-\" + day;\n        default:\n            return year + \"/\" + month + \"/\" + day + \" \" + hour + \":\" + minute + \":\" + second;\n    }\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi91dGlscy9kYXRlL2dldEZvcm1hdGVkRGF0ZS5qcy5qcyIsIm1hcHBpbmdzIjoiOzs7O0FBQU8sTUFBTUEsa0JBQWtCLENBQUNDLE9BQU8sQ0FBQyxDQUFDLEdBQUs7SUFDNUMsSUFBSUMsT0FBT0QsS0FBS0UsTUFBTSxHQUFHLElBQUlDLEtBQUtILEtBQUtFLE1BQU0sSUFBSSxJQUFJQyxNQUFNO0lBRTNELElBQUlDLE9BQU9ILEtBQUtJLFdBQVc7SUFDM0IsSUFBSUMsUUFBUUwsS0FBS00sUUFBUSxLQUFLO0lBQzlCRCxRQUFRLEtBQUtBLFFBQVEsTUFBS0EsUUFBUSxJQUFJO0lBQ3RDLElBQUlFLE1BQU1QLEtBQUtRLE9BQU87SUFDdEJELE1BQU0sS0FBS0EsTUFBTSxNQUFLQSxNQUFNLElBQUk7SUFDaEMsSUFBSUUsT0FBT1QsS0FBS1UsUUFBUTtJQUN4QkQsT0FBTyxLQUFLQSxPQUFPLE1BQUtBLE9BQU8sSUFBSTtJQUNuQyxJQUFJRSxTQUFTWCxLQUFLWSxVQUFVO0lBQzVCRCxTQUFTLEtBQUtBLFNBQVMsTUFBTUEsU0FBUyxJQUFJO0lBQzFDLElBQUlFLFNBQVNiLEtBQUtjLFVBQVU7SUFDNUJELFNBQVMsS0FBS0EsU0FBUyxNQUFNQSxTQUFTLElBQUk7SUFFMUMsT0FBT2QsS0FBS2dCLE1BQU07UUFDaEIsS0FBSztZQUNILE9BQU9aLE9BQU8sTUFBTUUsUUFBUSxNQUFNRTtRQUNwQyxLQUFLO1lBQ0gsT0FBT0UsT0FBTyxNQUFNRTtRQUN0QixLQUFLO1lBQ0gsT0FBT0Y7UUFDVCxLQUFLO1lBQ0gsT0FBT04sT0FBTyxNQUFNRSxRQUFRLE1BQU1FO1FBQ3BDLEtBQUs7WUFDSCxPQUFPSixPQUFLRSxRQUFNRTtRQUNwQixLQUFLO1lBQ0gsT0FBT0osT0FBTyxNQUFNRSxRQUFRLE1BQU1FO1FBQ3BDO1lBQ0UsT0FBT0osT0FBTyxNQUFNRSxRQUFRLE1BQU1FLE1BQU0sTUFBTUUsT0FBTyxNQUFNRSxTQUFTLE1BQU1FO0lBQzlFO0FBQ0YsRUFBRSIsInNvdXJjZXMiOlsid2VicGFjazovL2pvb3RvbmcvLi91dGlscy9kYXRlL2dldEZvcm1hdGVkRGF0ZS5qcz9mZTRlIl0sInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBjb25zdCBnZXRGb3JtYXRlZERhdGUgPSAoZGF0YSA9IHt9KSA9PiB7XHJcbiAgbGV0IGRhdGUgPSBkYXRhLnRhcmdldCA/IG5ldyBEYXRlKGRhdGEudGFyZ2V0KSA6IG5ldyBEYXRlKCk7XHJcblxyXG4gIGxldCB5ZWFyID0gZGF0ZS5nZXRGdWxsWWVhcigpO1xyXG4gIGxldCBtb250aCA9IGRhdGUuZ2V0TW9udGgoKSArIDE7XHJcbiAgbW9udGggPCAxMCA/IG1vbnRoID0gJzAnKyBtb250aCA6IG51bGw7XHJcbiAgbGV0IGRheSA9IGRhdGUuZ2V0RGF0ZSgpO1xyXG4gIGRheSA8IDEwID8gZGF5ID0gJzAnKyBkYXkgOiBudWxsO1xyXG4gIGxldCBob3VyID0gZGF0ZS5nZXRIb3VycygpO1xyXG4gIGhvdXIgPCAxMCA/IGhvdXIgPSAnMCcrIGhvdXIgOiBudWxsO1xyXG4gIGxldCBtaW51dGUgPSBkYXRlLmdldE1pbnV0ZXMoKTtcclxuICBtaW51dGUgPCAxMCA/IG1pbnV0ZSA9ICcwJyArIG1pbnV0ZSA6IG51bGw7XHJcbiAgbGV0IHNlY29uZCA9IGRhdGUuZ2V0U2Vjb25kcygpO1xyXG4gIHNlY29uZCA8IDEwID8gc2Vjb25kID0gJzAnICsgc2Vjb25kIDogbnVsbDtcclxuXHJcbiAgc3dpdGNoKGRhdGEuZm9ybWF0KXtcclxuICAgIGNhc2UgXCJZWVlZL01NL0REXCIgOlxyXG4gICAgICByZXR1cm4geWVhciArICcvJyArIG1vbnRoICsgJy8nICsgZGF5O1xyXG4gICAgY2FzZSBcIkhIOm1tXCIgOlxyXG4gICAgICByZXR1cm4gaG91ciArICc6JyArIG1pbnV0ZTtcclxuICAgIGNhc2UgXCJISFwiIDpcclxuICAgICAgcmV0dXJuIGhvdXI7XHJcbiAgICBjYXNlIFwiWVlZWSwgTU0sIEREXCI6XHJcbiAgICAgIHJldHVybiB5ZWFyICsgJywnICsgbW9udGggKyAnLCcgKyBkYXk7XHJcbiAgICBjYXNlIFwiWVlZWU1NRERcIjpcclxuICAgICAgcmV0dXJuIHllYXIrbW9udGgrZGF5O1xyXG4gICAgY2FzZSBcIllZWVktTU0tRERcIjpcclxuICAgICAgcmV0dXJuIHllYXIgKyAnLScgKyBtb250aCArICctJyArIGRheTtcclxuICAgIGRlZmF1bHQgOlxyXG4gICAgICByZXR1cm4geWVhciArICcvJyArIG1vbnRoICsgJy8nICsgZGF5ICsgJyAnICsgaG91ciArICc6JyArIG1pbnV0ZSArIFwiOlwiICsgc2Vjb25kO1xyXG4gIH1cclxufTtcclxuIl0sIm5hbWVzIjpbImdldEZvcm1hdGVkRGF0ZSIsImRhdGEiLCJkYXRlIiwidGFyZ2V0IiwiRGF0ZSIsInllYXIiLCJnZXRGdWxsWWVhciIsIm1vbnRoIiwiZ2V0TW9udGgiLCJkYXkiLCJnZXREYXRlIiwiaG91ciIsImdldEhvdXJzIiwibWludXRlIiwiZ2V0TWludXRlcyIsInNlY29uZCIsImdldFNlY29uZHMiLCJmb3JtYXQiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(api)/./utils/date/getFormatedDate.js\n");
 
-/***/ }),
 
-/***/ "(api)/./utils/date/getToday.js":
-/*!********************************!*\
-  !*** ./utils/date/getToday.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"getToday\": () => (/* binding */ getToday)\n/* harmony export */ });\n// 오늘 날짜 구하기\nconst getToday = ()=>{\n    const date = new Date();\n    const utc = date.getTime() + date.getTimezoneOffset() * 60 * 1000;\n    const kst = 9 * 60 * 60 * 1000;\n    const today = new Date(utc + kst);\n    return today;\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi91dGlscy9kYXRlL2dldFRvZGF5LmpzLmpzIiwibWFwcGluZ3MiOiI7Ozs7QUFBQSxZQUFZO0FBRUwsTUFBTUEsV0FBVyxJQUFNO0lBQzVCLE1BQU1DLE9BQU8sSUFBSUM7SUFDakIsTUFBTUMsTUFBTUYsS0FBS0csT0FBTyxLQUFNSCxLQUFLSSxpQkFBaUIsS0FBSyxLQUFLO0lBQzlELE1BQU1DLE1BQU0sSUFBSSxLQUFLLEtBQUs7SUFDMUIsTUFBTUMsUUFBUSxJQUFJTCxLQUFLQyxNQUFNRztJQUU3QixPQUFPQztBQUNULEVBQUMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9qb290b25nLy4vdXRpbHMvZGF0ZS9nZXRUb2RheS5qcz9mOTEwIl0sInNvdXJjZXNDb250ZW50IjpbIi8vIOyYpOuKmCDrgqDsp5wg6rWs7ZWY6riwXHJcblxyXG5leHBvcnQgY29uc3QgZ2V0VG9kYXkgPSAoKSA9PiB7XHJcbiAgY29uc3QgZGF0ZSA9IG5ldyBEYXRlKCk7IFxyXG4gIGNvbnN0IHV0YyA9IGRhdGUuZ2V0VGltZSgpICsgKGRhdGUuZ2V0VGltZXpvbmVPZmZzZXQoKSAqIDYwICogMTAwMCk7XHJcbiAgY29uc3Qga3N0ID0gOSAqIDYwICogNjAgKiAxMDAwO1xyXG4gIGNvbnN0IHRvZGF5ID0gbmV3IERhdGUodXRjICsga3N0KTtcclxuXHJcbiAgcmV0dXJuIHRvZGF5O1xyXG59XHJcblxyXG4iXSwibmFtZXMiOlsiZ2V0VG9kYXkiLCJkYXRlIiwiRGF0ZSIsInV0YyIsImdldFRpbWUiLCJnZXRUaW1lem9uZU9mZnNldCIsImtzdCIsInRvZGF5Il0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(api)/./utils/date/getToday.js\n");
 
-/***/ }),
+const authOptions = {
+    providers: [
+        credentials_default()({
+            async authorize (credentials, req) {
+                let user = {
+                    provider: "credential"
+                };
+                return await (0,database/* executeQuery */.J)("SELECT * FROM user WHERE email = ?", [
+                    credentials.email
+                ]).then(async function(data) {
+                    // console.log("credencial data" ,data)
+                    if (data[0]) {
+                        if (data[0].status) {
+                            const currentPassword = external_crypto_default().createHash("sha512").update(credentials.password).digest("hex");
+                            const hashedPassword = external_crypto_default().pbkdf2Sync(currentPassword, data[0].password_salt, 9132, 16, "sha512").toString("hex");
+                            if (hashedPassword === data[0].password) {
+                                return await (0,database/* executeQuery */.J)("SELECT item_nickname FROM item_all WHERE user_key = ? ", [
+                                    data[0].user_key
+                                ]).then(function(item) {
+                                    user.nickname = data[0].nickname;
+                                    user.item = item[0];
+                                    user.user_key = data[0].user_key;
+                                    credentials.email === "admin" ? user.email = "admin" : "";
+                                    return user;
+                                }, function(err) {
+                                    return user;
+                                });
+                            } else {
+                                user.message = "비밀번호가 맞지 않습니다.";
+                                return user;
+                            }
+                        }
+                    // else {
+                    //   const diff = new Date(getFormatedDate()) - new Date("", data[0].withdraw_date);
+                    //   const day = parseInt(diff / (1000 * 60 * 60 * 24));
+                    //   // console.log("DELETE day", day)
+                    //   if(day >= 0){
+                    //     return await executeQuery("DELETE FROM user WHERE user_key = ? ", [data[0].user_key]).then(async function(data){
+                    //       return session;
+                    //     }, function(err){
+                    //       console.log("nextauth [DELETE FROM user WHERE user_key] error: ", err)
+                    //       return session;
+                    //     });
+                    //   } else {
+                    //     session.user.status = data[0].status;
+                    //     return session;
+                    //   }
+                    // }
+                    } else {
+                        user.message = "존재하지 않는 이메일입니다.";
+                        return user;
+                    }
+                }, function(err) {
+                    user.message = err;
+                    return user;
+                });
+            }
+        }),
+        google_default()({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_SECRET
+        }),
+        naver_default()({
+            clientId: process.env.NAVER_CLIENT_ID,
+            clientSecret: process.env.NAVER_SECRET
+        }),
+        kakao_default()({
+            clientId: process.env.KAKAO_CLIENT_ID,
+            clientSecret: process.env.KAKAO_SECRET
+        })
+    ],
+    pages: {
+        signIn: "/auth/signin",
+        signOut: "/auth/signout"
+    },
+    secret: process.env.JWT_SECRET,
+    session: {
+        maxAge: 60 * 300
+    },
+    callbacks: {
+        async signIn ({ user  }) {
+            // console.log("signUser:", user)
+            if (user.email) {
+                return true;
+            } else if (!user.user_key) {
+                return  true ? "https://www.jootong.com?error=" + user.message : 0;
+            }
+            return true;
+        },
+        async jwt ({ token , account , user , trigger , session  }) {
+            if (trigger === "update") {
+                token.user = session.user;
+            } else if (user) {
+                token.user = user;
+            }
+            if (account) {
+                token.provider = account.provider;
+            }
+            return token;
+        },
+        async session ({ session , token  }) {
+            if (token.user.provider === "credential") {
+                session.user = token.user;
+                return session;
+            } else {
+                // console.log("session", session)
+                return await (0,database/* executeQuery */.J)("SELECT * FROM user WHERE email = ?", [
+                    session.user.email
+                ]).then(async (data)=>{
+                    if (data.length) {
+                        if (data[0].status) {
+                            return await (0,database/* executeQuery */.J)("SELECT item_nickname FROM item_all WHERE user_key = ? ", [
+                                data[0].user_key
+                            ]).then(function(item) {
+                                session.user.nickname = data[0].nickname;
+                                session.user.user_key = data[0].user_key;
+                                session.user.provider = data[0].provider;
+                                session.user.item = item[0];
+                                return session;
+                            }, function(err) {
+                                return session;
+                            });
+                        } else {
+                            const diff = new Date((0,date.getFormatedDate)()) - new Date(data[0].withdraw_date);
+                            const day = parseInt(diff / (1000 * 60 * 60 * 24));
+                            if (day >= 0) {
+                                return await (0,database/* executeQuery */.J)("DELETE FROM user WHERE user_key = ? ", [
+                                    data[0].user_key
+                                ]).then(async function(data) {
+                                    return session;
+                                }, function(err) {
+                                    console.log("nextauth [DELETE FROM user WHERE user_key] error: ", err);
+                                    return session;
+                                });
+                            } else {
+                                session.user.status = data[0].status;
+                                return session;
+                            }
+                        }
+                    } else {
+                        session.user.provider = token.provider;
+                        return session;
+                    }
+                }, function(err) {
+                    return session;
+                });
+            }
+        },
+        async redirect ({ url  }) {
+            return url;
+        }
+    }
+};
+/* harmony default export */ const _nextauth_ = (external_next_auth_default()(authOptions));
 
-/***/ "(api)/./utils/date/index.js":
-/*!*****************************!*\
-  !*** ./utils/date/index.js ***!
-  \*****************************/
-/***/ ((module, exports, __webpack_require__) => {
-
-eval("\nObject.defineProperty(exports, \"__esModule\", ({\n    value: true\n}));\nconst _getToday = __webpack_require__(/*! ./getToday */ \"(api)/./utils/date/getToday.js\");\nconst _getFormatedDate = __webpack_require__(/*! ./getFormatedDate */ \"(api)/./utils/date/getFormatedDate.js\");\nconst _getDateDiff = __webpack_require__(/*! ./getDateDiff */ \"(api)/./utils/date/getDateDiff.js\");\nmodule.exports = {\n    getToday: _getToday.getToday,\n    getFormatedDate: _getFormatedDate.getFormatedDate,\n    getDateDiff: _getDateDiff.getDateDiff\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi91dGlscy9kYXRlL2luZGV4LmpzLmpzIiwibWFwcGluZ3MiOiJBQUFBOzs7O3NDQUF5QixrREFBWTs2Q0FDTCxnRUFBbUI7eUNBQ3ZCLHdEQUFlO0FBRTNDQSxPQUFPQyxPQUFPLEdBQUc7SUFDZkMsVUFBQUEsa0JBQVE7SUFDUkMsaUJBQUFBLGdDQUFlO0lBQ2ZDLGFBQUFBLHdCQUFXO0FBQ2IiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9qb290b25nLy4vdXRpbHMvZGF0ZS9pbmRleC5qcz82MGExIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGdldFRvZGF5IH0gZnJvbSBcIi4vZ2V0VG9kYXlcIjtcclxuaW1wb3J0IHsgZ2V0Rm9ybWF0ZWREYXRlIH0gZnJvbSBcIi4vZ2V0Rm9ybWF0ZWREYXRlXCI7XHJcbmltcG9ydCB7IGdldERhdGVEaWZmIH0gZnJvbSBcIi4vZ2V0RGF0ZURpZmZcIjtcclxuXHJcbm1vZHVsZS5leHBvcnRzID0ge1xyXG4gIGdldFRvZGF5LFxyXG4gIGdldEZvcm1hdGVkRGF0ZSxcclxuICBnZXREYXRlRGlmZlxyXG59Il0sIm5hbWVzIjpbIm1vZHVsZSIsImV4cG9ydHMiLCJnZXRUb2RheSIsImdldEZvcm1hdGVkRGF0ZSIsImdldERhdGVEaWZmIl0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(api)/./utils/date/index.js\n");
 
 /***/ })
 
@@ -150,7 +268,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({\n    value: true\n}));
 var __webpack_require__ = require("../../../webpack-api-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = (__webpack_exec__("(api)/./pages/api/auth/[...nextauth].js"));
+var __webpack_exports__ = __webpack_require__.X(0, [297], () => (__webpack_exec__(8718)));
 module.exports = __webpack_exports__;
 
 })();

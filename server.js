@@ -33,8 +33,8 @@ app
       }
     });
     
-    https.createServer(httpsOptions, server).listen(PORT, () => {
-      console.log('server is runing at port ' + PORT);
+    https.createServer(httpsOptions, server).listen(3001, () => {
+      console.log('server is runing at port ' + 3001);
       if(process.send) {
         process.send('ready');
         console.log("ready signal production")

@@ -1,6 +1,6 @@
 import css from './signin.module.scss';
 import { signIn } from "next-auth/react"
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef} from "react";
 import { useRecoilValue } from 'recoil';
 import { user } from "#recoilStore/index";
 import { useRouter } from 'next/router';
@@ -12,7 +12,6 @@ import Alert from '#components/modal/Alert';
 export default function signin() {
   const getUser = useRecoilValue(user);
 
-  const {setUserKey} = useContext(SocketContext);
   const router = useRouter()
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(true);
