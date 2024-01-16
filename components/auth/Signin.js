@@ -26,7 +26,6 @@ export default function Signin({ setLoginArea, setSignupArea }) {
       redirect: false
     }).then( async({ok, error})=>{
       const session = await getSession();
-      console.log(session)
       if(ok && session){
         if(agree) localStorage.setItem("login", email);
         setUser(session.user);

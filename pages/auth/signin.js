@@ -28,7 +28,6 @@ export default function signin() {
 
   
   const login = function(e){
-    console.log(email, password)
     e.preventDefault()
     signIn('credentials', {
       email,

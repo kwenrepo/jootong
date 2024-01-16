@@ -30,8 +30,8 @@ export default function mypage(){
         nickname : getUser.nickname
       }
 
-      fetch("/api/user?checkPassword", {
-        method: "GET",
+      fetch("/api/user?checkPassword=true", {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
@@ -40,6 +40,7 @@ export default function mypage(){
       .then((response) => response.json())
       .then((data) => {
         if(data.status){
+          
           setAlertData({
             isAlert:true,
             message:<span>탈퇴 하시면 회원 정보가 모두 삭제됩니다. <br /> 정말 탈퇴 하시겠습니까?</span>,
@@ -48,6 +49,7 @@ export default function mypage(){
             cancel:<button onClick={()=>(setAlertData({isAlert:false}))}>취소</button>
           })
         }else{
+     
           setAlertData({
             isAlert:true,
             message:<span>{data.message}</span>,
@@ -81,7 +83,7 @@ export default function mypage(){
       if(data.status){
         setAlertData({
           isAlert:true,
-          message:<span>회원탈퇴 가 완료 되었습니다!😭 <br /> 그동안 이용해 주셔서 감사합니다.🙇</span>,
+          message:<span>😭 회원탈퇴 가 완료 되었습니다. <br /> 그동안 이용해 주셔서 감사합니다.🙇</span>,
           confirm:<button onClick={()=>{
             signOut({
               callbackUrl:`${window.location.origin}`
@@ -112,7 +114,7 @@ export default function mypage(){
     }
   }, [getUser])
   return (
-    <Layout title={"👤" + getUser.nickname}>
+    <Layout title={"⚙️ " + ( getUser?.nickname || " 마이페이지")}>
 
       <div className={css.wrap}>
 
@@ -136,7 +138,7 @@ export default function mypage(){
 
           {getUser.user_key && <div className={css.button_box}>
             <button className={css.withdraw} onClick={()=>{
-              if(getUser.provider){
+              if(getUser.provider !== 'credential'){
                 setAlertData({
                   isAlert:true,
                   message:<span>탈퇴 하시면 회원 정보가 모두 삭제됩니다. <br /> 정말 탈퇴 하시겠습니까?</span>,
@@ -160,6 +162,7 @@ export default function mypage(){
                 </div>
                 <div className={css.button_box}>
                   <button onClick={()=>(checkPassword())}>확인</button>
+                  <button onClick={()=>(setIsPassword(false))}>취소</button>
                 </div> 
               </div>
             </div>

@@ -12,9 +12,6 @@ export default function UserCard({ setUserArea, setAlarm, myDataList, setMyDataL
   const getUser = useRecoilValue(user);
   const [loading, setLoading] = useState(false);
 
-  useEffect(()=>{
-    console.log("myDataList", myDataList)
-  }, [])
   return getUser && (
     <div className={css.wrap}>
       <div className={css.nickname}>{getUser.nickname} 님</div>

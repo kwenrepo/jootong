@@ -2,7 +2,7 @@ import css from './UserStatus.module.scss';
 import { signOut, getSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { user, userSelector } from "#recoilStore/index"
+import { user, userSelector } from "#recoilStore/index";
 import { useRouter } from 'next/router';
 import { Alert, Signin, Signup, SnsSignup, UserCard } from '#components/index';
 
@@ -29,7 +29,6 @@ export default function UserStatus() {
       return await getSession();
     }
     if(!getUser.user_key){
-      console.log('setUser')
       session().then((session)=>{
         if(session){
           setUser(session.user);
@@ -39,21 +38,24 @@ export default function UserStatus() {
   }, [])
 
   useEffect(()=>{
-    fetch('/api/data?user_key='+getUser.user_key, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then((response) => response.json())
-    .then((result) => {
-      if(result.status){
-        let {data} = result;
-        console.log('getUser data',data)
-
-        setMyDataList(data);
-      }
-    });
+    if(getUser.user_key){
+      fetch('/api/data?user_key='+getUser.user_key, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then((response) => response.json())
+      .then((result) => {
+        if(result.status){
+          let {data} = result;
+          setMyDataList(data);
+        }
+      });
+    }else if(getUser.email){
+      setSnsSignup(true);
+    }
+    
   }, [getUser])
   return (
     <>

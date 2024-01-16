@@ -1,21 +1,22 @@
 import css from './SnsSignup.module.scss';
-import { useSession, getSession, signOut } from "next-auth/react";
-import { useEffect, useState, useRef, useContext } from 'react';
+import { signOut } from "next-auth/react";
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
-
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { user, userSelector } from "#recoilStore/index";
 import Link from "next/link";
 import Loading from '#components/Loading';
 
 export default function SnsSignup({setAlertData, setSnsSignup, callbackURL}) {
-  const {data: session, update} = useSession();
-
+  const getUser = useRecoilValue(user);
+  const setUser = useSetRecoilState(userSelector);
   const router = useRouter();
   const agree = useRef(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('')
 
   const startSignUp = function(){
-    if(agree.current.checked && session){
+    if(agree.current.checked && getUser.email){
       setLoading(true);
       setErrorMessage('');
     
@@ -24,20 +25,13 @@ export default function SnsSignup({setAlertData, setSnsSignup, callbackURL}) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(session.user)
+        body: JSON.stringify(getUser)
       })
       .then((response) => response.json())
       .then(async (data) => {
         if(data.status){
-          session.user = data.data;
-          await update({
-            ...session,
-            user:{
-              ...session?.user
-            }
-          })
+          setUser(data.data)
 
-          setUserKey(session.user.user_key)
           setLoading(false);
           setAlertData({
             isAlert:true,
@@ -51,7 +45,7 @@ export default function SnsSignup({setAlertData, setSnsSignup, callbackURL}) {
             }}>마이페이지</button>,
             cancel:<button onClick={()=>{
               if(callbackURL){
-                router.push(callbackURL)
+                router.push(callbackURL);
               } else {
                 router.push("/");
                 setSnsSignup(false);
@@ -75,21 +69,21 @@ export default function SnsSignup({setAlertData, setSnsSignup, callbackURL}) {
     agree.current.checked = true;
   }
 
-
   return(
     <div className={css.wrap}>
       <div className={css.inner}>
 
         <div className={css.greeting}>
-          환영합니다, <span>처음 오신 회원님!</span> <br />
-          이용약관 동의 가 필요합니다!
+          <span><i></i>환영합니다!</span>
+          <span className={css.highlight}>처음 오신 회원님!</span> 
+          <span>이용약관 동의 가 필요합니다!</span>
         </div>
         
         <div className={css.credential}>
           
           로그인 하신 SNS 이메일
           <div className={css.email}>
-            {session?.user.email ? <input type="text" value={session?.user.email || ""} readOnly/> : <Loading />} 
+            {getUser.email ? <input type="text" value={getUser.email || ""} readOnly/> : <Loading />} 
           </div>
 
           {errorMessage && <div className={css.error_message}>
@@ -102,7 +96,7 @@ export default function SnsSignup({setAlertData, setSnsSignup, callbackURL}) {
           <Link onClick={()=>{ checkAgree() }} href="/policy/service" target='_blank'>이용약관 동의하기</Link>
         </label>
 
-        {session && 
+        {getUser.email && 
           <div className={css.button_group}>
             <button className={css.signup} onClick={()=>{ startSignUp() }}>동의 후 계속 이용하기</button>
             <button className={css.signout} onClick={()=>{ signOut() }}>취소</button>

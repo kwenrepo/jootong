@@ -9,41 +9,9 @@ import { isNickname } from "#utils/regexp/isNickname";
 
 export default async function handler(req, res) {
   if(req.method === "GET"){
-    if(req.query.checkPassword){
-      const data = req.body;
-  
-      await executeQuery("SELECT * FROM user WHERE user_key = ?", [data.user_key]).then( async function(user) {
-        console.log("req.query.checkPassword SELECT * FROM user WHERE user_key", user)
-        if (user[0]) {
-          const currentPassword = crypto.createHash("sha512").update(data.password).digest("hex");
-          const hashedPassword = crypto.pbkdf2Sync(currentPassword, user[0].password_salt, 9132, 16, "sha512").toString("hex");
-          if (hashedPassword === user[0].password) {
-            res.send({
-              status:true,
-              message: data.user_key + " 비밀번호 확인 완료."
-            });
-          } else {
-            res.send({
-              status:false,
-              message: "비밀번호가 맞지 않습니다."
-            });
-          }
-          
-        } else {
-          res.send({
-            status:false,
-            message: "존재하지 않는 유저입니다."
-          });
-        }
-      }, function(err){
-        res.send({
-          status:false,
-          message: err
-        });
-      })
-    }else if(req.query.user_key){
+    if(req.query.user_key){
       await executeQuery("SELECT * FROM user WHERE user_key = ?", [req.query.user_key]).then((data)=>{
-        console.log("req.query.user_key, SELECT * FROM user WHERE user_key =", req.query.user_key)
+        console.log("=== 유저조회 === : ", req.query.user_key)
 
         if(data[0]){
           res.send({
@@ -81,7 +49,7 @@ export default async function handler(req, res) {
     }
 
   } else if (req.method === "POST"){
-    console.log('[회원가입시도] : ', req.body);
+    console.log('=== 회원가입 === : ', req.body);
     
     if(req.body.provider === 'credential'){
       if(!isEmail.test(req.body.email)){
@@ -164,7 +132,7 @@ export default async function handler(req, res) {
       }
     } else {
       let email = req.body.email;
-      console.log('[SNS회원가입시도] :', email)
+      console.log('=== SNS회원가입 === :', email)
 
       await executeQuery("SELECT email FROM user WHERE email = ?", [email]).then(async (data)=>{
     
@@ -173,7 +141,6 @@ export default async function handler(req, res) {
           let user_key = randomUUID(5);
 
           await executeQuery("INSERT INTO user(email, provider, nickname, sign_date, user_key) values (?, ?, ?, ?, ?)", [email, req.body.provider, nickname, getFormatedDate(), user_key]).then( async function(data){
-            console.log("[SNS회원가입성공]: ", data)
             if(data.insertId){
               await executeQuery("INSERT INTO item_all(user_key) values (?)", [user_key]).then(function(){
                 res.send({
@@ -181,7 +148,11 @@ export default async function handler(req, res) {
                   data:{
                     email,
                     user_key,
-                    nickname
+                    nickname,
+                    provider: req.body.provider,
+                    item:{
+                      item_nickname:1
+                    }
                   },
                   message:req.body.email + ": 회원가입 성공"
                 });
@@ -215,76 +186,79 @@ export default async function handler(req, res) {
     }
     
   } else if (req.method === "DELETE") {
-    const data = req.body;
-    console.log('[회원탈퇴시도] :' , data)
-
-    executeQuery("SELECT * FROM user WHERE user_key = ?", [data.user_key]).then( async function(user) {
-      if(user[0]) {
-        await executeQuery("DELETE FROM user, item_all, question USING user LEFT JOIN item_all ON user.user_key = item_all.user_key LEFT JOIN question ON user.user_key = question.user_key WHERE user.user_key = ?",
-        [data.user_key]).then( async function(result){
-
-          if(result.affectedRows){
-            
-            await executeQuery("UPDATE message SET user_key = REPLACE(user_key, ?, '')", [data.user_key]).then(async function(data){
-              console.log("[탈퇴회원 메시지삭제] room_id = ", result[0].room_id)
-
-              if(typeof data.affectedRows === "number"){
-                await executeQuery("UPDATE private_room SET create_nickname = REPLACE(create_nickname, ?, ''), target_nickname = REPLACE(target_nickname, ?, '')", [req.body.nickname, req.body.nickname]).then(async function(data){
-                  if(typeof data.affectedRows === "number"){
-                    console.log("[회원탈퇴성공]", data)
-                    res.send({
-                      status: true,
-                      message: req.body.nickname + " : 탈퇴완료"
-                    });
-    
-                    await executeQuery("SELECT * FROM private_room WHERE create_nickname = '' AND target_nickname ='' ", []).then( async function(result){
-    
-                      if(result[0]){
-                        await executeQuery("DELETE FROM private_room, private_message USING private_room LEFT JOIN private_message ON private_room.room_id = private_message.room_id WHERE private_room.room_id = ?", [result[0].room_id]).then( async ()=>{
-                          console.log("[탈퇴회원 개인채팅삭제] room_id = ", result[0].room_id)
-                        })
-                      }
-                    })
-                  }else{
-                    res.send({
-                      status: false,
-                    });
-                  }
-                })
-              }else{
-                res.send({
-                  status: false,
-                });
-              }
-            })
-            
-          }else{
+    if(req.query.checkPassword){
+      const data = req.body;
+  
+      await executeQuery("SELECT * FROM user WHERE user_key = ?", [data.user_key]).then( async function(user) {
+        console.log("=== delete USER ==== : ", user)
+        if (user[0]) {
+          const currentPassword = crypto.createHash("sha512").update(data.password).digest("hex");
+          const hashedPassword = crypto.pbkdf2Sync(currentPassword, user[0].password_salt, 9132, 16, "sha512").toString("hex");
+          if (hashedPassword === user[0].password) {
             res.send({
-              status: false,
-              message: "회원탈퇴 오류 발생"
+              status:true,
+              message: data.user_key + " 비밀번호 확인 완료."
+            });
+          } else {
+            res.send({
+              status:false,
+              message: "비밀번호가 맞지 않습니다."
             });
           }
-        }, function(err){
-          res.send(err);
-        });
-        
-      } else {
+          
+        } else {
+          res.send({
+            status:false,
+            message: "존재하지 않는 유저입니다."
+          });
+        }
+      }, function(err){
         res.send({
           status:false,
-          message: "존재하지 않는 유저입니다."
+          message: err
         });
-      }
-    }, function(err){
-      res.send({
-        status:false,
-        message: err
-      });
-    })
+      })
+    }else{
+      const data = req.body;
+  
+      executeQuery("SELECT * FROM user WHERE user_key = ?", [data.user_key]).then( async function(user) {
+        if(user[0]) {
+          await executeQuery("DELETE FROM user, item_all, question, data USING user LEFT JOIN item_all ON user.user_key = item_all.user_key LEFT JOIN question ON user.user_key = question.user_key LEFT JOIN data ON user.user_key = data.user_key WHERE user.user_key = ?",
+          [data.user_key]).then( async function(result){
+  
+            if(result.affectedRows){
+              res.send({
+                status: true,
+                message: req.body.nickname + " : 탈퇴완료"
+              });
+            }else{
+              res.send({
+                status: false,
+                message: "회원탈퇴 오류 발생"
+              });
+            }
+          }, function(err){
+            res.send(err);
+          });
+          
+        } else {
+          res.send({
+            status:false,
+            message: "존재하지 않는 유저입니다."
+          });
+        }
+      }, function(err){
+        res.send({
+          status:false,
+          message: err
+        });
+      })
+    }
     
   } else {
 
     if(req.query.target === 'nickname'){
-      console.log("[회원닉네임변경시도]:", req.body)
+      console.log("=== 닉네임변경 === : ", req.body)
       const regExp = /^[가-힣a-zA-Z0-9]+$/;
       if(req.body.user_key === "XFD84427C21D" || req.body.user_key === "8N2885B0883C" || req.body.user_key === "O3E995E25F27" ){
         if(isNickname.test(req.body.newNickname) || !regExp.test(req.body.newNickname)) {
@@ -302,16 +276,11 @@ export default async function handler(req, res) {
             } else {
               await executeQuery("UPDATE user SET nickname=? WHERE user_key = ?", [req.body.newNickname, req.body.user_key]).then(async function(data){
                 if(data.affectedRows === 1){
-                  await executeQuery("UPDATE private_room SET create_nickname = REPLACE(create_nickname, ?, ?), target_nickname = REPLACE(target_nickname, ?, ?)", [req.body.nickname, req.body.newNickname, req.body.nickname, req.body.newNickname]).then(async function(data){
-                    if(typeof data.affectedRows === "number"){
-                      res.send({
-                        status: true,
-                        nickname : req.body.newNickname,
-                        message: req.body.newNickname + " : 변경완료"
-                      });
-                    }
-                  })
-                  
+                  res.send({
+                    status: true,
+                    nickname : req.body.newNickname,
+                    message: req.body.newNickname + " : 변경완료"
+                  });
                 }else{
                   res.send({
                     status: false,
@@ -331,9 +300,7 @@ export default async function handler(req, res) {
         }
        
         return false;
-      }
-      
-      if(isNickname.test(req.body.newNickname) || !regExp.test(req.body.newNickname)) {
+      }else if(isNickname.test(req.body.newNickname) || !regExp.test(req.body.newNickname)) {
         res.send({
           status:false,
           message:'사용불가한 닉네임 입니다.'
@@ -351,20 +318,15 @@ export default async function handler(req, res) {
               } else {
                 await executeQuery("UPDATE user SET nickname=? WHERE user_key = ?", [req.body.newNickname, req.body.user_key]).then(async function(data){
                   if(data.affectedRows === 1){
-                    await executeQuery("UPDATE private_room SET create_nickname = REPLACE(create_nickname, ?, ?), target_nickname = REPLACE(target_nickname, ?, ?)", [req.body.nickname, req.body.newNickname, req.body.nickname, req.body.newNickname]).then(async function(data){
-                      if(typeof data.affectedRows === "number"){
-                        await executeQuery("UPDATE item_all SET item_nickname = item_nickname - 1, nickname_change_count = nickname_change_count + 1 WHERE user_key = ?",[req.body.user_key]).then(async function(data){
-                          if(data.affectedRows === 1){
-                            res.send({
-                              status: true,
-                              nickname : req.body.newNickname,
-                              message: req.body.newNickname + " : 변경완료"
-                            });
-                          }
-                        })
+                    await executeQuery("UPDATE item_all SET item_nickname = item_nickname - 1, nickname_change_count = nickname_change_count + 1 WHERE user_key = ?",[req.body.user_key]).then(async function(data){
+                      if(data.affectedRows === 1){
+                        res.send({
+                          status: true,
+                          nickname : req.body.newNickname,
+                          message: req.body.newNickname + " : 변경완료"
+                        });
                       }
                     })
-                    
                   }else{
                     res.send({
                       status: false,
@@ -401,7 +363,7 @@ export default async function handler(req, res) {
             const salt = buf.toString('hex');
             crypto.pbkdf2(hashPassword, salt, 9132, 16, 'sha512', async (err, key) => {
               const finishPassword = key.toString('hex');
-              console.log("[회원 비밀번호찾기 변경]", req.body)
+              console.log("=== 비밀번호찾기 - 변경진행 ===", req.body)
               await executeQuery('UPDATE user SET password = ?, password_salt = ? WHERE email = ?', [finishPassword, salt, req.body]).then( async function(data){
                 if(data.affectedRows){
                   const transporter = nodeMailer.createTransport({
@@ -469,7 +431,6 @@ export default async function handler(req, res) {
         if(data[0].status){
           const currentPassword = crypto.createHash("sha512").update(req.body.current).digest("hex");
           const hashedPassword = crypto.pbkdf2Sync(currentPassword, data[0].password_salt, 9132, 16, "sha512").toString("hex");
-          console.log("[회원 비밀번호 변경 시도]:", req.body.user_key)
 
           if (hashedPassword === data[0].password) {
             const hashPassword = crypto.createHash('sha512').update(req.body.new).digest('hex');

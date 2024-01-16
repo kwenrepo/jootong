@@ -1,3 +1,5 @@
+@import "#styles/_functions/icon";
+
 .wrap{
   position: fixed;
   top:0;
@@ -22,10 +24,22 @@
       line-height: 1.4;
       border-bottom: 1px solid #ddd;
       font-weight: bold;
-
       span{
+        display: flex;
+        align-items: center;
+        i{
+          display: block;
+          width: 24px;
+          height: 24px;
+          background: icon(celebration);
+          margin-right: 6px;
+        }
+      }
+      
+      .highlight{
         color:#2d2dc7
       }
+
     }
 
     .credential{

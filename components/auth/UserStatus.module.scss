@@ -1,4 +1,4 @@
-@import "../../styles/_functions/icon";
+@import "#styles/_functions/icon";
 
 .user_status{
   position: relative;
@@ -20,7 +20,6 @@
       background: icon(user);
     }
   }
-
   
   .login{
     font-size: 14px;
@@ -40,6 +39,5 @@
     background-color: #fdfdfd;
     z-index: 10;
     border:1px solid #ccc;
-
   }
 }

@@ -87,7 +87,6 @@ export const authOptions = {
   },
   callbacks: {
     async signIn({user}) {
-      // console.log("signUser:", user)
       if(user.email) {
         return true
       } else if (!user.user_key) {

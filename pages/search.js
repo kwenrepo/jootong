@@ -41,11 +41,9 @@ export default function search() {
     .then((result) => {
       if(result.status){
         let {data} = result;
-        console.log(data)
 
         if(data.length){
           let tempData = data.map((item)=>{
-            console.log(item)
             item.summaryOfContent = Object.values(JSON.parse(item.content))[0]
 
             return item;

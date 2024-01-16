@@ -1,3 +1,5 @@
+@import "#styles/_functions/icon";
+
 .wrap{
   position: relative;
   width: 100%;
@@ -19,26 +21,26 @@
       span{
         display: flex;
         align-items: center;
+
+        i{
+          display: block;
+          width: 24px;
+          height: 24px;
+          background: icon(bolt);
+          margin-right: 2px;
+        }
       }
       button{
-        border:1px solid #ddd;
-        font-size: 12px;
-        font-weight: bold;
-        width: 24px;
-        height: 24px;
-        background: linear-gradient(-180deg, rgba(255, 255, 255, 0.09) 0%, rgba(17, 17, 17, 0.04) 100%);
+       
         display: flex;
         align-items: center;
         justify-content:center;
-        &::before{
-          content: "1";
+      
+        i{
           display: block;
-          background-size: 100% 100%;
           width: 24px;
           height: 24px;
-        }
-        &:hover {
-          background: #fff;
+          background: icon(close);
         }
       }
     }

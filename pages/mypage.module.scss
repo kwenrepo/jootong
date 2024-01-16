@@ -61,7 +61,6 @@
         padding:5px 10px;
         border-radius: 2px;
         box-shadow: 1px 1px 3px #999;
-        margin-right:10px;
         &:hover{
           color: #fff;
           background: #242442;
@@ -79,7 +78,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 999;
+      z-index: 10;
       .inner {
         position: relative;
         background: #fff;
@@ -102,6 +101,11 @@
             border-bottom:1px solid #ccc;
             margin-top:10px;
             text-align: center;
+            font-size: 14px;
+            transition: all 0.3s;
+            &:focus{
+              font-size: 16px;
+            }
           }
         }
     

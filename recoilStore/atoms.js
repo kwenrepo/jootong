@@ -2,10 +2,7 @@ import { atom } from "recoil";
 
 export const user = atom({
   key:"user"+ new Date().getTime(),
-  default:{
-    user_key:"",
-    nickname:""
-  }
+  default:{}
 })
 
 export const dataList = atom({

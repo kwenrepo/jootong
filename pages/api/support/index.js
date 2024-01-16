@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     }
    
   } else if (req.method === "POST"){
-    console.log('[회원문의시도]', req.body)
+    console.log('=== 회원문의 ===', req.body)
 
     let date = getFormatedDate()
     await executeQuery('INSERT INTO question(user_key, title, content, create_date) values (?, ?, ?, ?)', 
@@ -48,7 +48,6 @@ export default async function handler(req, res) {
 
   } else if (req.method === "PUT"){
     let date = getFormatedDate()
-    console.log(req.body)
     executeQuery("UPDATE question SET answer = ?, answer_date = ? WHERE idx = ?", [req.body.content, date, req.body.idx]).then(async function(data){
       if(data.changedRows ){
         res.send({

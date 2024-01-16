@@ -1,13 +1,12 @@
 
 import css from './CalendarEditor.module.scss'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useMemo } from 'react'
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { user } from "#recoilStore/index";
 import { getToday } from '#utils/date';
 import html2canvas from "html2canvas";
-import saveAs from "file-saver";
-import Alert from '#components/modal/Alert';
+import { Alert } from '#components/index';
 
 export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, editDataList = [], setViewList}){
   const getUser = useRecoilValue(user);
@@ -21,65 +20,55 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
     cancel:<button></button>
   });
   const [selectMonth, setSelectMonth] = useState(new Date(getToday()));
-  const [currentCalendar, setCurrentCalendar] = useState({
-    year : '',
-    month : '',
-    yearMonth : '',
-    list:[]
-  });
   const [monthItemList, setMonthItemList] = useState([]);
-  const [summaryList, setSummaryList] = useState([]);
   const [editDate, setEditDate] = useState(0);
   const [addItem, setAddItem] = useState({})
   const [optionIsOpen, setOptionIsOpen] = useState(false);
-
-  function updateCurrentCalendar(){
-    console.log('monthItemList', monthItemList)
-    const year = selectMonth.getFullYear();
-    const month = selectMonth.getMonth();
-    const yearMonth = String(year) + String(month);
-    const startIndex = new Date(year, month, 0).getDay() + 1;
-    const totalIndex = new Date(year, month + 1, 0).getDate() + startIndex;
-    const monthItem = monthItemList?.reduce((acc, current) => {
-      if(yearMonth === current.yearMonth){
-        acc[current.date] = acc[current.date] || [];
-        acc[current.date].push({
-          key : current.key,
-          value : current.value,
-          explain : current.explain,
-          yearMonth 
-        });
+  const currentCalendar = useMemo(()=>{
+    if(selectMonth){
+      const year = selectMonth.getFullYear();
+      const month = selectMonth.getMonth();
+      const yearMonth = String(year) + String(month);
+      const startIndex = new Date(year, month, 0).getDay() + 1;
+      const totalIndex = new Date(year, month + 1, 0).getDate() + startIndex;
+      const monthItem = monthItemList?.reduce((acc, current) => {
+        if(yearMonth === current.yearMonth){
+          acc[current.date] = acc[current.date] || [];
+          acc[current.date].push({
+            key : current.key,
+            value : current.value,
+            explain : current.explain,
+            yearMonth 
+          });
+        }
+        return acc;
+      }, {});
+  
+      let tempCalendar = [];
+  
+      for(let i = 0; i < totalIndex; i++){
+        if(i < startIndex){
+          tempCalendar.push(null);
+        }else{
+          tempCalendar.push({
+            start : i === startIndex ? true : false,
+            number : (i - startIndex) + 1,
+            item : monthItem[(i - startIndex) + 1],
+          })
+        }
       }
-
-      return acc;
-    }, {});
-
-    let tempCalendar = [];
-
-    for(let i = 0; i < totalIndex; i++){
-
-      if(i < startIndex){
-        tempCalendar.push(null);
-       
-      }else{
-        tempCalendar.push({
-          start : i === startIndex ? true : false,
-          number : (i - startIndex) + 1,
-          item : monthItem[(i - startIndex) + 1],
-        })
+  
+      return {
+        year,
+        month,
+        yearMonth,
+        list: tempCalendar
       }
     }
+  }, [selectMonth, monthItemList])
 
-    setCurrentCalendar({
-      year,
-      month,
-      yearMonth,
-      list: tempCalendar
-    })
-  }
-
-  function updateSummary(){
-    const getKeyValues = monthItemList.reduce((acc, current) => {
+  const summaryList = useMemo(()=>{
+    const getKeyValues = monthItemList?.reduce((acc, current) => {
       if(currentCalendar.yearMonth === current.yearMonth){
         acc[current.key] = acc[current.key] || [];
         acc[current.key].push({
@@ -122,9 +111,9 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
         }
       });
     })
-    console.log('getKeyValueArray', getKeyValueArray)
-    setSummaryList(getKeyValueArray);
-  }
+
+    return getKeyValueArray
+  }, [currentCalendar])
 
   function save(){
     if(title===""){
@@ -201,7 +190,6 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
         content : arrayToJson,
         nickname : getUser.nickname || '',
         is_open : optionIsOpen
-
       }
   
       fetch("/api/data?keyword=calendar", {
@@ -419,25 +407,11 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
   }
 
   useEffect(()=>{
-    updateCurrentCalendar();
-  }, [monthItemList])
-
-  useEffect(()=>{
-    if(selectMonth){
-      updateCurrentCalendar();
-    }
-  }, [selectMonth])
-
-  useEffect(()=>{
-    updateSummary();
-  }, [currentCalendar])
-
-  useEffect(()=>{
-    if(editDataList.length > 0){
+    if(editDataList.length){
       setTitle(title);
       setMonthItemList(editDataList);
     }
-  }, [editDataList])
+  }, [editDataList.length])
   return(
     <>
       <section className={css.wrap}>

@@ -97,7 +97,7 @@ export default function Signup({ setSignupArea, setAlertData}) {
               setUser(session.user);
               setAlertData({
                 isAlert:true,
-                message:<span>🎉회원가입을 축하합니다!🔥🔥 <br /> [기념선물지급 - 닉네임변경권] <br /> 마이페이지에서 사용 가능합니다</span>,
+                message:<span>🎉 회원가입을 축하합니다!🔥🔥 <br /> [기념선물지급 - 닉네임변경권] <br /> 마이페이지에서 사용 가능합니다</span>,
                 confirm:<Link href="/mypage">마이페이지</Link>,
                 cancel:<button onClick={()=>{
                   setAlertData({
@@ -130,10 +130,12 @@ export default function Signup({ setSignupArea, setAlertData}) {
       <div className={css.inner}>
         <h1>
           <span>
-            <i class="material-symbols-outlined">bolt</i>
+            <i></i>
             간편회원가입
           </span>
-          <button className={css.cancel} onClick={()=>{setSignupArea(false)}}></button>
+          <button className={css.cancel} onClick={()=>{setSignupArea(false)}}>
+            <i></i>
+          </button>
         </h1>
         <div className={css.credential}>
           <div className={`${css.email} ${css.box}`}>
