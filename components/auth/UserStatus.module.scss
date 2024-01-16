@@ -1,49 +1,33 @@
+@import "../../styles/_functions/icon";
+
 .user_status{
   position: relative;
   display: flex;
   align-items: center;
   font-size: 14px;
-  > span{
-    cursor: pointer;
-    position: relative;
-    font-weight: bold;
-    white-space: nowrap;
-    &:hover{
-      color:#6615c4;
-    }
-
-    &.alarm{
-      padding-right: 10px;
-      &::after{
-        position: absolute;
-        right:0;
-        top:0;
-        display: block;
-        content: "";
-        width: 5px;
-        height: 5px;
-        background: red;
-        border-radius: 5px;
-      }
-    }
-  }
-  
-  .my_point{
-    margin-right:20px;
-  }
   > button{
-    margin-left:10px;
-    border:1px solid #ddd;
-    padding: 5px 10px ;
-    font-size: 12px;
-    font-weight: bold;
-    box-shadow: 2px 2px 6px #ccc;
-    white-space: nowrap;
+    transition: all 0.1s;
     &:hover {
-      background: #242442;
-      color: #fff;
+      transform: translateY(-1px);
     }
   }
+
+  .user{
+    i{
+      display: block;
+      width: 24px;
+      height: 24px;
+      background: icon(user);
+    }
+  }
+
+  
+  .login{
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
 
   aside{
     position: absolute;

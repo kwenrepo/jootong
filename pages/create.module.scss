@@ -5,32 +5,6 @@
     max-width: 1024px;
     margin: 0 auto;
     
-    nav{
-      max-width: 1024px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      h1 {
-        color: #111;
-        font-size: 14px;
-      }
-
-      button{
-        background-image: url(../public/8544931.png);
-        background-size: 80%;
-        background-position: center;
-        background-repeat: no-repeat;
-        width: 24px;
-        height: 24px;
-        border:1px solid #111;
-        border-radius: 2px;
-        transition: 0.2s;
-        &:hover{
-          background-color: #f1f1f1;
-          border:1px solid #ccc;
-        }
-      }
-    }
 
     div.box{
       margin-top: 10px;

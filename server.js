@@ -4,13 +4,13 @@ const http = require("http");
 const https = require("https");
 const fs = require("fs");
 const next = require("next");
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3001;
 const dev = process.env.NODE_ENV === "development";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 const httpsOptions = {
-  key: fs.readFileSync("./privkey.pem"),
-  cert: fs.readFileSync("./fullchain.pem"),
+  key: fs.readFileSync("./jootong_com.key"),
+  cert: fs.readFileSync("./jootong_com.pem")
 };
 const requestIp = require("request-ip");
 if(dev) process.env.NEXTAUTH_URL = "http://localhost:3000";
@@ -19,7 +19,7 @@ app
   .prepare()
   .then(() => {
     console.log(`========================================== APP Prepare Done ${process.env.NODE_ENV} ==========================================================`);
-    let isAppGoingToBeClosed = false // HTTP 연결을 종료시킬 미들웨어에서 사용할 변수
+    let isAppGoingToBeClosed = false; // HTTP 연결을 종료시킬 미들웨어에서 사용할 변수
     
     const server = express();
     server.use(requestIp.mw());
@@ -33,8 +33,8 @@ app
       }
     });
     
-    https.createServer(httpsOptions, server).listen(3001, () => {
-      console.log('server is runing at port ' + 3001);
+    https.createServer(httpsOptions, server).listen(PORT, () => {
+      console.log('server is runing at port ' + PORT);
       if(process.send) {
         process.send('ready');
         console.log("ready signal production")
@@ -49,11 +49,9 @@ app
       }else if(!dev && (!req.secure || !req.headers?.host?.includes("www"))){
         res.redirect('https://www.jootong.com')
       } else {
-        
         next();
       }   
     })
-
 
     server.use(async (req, res, next) => {
       try {

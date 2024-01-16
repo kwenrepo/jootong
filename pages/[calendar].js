@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRecoilValue} from 'recoil';
 import { user } from "#recoilStore/index";
 import { useRouter } from 'next/router';
-import Layout from '#components/Layout';
+import {Layout, Alert} from '#components/index';
 import { CalendarEditor, CalendarViewer }from "#components/calendar";
 
 export default function calendar(){
@@ -15,11 +15,16 @@ export default function calendar(){
     user_key:'',
     status:false
   });
-
+  
+  const [alertData, setAlertData] = useState({
+    isAlert:false,
+    message:"",
+    confirm:<button></button>,
+    cancel:<button></button>
+  });
   useEffect(()=>{
     if(router.isReady){
       let key = router.query.calendar.split("@");
-      
       fetch(`/api/data?key=${key[0]}`, {
         method: "GET",
         headers: {
@@ -28,20 +33,27 @@ export default function calendar(){
       })
       .then((response) => response.json())
       .then((result) => {
-
         if(result.status){
           let {data} = result;
-          console.log('resut', data)
-          let jsonParseData = JSON.parse(data[0].content);
-          setTitle(data[0].title);
-          setViewList(jsonParseData);
-          setIsEdit({
-            user_key:data[0].user_key,
-            status:false
+          if(data[0]){
+            let jsonParseData = JSON.parse(data[0].content);
+            setTitle(data[0].title);
+            setViewList(jsonParseData);
+            setIsEdit({
+              user_key:data[0].user_key,
+              status:false
+            })
+          }
+        }else{
+          setAlertData({
+            isAlert:true,
+            message:<span>존재하지 않는 달력입니다.</span>,
+            cancel:<button onClick={()=>{ router.push('/'); }}>확인</button>
           })
         }
   
       });
+     
     }
   }, [router])
 
@@ -55,6 +67,15 @@ export default function calendar(){
           }
         </div>   
       </section>
+
+      
+      {alertData.isAlert && <Alert
+        props={{
+          message: <span>{alertData.message}</span>,
+          confirm: alertData.confirm,
+          cancel: alertData.cancel,
+        }}
+      />}
     </Layout>
   )
 }

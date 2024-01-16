@@ -1,4 +1,3 @@
-
 import css from './CalendarViewer.module.scss'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router';
@@ -163,16 +162,28 @@ export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, view
     if (!captureRef.current) return;
 
     try {
-      const target = captureRef.current;
-      const canvas = await html2canvas(target, { scale: 1 });
-      canvas.toBlob((blob) => {
-        if (blob !== null) {
-          saveAs(blob, `calendar_${currentCalendar.year}_${currentCalendar.month + 1}.png`);
-        }
-      });
+      const canvas = await html2canvas(captureRef.current, { scale: 1 });
+      // canvas.toBlob((blob) => {
+      //   console.log(blob)
+      //   if (blob !== null) {
+      //     saveAs(blob, `calendar_${currentCalendar.year}_${currentCalendar.month + 1}.png`);
+      //   }
+      // });
+      download(canvas.toDataURL("image/png", 1), `calendar_${currentCalendar.year}_${currentCalendar.month + 1}.png`);  
     } catch (error) {
       console.error("Error converting div to image:", error);
     }
+  };
+
+  const download = (url, filename) => {
+    const linkElement = document.createElement('a');
+    linkElement.download = filename;
+    linkElement.href = url;
+    linkElement.style.display = 'none';
+  
+    document.body.appendChild(linkElement);
+    linkElement.click();
+    document.body.removeChild(linkElement);
   };
 
   function calendarDelete(){
@@ -245,8 +256,12 @@ export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, view
             <div className={css.calendar_header}>
               <h1>{currentCalendar.year}. {currentCalendar.month + 1}월</h1>
               <div className={css.button_box}>
-                <button className={css.prev} onClick={()=>{changeCalendar['prev']()}}>prev</button>
-                <button className={css.next} onClick={()=>{changeCalendar['next']()}}>next</button>
+                <button className={css.prev} onClick={()=>{changeCalendar['prev']()}}>
+                  <i></i>
+                </button>
+                <button className={css.next} onClick={()=>{changeCalendar['next']()}}>
+                  <i></i>
+                </button>
               </div>
             </div>
             
@@ -266,69 +281,76 @@ export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, view
                         <button></button>
                       </div>
                       <div className={css.detail_list}>
-                        
-                        {item.detailList.map((detail)=>{
-                          return(
-                          <div key={detail.key + new Date().getTime()} >
-                            <span>{detail.key}</span>
-                            <span>{(detail.total).toLocaleString('ko-KR')}</span>
-                          </div>
-                          )
-                        })}
+                        <div className={css.indent_area}><i></i></div>
+                        <div className={css.list}>
+                          {item.detailList.map((detail)=>{
+                            return(
+                              <div key={detail.key + new Date().getTime()} >
+                                <span>{detail.key}</span>
+                                <span>{(detail.total).toLocaleString('ko-KR')}</span>
+                              </div>
+                            )
+                          })}
+                        </div>
                       </div>
                     </li>
                   )
                 })}
               </ul>
-          </div>}
-
-            <ul className={css.calendar_days}>
-              <li>일</li>
-              <li>월</li>
-              <li>화</li>
-              <li>수</li>
-              <li>목</li>
-              <li>금</li>
-              <li>토</li>
-            </ul>
+            </div>}
             
-            {currentCalendar.list.length > 0 &&
-              <div className={css.calendar_date}>
-                {currentCalendar.list.map((day, index)=>{
-                  return(
-                    day ? <div className={day.start ? `${css.able} ${css.start}` : css.able}
-                      key={day.number}
-                      onClick={(e)=>{
-                      e.preventDefault()
-                      setEditDate(day.number)}}>
-                      <div className={css.day_number} >{day.number}</div>
-                      {day.item?.map((item, index)=>{
-                        return(
-                          <div className={css.history_item} key={index + new Date()}>
-                            <div className={css.key}>[{item.key}]</div>
-                            <div className={css.value}>
-                              <span>{item.explain ? item.explain : '' }</span>
-                              <span>{item.value.toLocaleString('ko-KR')}</span>
+            <div className={css.calendar_scroll_with}>
+              <ul className={css.calendar_days}>
+                <li>일</li>
+                <li>월</li>
+                <li>화</li>
+                <li>수</li>
+                <li>목</li>
+                <li>금</li>
+                <li>토</li>
+              </ul>
+              
+              {currentCalendar.list.length > 0 &&
+                <div className={css.calendar_date}>
+                  {currentCalendar.list.map((day, index)=>{
+                    return(
+                      day ? <div className={day.start ? `${css.able} ${css.start}` : css.able}
+                        key={day.number}
+                        onClick={(e)=>{
+                        e.preventDefault()
+                        setEditDate(day.number)}}>
+                        <div className={css.day_number} >{day.number}</div>
+                        {day.item?.map((item, index)=>{
+                          return(
+                            <div className={css.history_item} key={index + new Date()}>
+                              <div className={css.key}>[{item.key}]</div>
+                              <div className={css.value}>
+                                <span>{item.explain ? item.explain : '' }</span>
+                                <span>{item.value.toLocaleString('ko-KR')}</span>
+                              </div>
                             </div>
-                          </div>
-                        )
-                      })}
-                    </div>
-                    : <p key={index + new Date().getTime()}></p>
-                  )
-                })}
-              </div>
-            }
+                          )
+                        })}
+                      </div>
+                      : <p key={index + new Date().getTime()}></p>
+                    )
+                  })}
+                </div>
+              }
+            </div>
             
           </div>
-         
         </div>
 
         <div className={css.button_wrap}>
-          <button className={css.confirm} onClick={()=> share()}>공유 하기</button>
-          <button className={css.capture} onClick={()=> capture()}>캡쳐 하기</button>
-          {getUser.user_key === isEdit.user_key && <button className={css.edit} onClick={()=> setIsEdit({...isEdit, status:true})}>수정 하기</button>}
-          {getUser.user_key === isEdit.user_key && <button className={css.delete} onClick={() => {calendarDelete()}}>삭제 하기</button>}
+          <button className={css.share} onClick={()=> share()}>
+            <i></i>공유 하기
+          </button>
+          <button className={css.capture} onClick={()=> capture()}>
+            <i></i>캡쳐 하기
+          </button>
+          {getUser.user_key && getUser.user_key === isEdit.user_key && <button className={css.edit} onClick={()=> setIsEdit({...isEdit, status:true})}><i></i>수정 하기</button>}
+          {getUser.user_key && getUser.user_key === isEdit.user_key && <button className={css.delete} onClick={() => {calendarDelete()}}><i></i>삭제 하기</button>}
         </div>
       </section>
 

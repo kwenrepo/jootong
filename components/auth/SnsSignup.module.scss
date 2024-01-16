@@ -66,8 +66,7 @@
 
         &::after{
           display: inline-block;
-          content: "";
-          background: url(../../public/arrow1.png);
+          content: ">";
           background-size: 100% 100%;
           width: 8px;
           height: 8px;

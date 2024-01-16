@@ -401,7 +401,7 @@ export default async function handler(req, res) {
             const salt = buf.toString('hex');
             crypto.pbkdf2(hashPassword, salt, 9132, 16, 'sha512', async (err, key) => {
               const finishPassword = key.toString('hex');
-              console.log("[회원 비밀번호찾기 변경]", finishPassword , salt)
+              console.log("[회원 비밀번호찾기 변경]", req.body)
               await executeQuery('UPDATE user SET password = ?, password_salt = ? WHERE email = ?', [finishPassword, salt, req.body]).then( async function(data){
                 if(data.affectedRows){
                   const transporter = nodeMailer.createTransport({
@@ -411,7 +411,7 @@ export default async function handler(req, res) {
                   
                   await transporter.sendMail({
                     to: req.body,
-                    subject: '[JOOTONG-주식소통] 비밀번호 가 변경되었습니다.',
+                    subject: '[JOOTONG-주간통계] 비밀번호 가 변경되었습니다.',
                     html: `
                       <div style="padding:20px; border-bottom:1px solid #ccc;">
                         회원님의 비밀번호가 변경되었습니다.<br/>
@@ -450,15 +450,20 @@ export default async function handler(req, res) {
               status:false,
               message:req.body + " 은 SNS로 가입한 계정 입니다. SNS로그인 이용 바랍니다."
             });
-          } else{
+          } else {
             res.send({
               status:false,
-              message:req.body + " 존재하지 않는 이메일입니다."
+              message:req.body + " : 존재하지 않는 이메일입니다."
             });
           }
           
         }
-      })
+      }, function(err){
+        res.send({
+          status:false,
+          message:err
+        });
+      });
     } else if(req.query.change === 'password'){
       await executeQuery("SELECT * FROM user WHERE user_key = ?", [req.body.user_key]).then( async function(data) {
         if(data[0].status){

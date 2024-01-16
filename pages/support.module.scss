@@ -1,50 +1,34 @@
+@import "#styles/_functions/icon";
+
 .wrap{
 
   .inner{
     padding: 20px 10px 0;
     margin: 0 auto;
-    
-    nav{
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      h2 {
-        color: #111;
-        font-size: 14px;
-      }
-
-      button{
-        background-image: url(../public/8544931.png);
-        background-size: 80%;
-        background-position: center;
-        background-repeat: no-repeat;
-        width: 24px;
-        height: 24px;
-        border:1px solid #111;
-        border-radius: 2px;
-        transition: 0.2s;
-        &:hover{
-          background-color: #f1f1f1;
-          border:1px solid #ccc;
-        }
-      }
-    }
 
     .title{
-      margin-top:40px;
+      margin-top:20px;
       display: flex;
       align-items: center;
+      border-bottom:1px solid #ddd;
+      padding:0 0 8px 0;
 
+      i{
+        display: block;
+        width: 24px;
+        height: 24px;
+        background: icon(customer);
+      }
       input{
         width: 100%;
-        font-size: 20px;
-        padding:0 0 8px 0;
+        font-size: 16px;
+        margin-left:6px;
         background: none;
-        border-bottom:1px solid #ddd;
         color: #555;
         transition: 0.3s;
+       
         &:focus{
-          font-size: 24px;
+          font-size: 18px;
         }
       }
       

@@ -32,7 +32,8 @@
     "#utils/*": "./utils/*",
     "#components/*": "./components/*",
     "#context/*": "./context/*",
-    "#recoilStore/*": "./recoilStore/*"
+    "#recoilStore/*": "./recoilStore/*",
+    "#styles/*": "./styles/*"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

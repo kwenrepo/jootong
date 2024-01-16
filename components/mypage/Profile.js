@@ -1,12 +1,14 @@
 import css from './Profile.module.scss';
 import { useState, useEffect, useRef } from "react";
-import { useRecoilValue } from 'recoil';
-import { user } from "#recoilStore/index";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { user, userSelector } from "#recoilStore/index";
 import { isNickname } from "#utils/regexp/isNickname";
 import { isPassword } from "#utils/regexp/isPassword";
 
 export default function Profile({setIsLoading, setAlertData}){
   const getUser = useRecoilValue(user);
+  const setUser = useSetRecoilState(userSelector);
+
   const [changeNickname, setChangeNickname] = useState("없음");
   const [isNicknameChange, setIsNicknameChange] = useState(false);
   const [isPasswordChange, setIsPasswordChange] = useState(false);
@@ -22,7 +24,7 @@ export default function Profile({setIsLoading, setAlertData}){
 
 
   function checkItemNickname() {
-    if(!getUser.item_nickname){
+    if(!getUser.item.item_nickname){
       setAlertData({
         isAlert:true,
         message:<span>닉네임 변경권이 없습니다.</span>,
@@ -92,7 +94,7 @@ export default function Profile({setIsLoading, setAlertData}){
   }
 
   function startNicknameChange(){
-    if(getUser.item_nickname === 0){
+    if(getUser.item.item_nickname === 0){
       setAlertData({
         isAlert:true,
         message:<span>닉네임 변경권이 없습니다.</span>,
@@ -116,7 +118,7 @@ export default function Profile({setIsLoading, setAlertData}){
         nickname : getUser.nickname,
         user_key: getUser.user_key,
       }
-      
+
       fetch("/api/user?target=nickname", {
         method: "PUT",
         headers: {
@@ -125,28 +127,21 @@ export default function Profile({setIsLoading, setAlertData}){
         body: JSON.stringify(data)
       })
       .then((response) => response.json())
-      .then(async (data) => {
-        if(data.status){
-          getUser.nickname = data.nickname;
-          getUser.item.item_nickname -= 1;
+      .then(async (result) => {
+        if(result.status){
 
-          await update({
-            ...getUser,
-            user:{
-              ...getUser,
-              nickname : data.nickname
-            }
-          })
+          setUser({...getUser, nickname:result.nickname})
+   
           setAlertData({
             isAlert:true,
-            message:<span>{`닉네임 [${getUser.nickname}] 변경 성공`}</span>,
+            message:<span>{`닉네임 [${result.nickname}] 변경 성공`}</span>,
             confirm:<button onClick={()=>( setAlertData({isAlert:false}))}>확인</button>
           })
           
         } else {
           setAlertData({
             isAlert:true,
-            message:<span>{data.message}</span>,
+            message:<span>{result.message}</span>,
             confirm:<button onClick={()=>( setAlertData({isAlert:false}))}>확인</button>
           })
         }
@@ -208,7 +203,7 @@ export default function Profile({setIsLoading, setAlertData}){
   }, [isNicknameChange])
 
   useEffect(() => {
-    if(getUser) {
+    if(getUser.user_key) {
       setChangeNickname(getUser.nickname);
     }
   }, [getUser])
@@ -219,10 +214,14 @@ export default function Profile({setIsLoading, setAlertData}){
 
   return(
     <div className={`${css.my_profile} ${css.box}`}>
-      <h2>프로필</h2>
+      <h2>
+        <i></i>
+        프로필</h2>
       <div className={css.my_nickname}>
         <div className={css.nickname}>
-          <span className={css.caption}>닉네임 |</span> 
+          <span className={css.caption}>
+            <i></i>
+            닉네임 |</span> 
           {isNicknameChange ? 
             <input value={changeNickname} maxLength={10} onChange={(e) => { setChangeNickname(e.target.value);}}></input>:
             <span>{changeNickname}</span>
@@ -253,7 +252,10 @@ export default function Profile({setIsLoading, setAlertData}){
       { getUser.provider === "credential" &&
       <div className={css.change_password}>
         <div className={css.password}>
-          <span className={isPasswordChange ? css.open : ''}>비밀번호</span>
+          <span>
+            <i></i>
+            비밀번호
+          </span>
           <div className={css.button_group}>
             {isPasswordChange 
               ? <button onClick={() => { checkPasswordChange() }}>취소</button>

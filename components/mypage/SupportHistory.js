@@ -42,7 +42,9 @@ export default function SupportHistory(){
 
   return(
     <div className={`${css.my_history} ${css.box}`}>
-      <h2>문의내역</h2>
+      <h2>
+        <i></i>
+        문의내역</h2>
       <div className={css.tab}>
         <Link className={css.question} href="/support">문의하기</Link>
       </div>

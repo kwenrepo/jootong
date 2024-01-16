@@ -1,17 +1,17 @@
 import css from './signup.module.scss';
 import { signIn, getSession} from "next-auth/react"
 import { useRouter } from 'next/router';
-import Link from "next/link";
 import { useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { user } from "#recoilStore/index";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { user, userSelector } from "#recoilStore/index";
 import { isEmail } from "#utils/regexp/isEmail";
 import { isPassword } from "#utils/regexp/isPassword";
-import Loading from '#components/Loading'
-import Alert from '#components/modal/Alert';
+import { Layout, Alert, Loading } from '#components/index';
+import Link from "next/link";
 
 export default function signup({}) {
   const getUser = useRecoilValue(user);
+  const setUser = useSetRecoilState(userSelector);
 
   const router = useRouter()
   const email = useRef();
@@ -31,7 +31,7 @@ export default function signup({}) {
   });
 
   const changeEmail = function(e){
-    if(getUser){
+    if(getUser.user_key){
       setAlertData({
         isAlert:true,
         message:<span>이미 로그인 하셨습니다.</span>,
@@ -114,6 +114,7 @@ export default function signup({}) {
             const session = await getSession();
 
             if(ok && session){
+              setUser(session.user);
               setAlertData({
                 isAlert:true,
                 message:<span>🎉회원가입을 축하합니다!🔥🔥 <br /> [기념선물지급 - 닉네임변경권] <br /> 마이페이지에서 사용 가능합니다</span>,
@@ -151,56 +152,58 @@ export default function signup({}) {
   }
   
   return (
-  <div className={css.wrap}>
-    <div className={css.inner}>
-      <h1>JOOTONG 회원가입</h1>
-      <div className={css.credential}>
-        <div className={`${css.email} ${css.box}`}>
-          <input ref={email} type="text" maxLength={50} onBlur={(e)=>{changeEmail(e)}} placeholder="이메일@exam.com"/>
+    <Layout title={"⚡ 회원가입"}>
+      <div className={css.wrap}>
+        <div className={css.inner}>
+          <h1>JOOTONG 회원가입</h1>
+          <div className={css.credential}>
+            <div className={`${css.email} ${css.box}`}>
+              <input ref={email} type="text" maxLength={50} onBlur={(e)=>{changeEmail(e)}} placeholder="이메일@exam.com"/>
+            </div>
+            <div className={`${css.password} ${css.box}`}>
+              { passwordHidden 
+              ? <>
+                  <input type="password" maxLength={20} onBlur={(e)=>{changePassword(e)}} placeholder="비밀번호 8자리 이상"/>
+                  <button className={css.password_hidden} onClick={()=>{setPasswordHidden(!passwordHidden)}}></button>
+                </>
+              : <>
+                  <input  type="text" maxLength={20} onBlur={(e)=>{changePassword(e)}} placeholder="비밀번호 8자리 이상"/> 
+                  <button className={css.password_on} onClick={()=>{setPasswordHidden(!passwordHidden)}}></button>
+                </>
+              } 
+            </div>
+            <div className={`${css.password_confirm} ${css.box}`}>
+            { passwordHidden 
+              ? <input type="password" maxLength={20} onBlur={(e)=>{passwordCheck(e)}} placeholder="비밀번호 확인"/>
+              : <input type="text" maxLength={20} onBlur={(e)=>{passwordCheck(e)}} placeholder="비밀번호 확인"/>
+            }
+            </div>
+            {errorMessage && <div className={css.error_message}>
+              {errorMessage}
+            </div>}
+          </div>
+
+          <label className={css.agree_label}>
+            <input type="checkbox" ref={agree}/>
+            <Link onClick={()=>{ checkAgree() }} href="/policy/service" target='_blank'>[필수]이용약관 동의하기</Link>
+          </label>
+          <button className={css.signup} onClick={()=>{ startSignUp() }}>가입하기</button>
+
+          {loading && <div className={css.loading}>
+            <Loading />
+          </div>}
         </div>
-        <div className={`${css.password} ${css.box}`}>
-          { passwordHidden 
-          ? <>
-              <input type="password" maxLength={20} onBlur={(e)=>{changePassword(e)}} placeholder="비밀번호 8자리 이상"/>
-              <button className={css.password_hidden} onClick={()=>{setPasswordHidden(!passwordHidden)}}></button>
-            </>
-          : <>
-              <input  type="text" maxLength={20} onBlur={(e)=>{changePassword(e)}} placeholder="비밀번호 8자리 이상"/> 
-              <button className={css.password_on} onClick={()=>{setPasswordHidden(!passwordHidden)}}></button>
-            </>
-          } 
-        </div>
-        <div className={`${css.password_confirm} ${css.box}`}>
-        { passwordHidden 
-          ? <input type="password" maxLength={20} onBlur={(e)=>{passwordCheck(e)}} placeholder="비밀번호 확인"/>
-          : <input type="text" maxLength={20} onBlur={(e)=>{passwordCheck(e)}} placeholder="비밀번호 확인"/>
-        }
-        </div>
-        {errorMessage && <div className={css.error_message}>
-          {errorMessage}
-        </div>}
+
+        {alertData.isAlert && (
+          <Alert
+            props={{
+              message: <span>{alertData.message}</span>,
+              confirm: alertData.confirm,
+              cancel: alertData.cancel,
+            }}
+          />
+        )}
       </div>
-
-      <label className={css.agree_label}>
-        <input type="checkbox" ref={agree}/>
-        <Link onClick={()=>{ checkAgree() }} href="/policy/service" target='_blank'>[필수]이용약관 동의하기</Link>
-      </label>
-      <button className={css.signup} onClick={()=>{ startSignUp() }}>가입하기</button>
-
-      {loading && <div className={css.loading}>
-        <Loading />
-      </div>}
-    </div>
-
-    {alertData.isAlert && (
-      <Alert
-        props={{
-          message: <span>{alertData.message}</span>,
-          confirm: alertData.confirm,
-          cancel: alertData.cancel,
-        }}
-      />
-    )}
-  </div>
+    </Layout>
   )
 }

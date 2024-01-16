@@ -3,14 +3,10 @@ import {useState, useEffect, useRef } from "react";
 import { signOut } from "next-auth/react";
 import { useRecoilValue } from 'recoil';
 import { user } from "#recoilStore/index"
-import Header from '#components/Header';
-import Footer from '#components/Footer'
 import { useRouter } from 'next/router';
-import Alert from '#components/modal/Alert';
+import { Layout, Navigator, Alert, Loading } from '#components/index';
 import Profile from "#components/mypage/Profile";
 import SupportHistory  from "#components/mypage/SupportHistory"
-import Loading from '#components/Loading';
-
 export default function mypage(){
   const getUser = useRecoilValue(user);
 
@@ -112,72 +108,75 @@ export default function mypage(){
 
   useEffect(()=>{
     if(getUser){
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }, [getUser])
   return (
-    <div className={css.wrap}>
-      <Header />
+    <Layout title={"👤" + getUser.nickname}>
 
-      <div className={css.inner}>
-        <nav>
-          <button onClick={()=>{router.back()}}></button>
-        </nav>
+      <div className={css.wrap}>
 
-        <Profile setIsLoading={setIsLoading} setAlertData={setAlertData} />
+        <div className={css.inner}>
+          <Navigator text="마이페이지" />
 
-        <div className={`${css.my_item} ${css.box}`}>
-          <h2>보유 아이템</h2>
-          <ul>
-            <li>닉네임 변경권 | {getUser.item?.item_nickname || 0}개</li>
-          </ul>
+          <Profile setIsLoading={setIsLoading} setAlertData={setAlertData} />
+
+          <div className={`${css.my_item} ${css.box}`}>
+            <h2>
+              <i></i>
+              보유 아이템</h2>
+            <ul>
+              <li>
+                <i></i>       
+                닉네임 변경권 {getUser.item?.item_nickname || 0} 개</li>
+            </ul>
+          </div>
+
+          <SupportHistory />
+
+          {getUser.user_key && <div className={css.button_box}>
+            <button className={css.withdraw} onClick={()=>{
+              if(getUser.provider){
+                setAlertData({
+                  isAlert:true,
+                  message:<span>탈퇴 하시면 회원 정보가 모두 삭제됩니다. <br /> 정말 탈퇴 하시겠습니까?</span>,
+                  // message:<span>회원탈퇴 후 7일내 재가입 불가합니다.<br /> 자세한 사항은 이용약관 을 확인해 주세요. <br/> 정말 탈퇴 하시겠습니까?</span>,
+                  confirm:<button onClick={()=>(withdraw())}>계속탈퇴진행하기</button>,
+                  cancel:<button onClick={()=>(setAlertData({isAlert:false}))}>취소</button>
+                })
+              }else{
+                setIsPassword(true);
+              }
+              
+            }}>회원탈퇴</button>
+          </div>}
+          
+          {isPassword && 
+            <div className={css.password_check}>
+              <div className={css.inner}>
+                <div className={css.message}>
+                  <span>비밀번호 확인</span> <br />
+                  <input type="password" ref={password} placeholder="비밀번호를 입력해주세요" />
+                </div>
+                <div className={css.button_box}>
+                  <button onClick={()=>(checkPassword())}>확인</button>
+                </div> 
+              </div>
+            </div>
+          }
+
+          {alertData.isAlert && 
+            <Alert props={{
+              message:<span>{alertData.message}</span>,
+              confirm:alertData.confirm,
+              cancel:alertData.cancel
+            }}
+          />}
+
+          {isLoading && <Loading />}
         </div>
 
-        <SupportHistory />
-
-        {getUser && <div className={css.button_box}>
-          <button className={css.withdraw} onClick={()=>{
-            if(getUser.provider){
-              setAlertData({
-                isAlert:true,
-                message:<span>탈퇴 하시면 회원 정보가 모두 삭제됩니다. <br /> 정말 탈퇴 하시겠습니까?</span>,
-                // message:<span>회원탈퇴 후 7일내 재가입 불가합니다.<br /> 자세한 사항은 이용약관 을 확인해 주세요. <br/> 정말 탈퇴 하시겠습니까?</span>,
-                confirm:<button onClick={()=>(withdraw())}>계속탈퇴진행하기</button>,
-                cancel:<button onClick={()=>(setAlertData({isAlert:false}))}>취소</button>
-              })
-            }else{
-              setIsPassword(true);
-            }
-            
-          }}>회원탈퇴</button>
-        </div>}
-        
-        {isPassword && 
-          <div className={css.password_check}>
-            <div className={css.inner}>
-              <div className={css.message}>
-                <span>비밀번호 확인</span> <br />
-                <input type="password" ref={password} placeholder="비밀번호를 입력해주세요" />
-              </div>
-              <div className={css.button_box}>
-                <button onClick={()=>(checkPassword())}>확인</button>
-              </div> 
-            </div>
-          </div>
-        }
-
-        {alertData.isAlert && 
-          <Alert props={{
-            message:<span>{alertData.message}</span>,
-            confirm:alertData.confirm,
-            cancel:alertData.cancel
-          }}
-        />}
-
-        {isLoading && <Loading />}
       </div>
-
-      <Footer />
-    </div>
+    </Layout>
   );
 }

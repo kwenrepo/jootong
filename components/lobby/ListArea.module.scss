@@ -1,3 +1,5 @@
+@import "#styles/_functions/icon";
+
 .wrap{
   width: 100%;
   .inner{
@@ -44,9 +46,20 @@
   
             .item_body{
               .cap{
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
                 font-size: 14px;
-                text-align: right;
+               
                 margin-bottom:6px;
+
+                i{
+                  display: block;
+                  width: 20px;
+                  height: 20px;
+                  background: icon(summary);
+                  margin-right: 2px;
+                }
               }
               .summary_calendar{
                 position: relative;
@@ -89,12 +102,34 @@
                 display: flex;
                 align-items: center;
                 justify-content: flex-end;
+                &.creator{
+                  font-size: 14px;
+                  display: flex;
+                  align-items: center;
+                  i{
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    background: icon(userCreator);
+                  }
+                }
                 &.from_date{
                   margin-top:4px;
                   font-size: 12px;
+                  
+                  i{
+                    display: block;
+                    width: 14px;
+                    height: 14px;
+                    background: icon(clock);
+                    margin-right: 2px;
+                  }
                 }
                 
                 &.new{
+                  i{
+                    display: none;
+                  }
                   &::before{
                     content: "";
                     display: block;

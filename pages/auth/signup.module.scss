@@ -52,8 +52,6 @@
           }
         }
         .password_hidden{
-          background: url(../../public/eye1.png);
-          background-size: 100% 100%;
           width: 16px;
           height: 16px;
           min-width: 16px;
@@ -63,8 +61,7 @@
         }
 
         .password_on{
-          background: url(../../public/eye2.png);
-          background-size: 100% 100%;
+      
           width: 16px;
           height: 16px;
           min-width: 16px;
@@ -92,8 +89,7 @@
         &::after{
           display: inline-block;
           content: "";
-          background: url(../../public/arrow1.png);
-          background-size: 100% 100%;
+    
           width: 8px;
           height: 8px;
           min-width: 8px;

@@ -16,7 +16,10 @@
       font-size: 20px;
       padding:0px 0 20px;
       border-bottom:1px solid #ddd;
-
+      span{
+        display: flex;
+        align-items: center;
+      }
       button{
         border:1px solid #ddd;
         font-size: 12px;
@@ -28,9 +31,8 @@
         align-items: center;
         justify-content:center;
         &::before{
-          content: "";
+          content: "1";
           display: block;
-          background-image: url('../../public/8373819.png');
           background-size: 100% 100%;
           width: 24px;
           height: 24px;
@@ -58,9 +60,12 @@
           padding:0 10px;
           width: 100%;
           height: 100%;
+          font-size: 14px;
+          transition: 0.3s;
+
           &:focus{
-            transition: 0.3s;
-            border-bottom:1px solid #242442
+            border:1px solid #111;
+            font-size:16px;
           }
         }
         button{
@@ -72,8 +77,8 @@
             outline: 1px solid #ccc;
           }
         }
+
         .password_hidden{
-          background: url(../../public/eye1.png);
           background-size: 100% 100%;
           width: 16px;
           height: 16px;
@@ -84,7 +89,6 @@
         }
 
         .password_on{
-          background: url(../../public/eye2.png);
           background-size: 100% 100%;
           width: 16px;
           height: 16px;
@@ -112,8 +116,7 @@
 
         &::after{
           display: inline-block;
-          content: "";
-          background: url(../../public/arrow1.png);
+          content: ">";
           background-size: 100% 100%;
           width: 8px;
           height: 8px;

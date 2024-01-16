@@ -1,8 +1,8 @@
 import css from './Signin.module.scss';
-import { signIn, getSession, useSession } from "next-auth/react"
+import { signIn, getSession } from "next-auth/react";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { user, userSelector } from "#recoilStore/index";
-import { useEffect, useState, useRef, useContext} from 'react';
+import { useEffect, useState } from 'react';
 import Link from "next/link";
 import Loading from '#components/Loading';
 
@@ -29,7 +29,7 @@ export default function Signin({ setLoginArea, setSignupArea }) {
       console.log(session)
       if(ok && session){
         if(agree) localStorage.setItem("login", email);
-        setUser(session.user)
+        setUser(session.user);
 
       }else{
         setErrorMessage(error);
@@ -51,8 +51,13 @@ export default function Signin({ setLoginArea, setSignupArea }) {
     <div className={css.wrap}>
       <div className={css.inner}>
         <h1 className={css.title}>
-          JOOTONG 로그인
-          <button className={css.cancel} onClick={()=>{ setLoginArea(false)} }></button>
+          <span>
+            <i></i>
+            환영해요!
+          </span>
+          <button className={css.cancel} onClick={()=>{ setLoginArea(false)} }>
+            <i></i>
+          </button>
         </h1>
 
         <div className={css.credential}>
@@ -61,8 +66,7 @@ export default function Signin({ setLoginArea, setSignupArea }) {
               <input type="text" value={email} maxLength={50} onChange={(e) => { setEmail(e.target.value) }} placeholder="이메일을 입력해주세요" />
             </div>
             <div className={css.password}>
-              <input
-                type="password" value={password} maxLength={20} onChange={(e) => { setPassword(e.target.value) }} required placeholder="비밀번호" />
+              <input type="password" value={password} maxLength={20} onChange={(e) => { setPassword(e.target.value) }} required placeholder="비밀번호" />
             </div>
             {errorMessage && (
               <div className={css.error_message}>{errorMessage}</div>

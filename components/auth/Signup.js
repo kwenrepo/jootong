@@ -1,7 +1,7 @@
 import css from './Signup.module.scss';
 import { signIn, getSession} from "next-auth/react";
 import { useSetRecoilState } from 'recoil';
-import { userSelector } from "#recoilStore/index"
+import { userSelector } from "#recoilStore/index";
 import { useRouter } from 'next/router';
 import Link from "next/link";
 import { useRef, useState, useContext } from 'react';
@@ -94,7 +94,7 @@ export default function Signup({ setSignupArea, setAlertData}) {
             const session = await getSession();
 
             if(ok && session){
-              setUser(session.user)
+              setUser(session.user);
               setAlertData({
                 isAlert:true,
                 message:<span>🎉회원가입을 축하합니다!🔥🔥 <br /> [기념선물지급 - 닉네임변경권] <br /> 마이페이지에서 사용 가능합니다</span>,
@@ -129,7 +129,10 @@ export default function Signup({ setSignupArea, setAlertData}) {
 
       <div className={css.inner}>
         <h1>
-          JOOTONG
+          <span>
+            <i class="material-symbols-outlined">bolt</i>
+            간편회원가입
+          </span>
           <button className={css.cancel} onClick={()=>{setSignupArea(false)}}></button>
         </h1>
         <div className={css.credential}>

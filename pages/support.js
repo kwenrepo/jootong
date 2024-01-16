@@ -1,11 +1,10 @@
 import css from './support.module.scss'
-import Layout from '#components/Layout';
-import {useState, useEffect, useRef, useCallback } from "react"
+import {useState, useEffect, useRef, useCallback } from "react";
 import { useRecoilValue } from 'recoil';
-import { user } from "#recoilStore/index"
+import { user } from "#recoilStore/index";
 import { useRouter } from 'next/router';
-import Alert from '#components/modal/Alert';
-import { openWindow } from '#utils/openwindow'
+import { Layout, Navigator, Alert } from '#components/index';
+import { openWindow } from '#utils/openwindow';
 
 export default function support(){
   const getUser = useRecoilValue(user);
@@ -23,7 +22,7 @@ export default function support(){
   })
 
   function setTitle(e){
-    if(!getUser) {
+    if(!getUser.user_key) {
       openWindow('/auth/signin', '로그인', '_blank')
       return false;
     }
@@ -31,7 +30,7 @@ export default function support(){
   }
 
   function setContent(e){
-    if(!getUser) {
+    if(!getUser.user_key) {
       openWindow('/auth/signin', '로그인', '_blank')
       return false;
     }
@@ -39,7 +38,7 @@ export default function support(){
   }
 
   function confirm(){
-    if(!getUser) {
+    if(!getUser.user_key) {
       openWindow('/auth/signin', '로그인', '_blank')
       return false;
     }
@@ -91,12 +90,10 @@ export default function support(){
     <Layout title={"문의하기"}>
       <div className={css.wrap}>
         <div className={css.inner}>
-          <nav>
-            <h2>1:1 문의하기</h2>
-            <button onClick={()=>{router.back()}}></button>
-          </nav>
-          
+          <Navigator text={"문의하기"}/>
+
           <div className={`${css.title} ${css.box}`}>
+            <i></i>
             <input type="text" onChange={(e)=> setTitle(e)} placeholder="필요하신 문의 제목을 작성해 주세요." />
           </div>
           <div className={`${css.content} ${css.box}`}>

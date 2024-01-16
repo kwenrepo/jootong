@@ -5,11 +5,15 @@ import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { user } from "#recoilStore/index";
 import { getToday } from '#utils/date';
+import html2canvas from "html2canvas";
+import saveAs from "file-saver";
 import Alert from '#components/modal/Alert';
 
 export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, editDataList = [], setViewList}){
   const getUser = useRecoilValue(user);
   const router = useRouter();
+  const captureRef = useRef(null);
+
   const [alertData, setAlertData] = useState({
     isAlert:false,
     message:"",
@@ -27,6 +31,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
   const [summaryList, setSummaryList] = useState([]);
   const [editDate, setEditDate] = useState(0);
   const [addItem, setAddItem] = useState({})
+  const [optionIsOpen, setOptionIsOpen] = useState(false);
 
   function updateCurrentCalendar(){
     console.log('monthItemList', monthItemList)
@@ -154,7 +159,8 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
             user_key : getUser.user_key || '',
             title,
             content : arrayToJson,
-            nickname : getUser.nickname || ''
+            nickname : getUser.nickname || '',
+            is_open : optionIsOpen
           }
       
           fetch("/api/data?keyword=calendar", {
@@ -183,7 +189,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
           });
         }}>확인 </button>,
         cancel:<button onClick={()=>{
-          router.push('/signin')
+          router.push('/auth/signin')
         }}>로그인</button>
       })
       return false;
@@ -193,7 +199,9 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
         user_key : getUser.user_key || '',
         title,
         content : arrayToJson,
-        nickname : getUser.nickname || ''
+        nickname : getUser.nickname || '',
+        is_open : optionIsOpen
+
       }
   
       fetch("/api/data?keyword=calendar", {
@@ -249,11 +257,11 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
     } 
 
     let arrayToJson = JSON.stringify(monthItemList);
-    console.log('arrayToJson', arrayToJson)
     let data = {
       title,
       content : arrayToJson,
-      edit_key : router.query.calendar.split("@")[0]
+      edit_key : router.query.calendar.split("@")[0],
+      is_open : optionIsOpen
     }
 
     fetch("/api/data?keyword=calendar", {
@@ -280,6 +288,35 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
     });
     
   }
+
+  async function capture() {
+    if (!captureRef.current) return;
+
+    try {
+      const target = captureRef.current;
+      const canvas = await html2canvas(target, { scale: 1 });
+      // canvas.toBlob((blob) => {
+      //   if (blob !== null) {
+      //     saveAs(blob, `calendar_${currentCalendar.year}_${currentCalendar.month + 1}.png`);
+      //   }
+      // });
+      download(canvas.toDataURL("image/png", 1), `calendar_${currentCalendar.year}_${currentCalendar.month + 1}.png`);  
+
+    } catch (error) {
+      console.error("Error converting div to image:", error);
+    }
+  };
+
+  const download = (url, filename) => {
+    const linkElement = document.createElement('a');
+    linkElement.download = filename;
+    linkElement.href = url;
+    linkElement.style.display = 'none';
+  
+    document.body.appendChild(linkElement);
+    linkElement.click();
+    document.body.removeChild(linkElement);
+  };
 
   const addItemHandler = {
     add : function(e){
@@ -409,12 +446,16 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
             <input type="text" value={title || ""} onChange={(e)=> setTitle(e.target.value)} placeholder="달력 이름을 지어주세요." />
           </div>
 
-          <div className={css.calendar}>
+          <div className={css.calendar} ref={captureRef}>
             <div className={css.calendar_header}>
               <h1>{currentCalendar.year}. {currentCalendar.month + 1}월</h1>
               <div className={css.button_box}>
-                <button className={css.prev} onClick={()=>{changeCalendar['prev']()}}>prev</button>
-                <button className={css.next} onClick={()=>{changeCalendar['next']()}}>next</button>
+                <button className={css.prev} onClick={()=>{changeCalendar['prev']()}}>
+                  <i></i>
+                </button>
+                <button className={css.next} onClick={()=>{changeCalendar['next']()}}>
+                  <i></i>
+                </button>
               </div>
             </div>
             
@@ -434,21 +475,27 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
                         <button></button>
                       </div>
                       <div className={css.detail_list}>
-                        
-                        {item.detailList.map((detail)=>{
-                          return(
-                          <div key={detail.key + new Date().getTime()} >
-                            <span>{detail.key}</span>
-                            <span>{(detail.total).toLocaleString('ko-KR')}</span>
-                          </div>
-                          )
-                        })}
+                        <div className={css.indent_area}>
+                          <i></i>
+                        </div>
+                        <div className={css.list}>
+                          {item.detailList.map((detail)=>{
+                            return(
+                              <div key={detail.key + new Date().getTime()} >
+                                <span>{detail.key}</span>
+                                <span>{(detail.total).toLocaleString('ko-KR')}</span>
+                              </div>
+                            )
+                          })}
+                        </div>
                       </div>
                     </li>
                   )
                 })}
               </ul>
             </div>}
+
+            <div className={css.calendar_scroll_with}>
 
             <ul className={css.calendar_days}>
               <li>일</li>
@@ -480,7 +527,10 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
                             <div className={css.value}>
                               <span>{item.explain ? item.explain : '' }</span>
                               <span>{item.value.toLocaleString('ko-KR')}</span>
-                              <button className={css.delete} onClick={(e)=>{e.stopPropagation(); itemListManager['delete'](day.number, item)}}></button>
+                              <button className={css.delete} onClick={(e)=>{
+                                e.stopPropagation(); itemListManager['delete'](day.number, item)}}>
+                                <i>삭제</i>                                
+                              </button>
                             </div>
                           </div>
                         )
@@ -492,6 +542,10 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
                 })}
               </div>
             }
+
+            </div>
+
+
             
             {editDate > 0 && 
               <div className={css.edit_box}>
@@ -527,14 +581,29 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
             }
           </div>
         </div>
+
+        <div className={css.option}>
+          <label className={css.open}>
+            <input type="checkbox" value={optionIsOpen} onClick={(e)=>{setOptionIsOpen(e.target.checked)}} />
+            <i></i>
+            <span>검색 리스트 보여지기</span>
+          </label>
+        </div>
         
         <div className={css.button_wrap}>
           {isEdit?.status
             ? <>
-                <button className={css.confirm} onClick={()=> edit()}>수정하기</button>
-                <button className={css.cancel} onClick={()=> { setIsEdit({...isEdit, status:false}) }}>취소하기</button>
+                <button className={css.edit} onClick={()=> edit()}><i></i>수정 완료</button>
+                <button className={css.cancel} onClick={()=> { setIsEdit({...isEdit, status:false}) }}><i></i>취소 하기</button>
               </>
-            : <button className={css.confirm} onClick={()=> save()}>저장하고 공유하기</button>
+            : <>
+                <button className={css.confirm} onClick={()=> save()}>
+                  <i></i>
+                  저장하고 공유하기</button>
+                <button className={css.capture} onClick={()=> capture()}>
+                  <i></i>
+                  캡쳐 하기</button>
+              </> 
           }
         </div>
       </section>

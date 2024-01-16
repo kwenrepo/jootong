@@ -1,45 +1,17 @@
+@import "#styles/_functions/icon";
+
 .wrap {
 
   .inner {
     position: relative;
-    min-height: 640px;
-    padding: 20px 10px 60px;
-    max-width: 950px;
+    padding: 20px 0 60px;
     margin: 0 auto;
-
-    nav{
-      max-width: 950px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-      h2 {
-        color: #111;
-        font-size: 14px;
-      }
-
-      button{
-        background-image: url(../public/8544931.png);
-        background-size: 80%;
-        background-position: center;
-        background-repeat: no-repeat;
-        width: 24px;
-        height: 24px;
-        border:1px solid #111;
-        border-radius: 2px;
-        transition: 0.2s;
-        opacity: 0.5;
-        &:hover{
-          opacity: 1;
-        }
-      }
-    }
 
     .box{
       position: relative;
-      border-radius: 6px;
+      border-radius: 4px;
       padding: 10px 10px 40px; 
       // background: #fcf9e1;
-      border: 1px solid #979797;
       box-shadow: 2px 2px 6px #999;
       margin-top: 20px;
 
@@ -52,11 +24,31 @@
     }
     
     .my_item{
-      
+      h2{
+        display: flex;
+        align-items: center;
+        i{
+          display: block;
+          width: 24px;
+          height: 24px;
+          background: icon(cart);
+          margin-right: 6px;
+        }
+      }
       ul li{
         font-size: 14px;
         border-bottom:1px solid #eee;
         padding:0 0 10px 0;
+        display: flex;
+        align-items: center;
+
+        i{
+          display: block;
+          width: 24px;
+          height: 24px;
+          background: icon(exchange);
+          margin-right: 6px;
+        }
       }
     }
     .button_box{

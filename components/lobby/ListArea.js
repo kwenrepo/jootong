@@ -49,7 +49,7 @@ export default function ListArea() {
                         <span className={css.item_title}>{item.title}</span>
                       </div>
                       <div className={css.item_body}>
-                        <div className={css.cap}>요약</div>
+                        <div className={css.cap}><i></i>요약</div>
 
                         <div className={css.summary_calendar}>
                           <div>
@@ -79,10 +79,10 @@ export default function ListArea() {
 
                       <div className={css.item_bottom}>
                         <span className={css.creator}>
-                          {item.create_name === 'empty' ? '익명' : item.create_name }
+                          <i></i>{item.nickname === '' ? '익명' : item.nickname }
                         </span>
                         <span className={ getDateDiff(item.create_date).type !== 'day' ? `${css.from_date} ${css.new}` : `${css.from_date}` }>
-                          {getDateDiff(item.create_date).text}
+                          <i></i>{getDateDiff(item.create_date).text}
                         </span>
                       </div>
                     </Link>
