@@ -8,6 +8,7 @@ import { CalendarEditor } from "#components/calendar";
 export default function create() {
   const getUser = useRecoilValue(user);
   const [title, setTitle] = useState("");
+  const [monthItemList, setMonthItemList] = useState([]);
   const [alertData, setAlertData] = useState({
     isAlert:false,
     message:"",
@@ -20,7 +21,7 @@ export default function create() {
       <div className={css.wrap}>
         <div className={css.inner}>
           <Navigator text={"나만의 데이터를 만들어 보세요."}/>
-          <CalendarEditor title={title} setTitle={setTitle}/>
+          <CalendarEditor title={title} setTitle={setTitle} monthItemList={monthItemList} setMonthItemList={setMonthItemList}/> 
         </div>
 
         {alertData.isAlert && (

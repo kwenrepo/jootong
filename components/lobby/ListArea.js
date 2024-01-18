@@ -19,7 +19,7 @@ export default function ListArea() {
   }, [])
 
   function getCalendarList(){
-    fetch('/api/data', {
+    fetch('/api/data?isOpen=true', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -43,50 +43,48 @@ export default function ListArea() {
             {getDataList.map((item)=>{
               return (
                 <li key={item.id}>
-                  {item.create_user_key !== "jt" ?
-                    <Link href={`/${item.id}@${item.title}`}>
-                      <div className={css.item_header}>
-                        <span className={css.item_title}>{item.title}</span>
-                      </div>
-                      <div className={css.item_body}>
-                        <div className={css.cap}><i></i>요약</div>
+                  <Link href={`/${item.id}/${item.title}`}>
+                    <div className={css.item_header}>
+                      <span className={css.item_title}>{item.title}</span>
+                    </div>
+                    <div className={css.item_body}>
+                      <div className={css.cap}><i></i>요약</div>
 
-                        <div className={css.summary_calendar}>
-                          <div>
-                            <div className={css.day_number}>
-                              {item.summaryOfContent.year}.{" "}
-                              {item.summaryOfContent.month + 1}.{" "}
-                              {item.summaryOfContent.date}
-                            </div>
+                      <div className={css.summary_calendar}>
+                        <div>
+                          <div className={css.day_number}>
+                            {item.summaryOfContent.year}.{" "}
+                            {item.summaryOfContent.month + 1}.{" "}
+                            {item.summaryOfContent.date}
+                          </div>
 
-                            <div className={css.history_item}>
-                              <div className={css.text}>
-                                <span>
-                                  {item.summaryOfContent.description
-                                    ? item.summaryOfContent.description
-                                    : item.summaryOfContent.key}
-                                </span>
-                                <span>
-                                  {item.summaryOfContent.value.toLocaleString(
-                                    "ko-KR"
-                                  )}
-                                </span>
-                              </div>
+                          <div className={css.history_item}>
+                            <div className={css.text}>
+                              <span>
+                                {item.summaryOfContent.description
+                                  ? item.summaryOfContent.description
+                                  : item.summaryOfContent.key}
+                              </span>
+                              <span>
+                                {item.summaryOfContent.value.toLocaleString(
+                                  "ko-KR"
+                                )}
+                              </span>
                             </div>
                           </div>
                         </div>
                       </div>
+                    </div>
 
-                      <div className={css.item_bottom}>
-                        <span className={css.creator}>
-                          <i></i>{item.nickname === '' ? '익명' : item.nickname }
-                        </span>
-                        <span className={ getDateDiff(item.create_date).type !== 'day' ? `${css.from_date} ${css.new}` : `${css.from_date}` }>
-                          <i></i>{getDateDiff(item.create_date).text}
-                        </span>
-                      </div>
-                    </Link>
-                  : ''}
+                    <div className={css.item_bottom}>
+                      <span className={css.creator}>
+                        <i></i>{item.nickname === '' ? '익명' : item.nickname }
+                      </span>
+                      <span className={ getDateDiff(item.create_date).type !== 'day' ? `${css.from_date} ${css.new}` : `${css.from_date}` }>
+                        <i></i>{getDateDiff(item.create_date).text}
+                      </span>
+                    </div>
+                  </Link>
                 </li>
               );
             })}

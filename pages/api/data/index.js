@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     
     if(req.query.key){
       console.log("req.query.key", req.query.key)
-      await executeQuery("SELECT * FROM data WHERE id = ? ORDER BY create_date DESC", [req.query.key]).then((data)=>{
+      await executeQuery("SELECT * FROM data WHERE id = ?", [req.query.key]).then((data)=>{
         console.log(' === 달력 조회 === : ', data)
         res.send({
           status:true,
@@ -28,12 +28,22 @@ export default async function handler(req, res) {
       }, function(err){
         res.send(err);
       });
-    }else{
+    }else if(req.query.isOpen){
       await executeQuery("SELECT * FROM data WHERE is_open = 1 ORDER BY create_date DESC").then((data)=>{
         res.send({
           status:true,
           data:data,
           message:"[달력 조회]" 
+        });
+      }, function(err){
+        res.send(err);
+      });
+    } else {
+      await executeQuery("SELECT * FROM data ORDER BY create_date DESC").then((data)=>{
+        res.send({
+          status:true,
+          data:data,
+          message:"[달력 total 조회]" 
         });
       }, function(err){
         res.send(err);

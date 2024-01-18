@@ -22,8 +22,8 @@ export default function UserCard({ setUserArea, setAlarm, myDataList, setMyDataL
           <ul>
             {myDataList.map((item)=>{
               return(
-                <li ket={item.create_date}>
-                  <Link href={`/${item.id}@${item.title}`}>
+                <li key={item.create_date}>
+                  <Link href={`/${item.id}/${item.title}`}>
                     <span className={css.title}><i></i>{item.title}</span>
                     <span className={ getDateDiff(item.create_date).type !== 'day' ? `${css.from_date} ${css.new}` : `${css.from_date}` }>
                       {getDateDiff(item.create_date).text}

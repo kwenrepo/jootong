@@ -1,14 +1,13 @@
-import css from './CalendarViewer.module.scss'
-import { useEffect, useRef, useState, useMemo } from 'react'
+import css from './CalendarViewer.module.scss';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { user } from "#recoilStore/index";
 import html2canvas from "html2canvas";
-import saveAs from "file-saver";
 import { getToday } from '#utils/date';
-import Alert from '#components/modal/Alert';
+import { Alert } from '#components/index';
 
-export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, viewList=[]}){
+export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, monthItemList=[]}){
   const getUser = useRecoilValue(user);
   const router = useRouter();
   const captureRef = useRef(null);
@@ -19,7 +18,6 @@ export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, view
     cancel:<button></button>
   });
   const [selectMonth, setSelectMonth] = useState(new Date(getToday()));
-  const [monthItemList, setMonthItemList] = useState([]);
   const currentCalendar = useMemo(()=>{
     if(selectMonth){
       const year = selectMonth.getFullYear();
@@ -180,7 +178,7 @@ export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, view
       message:<span>정말 삭제 하시겠습니까? <br /> 삭제 후 복구가 불가합니다.</span>,
       confirm:<button onClick={()=>{
         let data = {
-          edit_key : router.query.calendar.split("@")[0]
+          edit_key : router.query.calendar[0]
         }
 
         fetch("/api/data?keyword=calendar", {
@@ -214,11 +212,8 @@ export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, view
   }
 
   useEffect(()=>{
-    if(viewList.length){
-      setTitle(title);
-      setMonthItemList(viewList);
-    }
-  }, [viewList.length])
+    setTitle(title);
+  }, [title])
 
   return(
     <>

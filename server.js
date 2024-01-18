@@ -13,6 +13,8 @@ const httpsOptions = {
   cert: fs.readFileSync("./jootong_com.pem")
 };
 const requestIp = require("request-ip");
+const UAParser = require("ua-parser-js");
+
 if(dev) process.env.NEXTAUTH_URL = "http://localhost:3000";
 
 app
@@ -40,15 +42,16 @@ app
         console.log("ready signal production")
       }
     });
-    
+ 
     server.use(function(req, res, next) {
-
+    
       // 프로세스 종료 예정이라면 연결을 종료한다
       if (isAppGoingToBeClosed) {
         res.set('Connection', 'close')
       }else if(!dev && (!req.secure || !req.headers?.host?.includes("www"))){
-        res.redirect('https://www.jootong.com')
+        res.redirect('https://www.jootong.com');
       } else {
+        // console.log('=== userInfo : ', UAParser(req.headers["user-agent"]), req.clientIp, new Date().toLocaleString() )
         next();
       }   
     })

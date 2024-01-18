@@ -8,11 +8,10 @@ import { getToday } from '#utils/date';
 import html2canvas from "html2canvas";
 import { Alert } from '#components/index';
 
-export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, editDataList = [], setViewList}){
+export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, monthItemList = [], setMonthItemList, isOpen = 0}){
   const getUser = useRecoilValue(user);
   const router = useRouter();
   const captureRef = useRef(null);
-
   const [alertData, setAlertData] = useState({
     isAlert:false,
     message:"",
@@ -20,10 +19,9 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
     cancel:<button></button>
   });
   const [selectMonth, setSelectMonth] = useState(new Date(getToday()));
-  const [monthItemList, setMonthItemList] = useState([]);
   const [editDate, setEditDate] = useState(0);
   const [addItem, setAddItem] = useState({})
-  const [optionIsOpen, setOptionIsOpen] = useState(false);
+  const [optionIsOpen, setOptionIsOpen] = useState(isOpen);
   const currentCalendar = useMemo(()=>{
     if(selectMonth){
       const year = selectMonth.getFullYear();
@@ -168,7 +166,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
                 message:<span>저장이 완료 되었습니다.</span>,
                 confirm:<button onClick={()=>{ 
                   router.push({
-                    pathname: '/' + data.boardID + '@' + data.title
+                    pathname: '/' + data.boardID + '/' + data.title
                   })
                 }}>보러가기</button>,
                 cancel:<button onClick={()=>{ router.back(); }}>확인</button>
@@ -191,7 +189,6 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
         nickname : getUser.nickname || '',
         is_open : optionIsOpen
       }
-  
       fetch("/api/data?keyword=calendar", {
         method: "POST",
         headers: {
@@ -208,7 +205,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
             message:<span>저장이 완료 되었습니다.</span>,
             confirm:<button onClick={()=>{ 
               router.push({
-                pathname: '/' + data.boardID + '@' + data.title
+                pathname: '/' + data.boardID + '/' + data.title
               })
             }}>보러가기</button>,
             cancel:<button onClick={()=>{ router.back(); }}>확인</button>
@@ -248,7 +245,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
     let data = {
       title,
       content : arrayToJson,
-      edit_key : router.query.calendar.split("@")[0],
+      edit_key : router.query.calendar[0],
       is_open : optionIsOpen
     }
 
@@ -267,8 +264,8 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
           isAlert:true,
           message:<span>수정이 완료 되었습니다.</span>,
           confirm:<button onClick={()=>{
-            setViewList(monthItemList)
-            setIsEdit({...isEdit, status:false})
+            setMonthItemList(monthItemList);
+            setIsEdit({...isEdit, status:false});
           }}>확인</button>,
         })
       }
@@ -407,11 +404,8 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
   }
 
   useEffect(()=>{
-    if(editDataList.length){
-      setTitle(title);
-      setMonthItemList(editDataList);
-    }
-  }, [editDataList.length])
+    setTitle(title);
+  }, [title])
   return(
     <>
       <section className={css.wrap}>
@@ -558,7 +552,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, edit
 
         <div className={css.option}>
           <label className={css.open}>
-            <input type="checkbox" value={optionIsOpen} onClick={(e)=>{setOptionIsOpen(e.target.checked)}} />
+            <input type="checkbox" checked={optionIsOpen || false} onChange={(e)=>{setOptionIsOpen(e.target.checked)}} />
             <i></i>
             <span>검색 리스트 보여지기</span>
           </label>

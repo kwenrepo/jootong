@@ -1,0 +1,33 @@
+.wrap{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: max(400px, 100vh);
+
+  h1{
+    font-size: 48px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+  }
+
+  span{
+    margin-top:20px;
+    font-size: 24px;
+  }
+
+  a{
+    margin-top:40px;
+    font-size: 16px;
+    border:1px solid #444;
+    color:#444;
+    border-radius: 4px;
+    padding:5px 10px;
+    transition: all 0.3s;
+
+    &:hover{
+      transform: translateY(-2px);
+    }
+
+  }
+}

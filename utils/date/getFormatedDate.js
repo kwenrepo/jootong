@@ -30,3 +30,4 @@ export const getFormatedDate = (data = {}) => {
       return year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ":" + second;
   }
 };
+
