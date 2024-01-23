@@ -8,7 +8,34 @@
       width: 100%;
       --card-count: 4;
 
+      .category_list{
+        span{
+          font-size: 12px;
+          font-weight: bold;
+        }
+        .list_tab{
+          margin-top:10px;
+
+          button{
+            padding:6px 10px;
+            border:1px solid #ddd;
+            margin-right:2px;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s;
+  
+            &:hover, &.on{
+              transform: translateY(-2px);
+              color:rgb(224, 35, 73);
+              border:1px solid rgb(173, 173, 173);
+            }
+          }
+
+        }
+        
+      }
       .item_list_grid{
+        margin-top:10px;
         width: 100%;
         display: grid;
         grid-template-columns: repeat(var(--card-count), 1fr);
@@ -23,6 +50,7 @@
             transform: translateY(-2px);
           }
           a{
+            position: relative;
             display: flex;
             flex-direction: column;
             min-height: 180px;
@@ -30,7 +58,7 @@
             overflow: hidden;
 
             .item_header{
-              width: 100%;
+              height: auto;
               overflow: hidden;
   
               .item_title{
@@ -45,13 +73,15 @@
             }
   
             .item_body{
+              margin-top:10px;
+              min-height: 160px;
               .cap{
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
                 font-size: 14px;
-               
-                margin-bottom:6px;
+                padding-bottom:6px;
+                border-bottom:1px solid #ddd;
 
                 i{
                   display: block;
@@ -93,15 +123,38 @@
             
                 }
               }
+              .summary{
+   
+                padding:10px 0;
+   
+                  span{
+                    font-size: 14px;
+                    margin-right:6px;
+
+                    &::after{
+                      content: ',';
+                      font-size: 10px;
+                    }
+
+                    &:last-child{
+                      &::after{
+                        content: '';
+                      }
+                    }
+                  }
+              }
+              
             }
   
             .item_bottom{
-              margin-top:10px;
-              
+              border-top: 1px solid #ddd;
+              padding-top:10px;
               span{
+
                 display: flex;
                 align-items: center;
                 justify-content: flex-end;
+                height: 100%;
                 &.creator{
                   font-size: 14px;
                   display: flex;

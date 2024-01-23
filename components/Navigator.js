@@ -9,7 +9,8 @@ export default function Navigator({text = ""}) {
       <span>{text}</span>
       <button onClick={() => { router.back(); }}>
         <i></i>
-        back</button>
+        back
+      </button>
     </nav>
   );
 }

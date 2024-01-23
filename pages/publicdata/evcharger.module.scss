@@ -1,0 +1,74 @@
+@import "#styles/_functions/icon";
+
+.wrap{
+  padding:20px 0;
+
+  .top{
+    display: flex;
+    justify-content: space-between;
+    h1{
+      font-size: 32px;
+    }
+
+    button{
+      padding:2px;
+      border-radius: 2px;
+      font-size: 12px;
+      transition: 0.2s;
+      display: flex;
+  
+      align-items: center;
+      line-height: 2px;
+  
+      i{
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: icon(back);
+      }
+  
+      &:hover{
+        transform: translateX(-2px);
+      }
+    }
+  }
+
+  ul{
+    margin-top:20px;
+    li{
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+
+      &:last-child{
+        border-bottom: none;
+      }
+      div{
+        margin-bottom: 6px;
+
+        span{
+          margin-right:6px;
+        }
+      }
+
+      .name{
+        font-size: 18px;
+        font-weight: bold;
+
+        .status{
+          font-size: 14px;
+        }
+      }
+
+      .address{
+       
+      }
+
+      .use_time{
+        span{
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}

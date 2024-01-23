@@ -1,5 +1,10 @@
-import { debounce } from "./debounce";
+import debounce from "./debounce";
+import {shuffleArray} from "./shuffleArray";
+import {xmlToJson} from "./xmlToJson";
 
-module.exports = {
-  debounce
+
+export { 
+  debounce, 
+  shuffleArray,
+  xmlToJson
 }

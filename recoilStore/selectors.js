@@ -15,7 +15,7 @@ export const dataListSelector = selector({
   set: ({set}, newList) => {
     newList = newList.map((item)=>{
       item.summaryOfContent = Object.values(JSON.parse(item.content))[0];
-      return item
+      return item;
     })
     set(dataList, newList);
   }
@@ -28,7 +28,7 @@ export const calendarDataListSelector = selector({
   set: ({set}, newList) => {
     newList = newList.map((item)=>{
       item.summaryOfContent = Object.values(JSON.parse(item.content))[0];
-      return item
+      return item;
     })
     set(calendarDataList, newList);
   }

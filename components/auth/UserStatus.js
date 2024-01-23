@@ -22,7 +22,7 @@ export default function UserStatus() {
   const [signupArea, setSignupArea] = useState(false);
   const [userArea, setUserArea] = useState(false);
   const [alarm, setAlarm] = useState(false);
-  const [myDataList, setMyDataList] = useState([])
+  const [myDataList, setMyDataList] = useState([]);
 
   useEffect(()=>{
     async function session(){
@@ -56,7 +56,7 @@ export default function UserStatus() {
       setSnsSignup(true);
     }
     
-  }, [getUser])
+  }, [getUser.user_key])
   return (
     <>
       {getUser?.user_key ? (
