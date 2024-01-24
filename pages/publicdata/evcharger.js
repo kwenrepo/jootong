@@ -3,43 +3,60 @@ import { useEffect, useState, useRef } from 'react';
 import { Layout, Loading } from '#components/index';
 import { getDateDiff, getFormatedDate } from '#utils/date';
 import { xmlToJson } from '#utils/index';
-
+import { useRouter } from 'next/router';
 
 export default function evcharger(){
+  const router = useRouter();
  
   const [evChargerList, setEvChargerList] = useState([]);
   const target = useRef();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState({
     rows: 10,
-    pageNo : 1,
+    pageNo : 0,
     zcode : 11
   })
+  const [filter, setFilter] = useState(false);
+  const [selectedArea, setSelectedArea] = useState('서울');
+  const [scrollActive, setScrollActive] = useState(false);
+  function handleScroll() {
+    if (window.scrollY > 19) {
+      setScrollActive(true);
+    } else {
+      setScrollActive(false);
+    }
+  }
+  useEffect(() => {
+    function scrollListener() {
+      window.addEventListener("scroll", handleScroll);
+    } //  window 에서 스크롤을 감시 시작
+    scrollListener(); // window 에서 스크롤을 감시
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    }; //  window 에서 스크롤을 감시를 종료
+  }, []);
 
   useEffect(() => {
     getCharger();
   }, [page])
  
   useEffect(() => {
-    console.log(target.current)
 
     if(target.current){
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;  // entry가 interscting 중이 아니라면 함수를 실행하지 않음
-          if (loading) return;  // 현재 page가 불러오는 중임을 나타내는 flag를 통해 불러오는 중이면 함수를 실행하지 않음
-    
-          setPage({
+      const observer = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;  // entry가 interscting 중이 아니라면 함수를 실행하지 않음
+        if (loading) return;  // 현재 page가 불러오는 중임을 나타내는 flag를 통해 불러오는 중이면 함수를 실행하지 않음
+  
+        setPage((prev) => {
+          return{
             ...page,
-            pageNo : page.pageNo + 1,
-          })
-     
+            zcode : prev.zcode,
+            pageNo : prev.pageNo + 1,
+          }
         });
-      });
-      observer.observe(target.current, {});
+      },{ threshold: 1 });
+      observer.observe(target.current);
     }
-
-
   }, [target.current]);
 
   function getCharger(){
@@ -58,24 +75,26 @@ export default function evcharger(){
     .then((xml) => {
       if(typeof xml === 'object'){
         let dataList = xmlToJson(xml);
-        console.log(dataList.response.body.items.item)
-        // dataList.response.body.items.item.reduce((acc, current) => {
-        //   if(yearMonth === current.yearMonth){
-        //     acc[current.date] = acc[current.date] || [];
-        //     acc[current.date].push({
-        //       key : current.key,
-        //       value : current.value,
-        //       explain : current.explain,
-        //       yearMonth 
-        //     });
-        //   }
-        //   return acc;
-        // }, []);
-        setEvChargerList([...evChargerList, dataList.response.body.items.item]);
+        setEvChargerList(evChargerList.concat(dataList.response.body.items.item));
         setLoading(false);
       }
       
     });
+  }
+
+  function zCodeHandler(e){
+    window.scrollTo(0, 1000);
+
+    if(e.target.dataset.zcode){
+      setEvChargerList([]);
+      setPage({
+        ...page,
+        pageNo:1,
+        zcode:e.target.dataset.zcode
+      })
+      setFilter(false);
+      setSelectedArea(e.target.innerText);
+    }
   }
 
   return(
@@ -90,15 +109,40 @@ export default function evcharger(){
               back
             </button>
           </div>
-          {evChargerList.length > 0 && !loading
-          ? <ul>
+
+          <div className={scrollActive ? `${css.filter} ${css.fixed}` : `${css.filter}`}>
+            <div className={css.inner}>
+              <button className={css.selected} onClick={()=>{setFilter(!filter)}}>{selectedArea}</button>
+              {filter && <ul className={css.select_box} onClick={(e)=>{zCodeHandler(e)}}>
+                <li data-zcode="41">경기</li>
+                <li data-zcode="51">강원</li>
+                <li data-zcode="48">경상남도</li>
+                <li data-zcode="47">경상북도</li>
+                <li data-zcode="29">광주</li>
+                <li data-zcode="27">대구</li>
+                <li data-zcode="30">대전</li>
+                <li data-zcode="26">부산</li>
+                <li data-zcode="11">서울</li>
+                <li data-zcode="36">세종</li>
+                <li data-zcode="31">울산</li>
+                <li data-zcode="28">인천</li>
+                <li data-zcode="46">전라남도</li>
+                <li data-zcode="52">전라북도</li>
+                <li data-zcode="50">제주</li>
+                <li data-zcode="44">충청남도</li>
+                <li data-zcode="43">충청북도</li>
+              </ul>}
+            </div>
+          </div>
+          {evChargerList.length > 0 
+          ? <ul className={css.list}>
             {evChargerList.map((item)=>{
               return(
-                <li key={item.statUpdDt}>
+                <li key={Math.random() + item.statUpdDt}>
                   <div className={css.item}>
                     <div className={css.name}>
                       <span>{item.statNm}</span>
-                      {/* <span className={css.status}>{Object.keys(item?.note).length === 0 ? "⚡(이용가능)" : item.note} </span> */}
+                      <span className={css.status}>{Object.keys(item?.note).length === 0 ? "⚡(이용가능)" : item.note} </span>
                     </div>
                     <div className={css.address}>
                       <span>📍 주소 : {item.addr}</span>
@@ -108,7 +152,7 @@ export default function evcharger(){
                       <span>{item.useTime}</span>
                       <span>📞 : {item.busiCall}</span>
                       </div>
-                    <div className={css.last_update}>상태갱신일시 : {item.statUpdDt}</div>
+                    <div className={css.last_update}>상태갱신일시 : 오늘 </div>
                   </div>
                   
                 </li>
@@ -116,7 +160,7 @@ export default function evcharger(){
             })}
             </ul>
           : <Loading />}
-           <div className={css.bottom} ref={target}>bottomtothbottom</div>
+           <div className={css.bottom} ref={target}></div>
         </section>
     </Layout>
   )

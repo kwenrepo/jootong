@@ -7,7 +7,6 @@
     margin:0 auto;
     .set_title{
       position: relative;
-      margin-top:30px;
     
       span{
         font-size: 32px;
@@ -221,6 +220,8 @@
                 width: 100%;
                 display: flex;
                 flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
                 span{
                   font-size: 14px;
                   margin-right:4px;         

@@ -226,28 +226,34 @@
                 margin-top: 4px;
                 width: 100%;
                 display: flex;
+                justify-content: space-between;
+                align-items: center;
                 flex-wrap: wrap;
                 span{
                   font-size: 14px;
                   margin-right:4px;         
                 }
-              }
 
-              .delete{
-                margin-left:auto;
-                i{
-                  display: block;
-                  text-indent: 100%;
-                  overflow: hidden;
-                  width: 20px;
-                  height: 20px;
-                  background: icon(eraser);
-                  transition: all 0.3s;
-                  &:hover{
-                    transform: translateY(-1px);
+                .delete{
+                  width: 100%;
+                  display: flex;
+                  justify-content: flex-end;
+                  i{
+                    display: block;
+                    text-indent: 100%;
+                    overflow: hidden;
+                    width: 20px;
+                    height: 20px;
+                    background: icon(eraser);
+                    transition: all 0.3s;
+                    &:hover{
+                      transform: translateY(-1px);
+                    }
                   }
                 }
               }
+
+             
             }
           }
       

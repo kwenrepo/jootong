@@ -8,6 +8,10 @@
     justify-content: space-between;
     h1{
       font-size: 32px;
+      &::after{
+        content: '한국환경공단 - 공공데이터';
+        font-size: 12px;
+      }
     }
 
     button{
@@ -32,17 +36,92 @@
       }
     }
   }
+  .filter{
+    position: relative;
+    margin-top:24px;
+    border-bottom:1px solid #ddd;
+    padding-bottom: 10px;
 
-  ul{
+    &.fixed{
+      position: fixed;
+      top:0;
+      margin-top:0;
+      left:0;
+      width: 100%;  
+      background: #fff;
+      z-index: 99;
+      padding:10px 24px;
+
+    }
+    .inner{
+      max-width: 1024px;
+      margin: 0 auto;
+      .selected{
+        font-size: 24px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        &::after{
+          content:'';
+          display: block;
+          width: 12px;
+          min-width: 12px;
+          height: 9px;
+          background: icon(arrowDown);
+          margin-left:10px;
+        }
+      }
+      .select_box{
+        margin-top:10px;
+        overflow: hidden;
+        transition: all 0.3s;
+        background: #fff;
+        border-radius: 4px;
+        padding:12px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap:10px;
+        li{
+          display: flex;
+          align-items: center;
+          font-size: 16px;
+          cursor: pointer;
+          &:hover{
+            color: crimson;
+          }
+  
+          &::after{
+            content: '';
+            width: 1px;
+            height: 12px;
+            background: #ddd;
+            margin-left:10px;
+          }
+  
+          &:last-child{
+            &::after{
+              display: none;
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+  ul.list{
     margin-top:20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:16px;
+
     li{
       margin-bottom: 10px;
       padding-bottom: 10px;
       border-bottom: 1px solid #ddd;
 
-      &:last-child{
-        border-bottom: none;
-      }
+  
       div{
         margin-bottom: 6px;
 
@@ -70,5 +149,9 @@
         }
       }
     }
+  }
+
+  .bottom{
+    height: 1px;
   }
 }

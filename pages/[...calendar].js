@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRecoilValue} from 'recoil';
 import { user } from "#recoilStore/index";
 import { useRouter } from 'next/router';
-import {Layout, Alert} from '#components/index';
+import {  Layout, Alert, Navigator } from '#components/index';
 import { CalendarEditor, CalendarViewer }from "#components/calendar";
 
 export default function calendar(props){
@@ -30,7 +30,10 @@ export default function calendar(props){
   }, [getUser.user_key])
   return(
     <Layout title={title}>
+
       <section className={css.wrap}>
+        <Navigator />
+
         <div className={css.inner}>
           {isEdit.status 
             ? <CalendarEditor title={title} setTitle={setTitle} isEdit={isEdit} setIsEdit={setIsEdit} monthItemList={monthItemList} setMonthItemList={setMonthItemList} isOpen={props.is_open}/> 
