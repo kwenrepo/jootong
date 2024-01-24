@@ -21,6 +21,7 @@ app
   .prepare()
   .then(() => {
     console.log(`========================================== APP Prepare Done ${process.env.NODE_ENV} ==========================================================`);
+    
     let isAppGoingToBeClosed = false; // HTTP 연결을 종료시킬 미들웨어에서 사용할 변수
     
     const server = express();
@@ -44,20 +45,21 @@ app
     });
  
     server.use(function(req, res, next) {
-    
+      console.log('=== userInfo : ', UAParser(req.headers["user-agent"]).device, UAParser(req.headers["user-agent"]).os, req.clientIp, new Date().toLocaleString() )
+
       // 프로세스 종료 예정이라면 연결을 종료한다
       if (isAppGoingToBeClosed) {
         res.set('Connection', 'close')
       }else if(!dev && (!req.secure || !req.headers?.host?.includes("www"))){
         res.redirect('https://www.jootong.com');
       } else {
-        // console.log('=== userInfo : ', UAParser(req.headers["user-agent"]), req.clientIp, new Date().toLocaleString() )
         next();
       }   
     })
 
     server.use(async (req, res, next) => {
       try {
+
         const parsedUrl = parse(req.url, true);
         const { pathname, query } = parsedUrl;
 
@@ -71,7 +73,8 @@ app
     });
 
     process.on('SIGINT', function() { // SIGINT 신호가 수신되었을 때
-      isAppGoingToBeClosed = true
+
+      isAppGoingToBeClosed = true;
 
       // pm2 재시작 신호가 들어오면 서버를 종료시킨다.
       // listeningServer: server.listen 메소드가 리턴하는 서버 인스턴스를 할당한 변수

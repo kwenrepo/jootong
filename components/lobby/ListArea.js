@@ -11,7 +11,7 @@ export default function ListArea() {
   const setDataList = useSetRecoilState(dataListSelector);
   const getDataList = useRecoilValue(dataList);
 
-  const [category, setCategory] = useState("public");
+  const [category, setCategory] = useState("calendar");
   const [loading, setLoading] = useState(true);
   const [weather, setWeather] = useState({});
   const [evCharger, setEvCharger] = useState({});
@@ -82,7 +82,7 @@ export default function ListArea() {
   
         let chargerData = {
           type : 'charger',
-          summaryList : dataList.response.body.items.item.map((item)=>{
+          summaryList : dataList?.response?.body?.items.item.map((item)=>{
             return item.statNm
           })
         }

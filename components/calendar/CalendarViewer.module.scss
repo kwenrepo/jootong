@@ -47,8 +47,9 @@
               display: block;
               width: 20px;
               height: 20px;
-              background: icon(prev);
+              background: icon(next);
               margin-right: 2px;
+              transform: rotate(180deg);
             }
             @media (hover: hover){
               &:hover{
@@ -95,10 +96,6 @@
             transition: all 0.3s;
             cursor: pointer;
   
-            &.on {
-              height: auto;
-            }
-  
             .group_name {
               display: flex;
               align-items: center;
@@ -118,7 +115,7 @@
             }
   
             .detail_list {
-              margin-top: 4px;
+              margin-top: 8px;
               margin-bottom: 12px;
               padding-bottom: 6px;
               border-bottom: 1px solid #ddd;
@@ -143,7 +140,7 @@
               }
               
             }
-  
+   
           }
         }
       }
@@ -411,7 +408,6 @@
               }
     
               .detail_list {
-                padding-left: 12px;
                 margin-bottom: 8px;
     
                 span {
