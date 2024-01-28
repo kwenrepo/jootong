@@ -19,6 +19,7 @@ export default function evcharger(){
   const [filter, setFilter] = useState(false);
   const [selectedArea, setSelectedArea] = useState('서울');
   const [scrollActive, setScrollActive] = useState(false);
+  
   function handleScroll() {
     if (window.scrollY > 19) {
       setScrollActive(true);
@@ -29,11 +30,11 @@ export default function evcharger(){
   useEffect(() => {
     function scrollListener() {
       window.addEventListener("scroll", handleScroll);
-    } //  window 에서 스크롤을 감시 시작
-    scrollListener(); // window 에서 스크롤을 감시
+    } 
+    scrollListener(); 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-    }; //  window 에서 스크롤을 감시를 종료
+    }; 
   }, []);
 
   useEffect(() => {
@@ -142,17 +143,17 @@ export default function evcharger(){
                   <div className={css.item}>
                     <div className={css.name}>
                       <span>{item.statNm}</span>
-                      <span className={css.status}>{Object.keys(item?.note).length === 0 ? "⚡(이용가능)" : item.note} </span>
+                      <span className={css.status}>{typeof item.delDetail === 'string' ? `🚫(${item.delDetail})` : "⚡(이용가능)"} </span>
                     </div>
                     <div className={css.address}>
                       <span>📍 주소 : {item.addr}</span>
                       
                     </div>
                     <div className={css.use_time}>
-                      <span>{item.useTime}</span>
-                      <span>📞 : {item.busiCall}</span>
-                      </div>
-                    <div className={css.last_update}>상태갱신일시 : 오늘 </div>
+                      <span>상태 : {typeof item.delDetail === 'string' ? item.delDetail : item.useTime || ''}</span>
+                      <span>( 📞 : {item.busiCall} )</span>
+                    </div>
+                    <div className={css.last_update}>갱신일시 : 오늘 </div>
                   </div>
                   
                 </li>

@@ -12,14 +12,13 @@ export default function ListArea() {
   const getDataList = useRecoilValue(dataList);
 
   const [category, setCategory] = useState("calendar");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(new Array(12).fill(0));
   const [weather, setWeather] = useState({});
   const [evCharger, setEvCharger] = useState({});
 
   useEffect(() => {
     getCalendarList();
-    getWeather();
-    getCharger();
+
   }, [])
 
   function getCalendarList(){
@@ -52,12 +51,9 @@ export default function ListArea() {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log("날씨 조회", data)
-
       if(data.response.body.items.length){
         data.response.body.items[0].informGrade = data.response.body.items[0].informGrade.split(',');
         shuffleArray(data.response.body.items[0].informGrade);
-        console.log(data.response.body.items[0])
         setWeather(data.response.body.items[0]);
       }
     });
@@ -69,7 +65,6 @@ export default function ListArea() {
     queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
     queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
     queryParams += '&' + encodeURIComponent('zcode') + '=' + encodeURIComponent('11'); /**/
-
     
     fetch(url + queryParams, {
       method: 'GET',
@@ -86,16 +81,19 @@ export default function ListArea() {
             return item.statNm
           })
         }
-
         setEvCharger(chargerData);
       }
-      
     });
   }
 
   const categoryHandler = {
     "public" : function(){
-      setCategory('public');
+      if(category !== 'public'){
+        setCategory('public');
+        getWeather();
+        getCharger();
+      } 
+     
     },
     "calendar" : function(){
       setCategory('calendar');
@@ -108,15 +106,20 @@ export default function ListArea() {
 
         <div className={css.item_list_wrap}>
           <div className={css.category_list}>
-            <span>데이터 목록</span>
             <div className={css.list_tab}>
-              <button className={category==='public' ? css.on : ''} onClick={()=>{categoryHandler['public']()}}>공공데이터</button>
-              <button className={category==='calendar' ? css.on : ''} onClick={()=>{categoryHandler['calendar']()}}>공유달력</button>
+              <button className={category==='public' ? css.on : ''} onClick={()=>{categoryHandler['public']()}}>
+                <i>📈</i>
+                <span>공공데이터</span>
+              </button>
+              <button className={category==='calendar' ? css.on : ''} onClick={()=>{categoryHandler['calendar']()}}>
+                <i>📅</i>
+                <span>공유달력</span>
+              </button>
             </div>
           </div>
 
           {category === 'public' && <ul className={css.item_list_grid}>
-            {weather.informGrade?.length > 0 &&
+            {weather.informGrade?.length > 0 ?
               <li>
                 <Link href={'/publicdata/dust'}>
                   <div className={css.item_header}>
@@ -146,10 +149,41 @@ export default function ListArea() {
                     </span>
                   </div>
                 </Link>
-              </li> 
+              </li>
+              :
+              <li className={css.loading_item}>
+                <div className={css.item_header}>
+                  <div className={css.item_title}>
+                    <i>⏳</i>
+                    <span>ㅁㅁㅁㅁㅁ</span>
+                  </div>
+                </div>
+                <div className={css.item_body}>
+                  <div className={css.cap}><i></i><span>...</span></div>
+
+                  <div className={css.summary}>
+                    <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                    <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                    <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                    <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                    <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                  </div>
+                  
+                  
+                </div>
+
+                <div className={css.item_bottom}>
+                  <span className={css.creator}>
+                    <i></i><span>한국환경공단-공공데이터</span>
+                  </span>
+                  <span className={ css.from_date }>
+                    <i></i><span>124214</span>
+                  </span>
+                </div>
+              </li>
             }
 
-            {evCharger.summaryList?.length > 0 &&
+            {evCharger.summaryList?.length > 0 ?
               <li>
                 <Link href={'/publicdata/evcharger'}>
                   <div className={css.item_header}>
@@ -176,12 +210,43 @@ export default function ListArea() {
                     </span> */}
                   </div>
                 </Link>
-              </li> 
+              </li>
+              :
+              <li className={css.loading_item}>
+                <div className={css.item_header}>
+                  <div className={css.item_title}>
+                    <i>⏳</i>
+                    <span>ㅁㅁㅁㅁㅁ</span>
+                  </div>
+                </div>
+                <div className={css.item_body}>
+                  <div className={css.cap}><i></i><span>...</span></div>
+
+                  <div className={css.summary}>
+                    <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                    <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                    <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                    <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                    <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                  </div>
+                  
+                  
+                </div>
+
+                <div className={css.item_bottom}>
+                  <span className={css.creator}>
+                    <i></i><span>한국환경공단-공공데이터</span>
+                  </span>
+                  <span className={ css.from_date }>
+                    <i></i><span>124214</span>
+                  </span>
+                </div>
+              </li>
             }
           </ul>}
 
           {category === 'calendar' && <ul className={css.item_list_grid}>
-            {getDataList.map((item)=>{
+            { getDataList.length > 0 ? getDataList.map((item)=>{
               return (
                 <li>
                   <Link href={`/${item.id}/${item.title}`}>
@@ -228,6 +293,39 @@ export default function ListArea() {
                   </Link>
                 </li>
               );
+            }) : loading.map((item)=>{
+              return(
+                <li key={Math.random()} className={css.loading_item}>
+                  <div className={css.item_header}>
+                    <div className={css.item_title}>
+                      <i>⏳</i>
+                      <span>asdasdd</span>
+                    </div>
+                  </div>
+                  <div className={css.item_body}>
+                    <div className={css.cap}><i></i><span>...</span></div>
+
+                    <div className={css.summary}>
+                      <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                      <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                      <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                      <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                      <span>ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</span>
+                    </div>
+                    
+                    
+                  </div>
+
+                  <div className={css.item_bottom}>
+                    <span className={css.creator}>
+                      <i></i><span>한국환경공단-공공데이터</span>
+                    </span>
+                    <span className={ css.from_date }>
+                      <i></i><span>124214</span>
+                    </span>
+                  </div>
+                </li>
+              )
             })}
           </ul>}
         

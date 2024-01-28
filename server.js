@@ -45,7 +45,7 @@ app
     });
  
     server.use(function(req, res, next) {
-      console.log('=== userInfo : ', UAParser(req.headers["user-agent"]).device, UAParser(req.headers["user-agent"]).os, req.clientIp, new Date().toLocaleString() )
+      // console.log('=== userInfo : ', UAParser(req.headers["user-agent"]).device, UAParser(req.headers["user-agent"]).os, req.clientIp, new Date().toLocaleString() )
 
       // 프로세스 종료 예정이라면 연결을 종료한다
       if (isAppGoingToBeClosed) {
