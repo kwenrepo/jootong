@@ -36,6 +36,9 @@
     "#styles/*": "./styles/*"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "@types/node": "^20.11.15",
+    "@types/react": "^18.2.51",
+    "nodemon": "^2.0.22",
+    "typescript": "^5.3.3"
   }
 }

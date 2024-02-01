@@ -150,7 +150,7 @@ export default function evcharger(){
                       
                     </div>
                     <div className={css.use_time}>
-                      <span>상태 : {typeof item.delDetail === 'string' ? item.delDetail : item.useTime || ''}</span>
+                      <span>상태 : {typeof item.delDetail === 'string' ? item.delDetail : typeof item.useTime === 'string' ? item.useTime : ''}</span>
                       <span>( 📞 : {item.busiCall} )</span>
                     </div>
                     <div className={css.last_update}>갱신일시 : 오늘 </div>
