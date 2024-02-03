@@ -2,19 +2,18 @@ import css from './ListArea.module.scss';
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { dataList, dataListSelector } from "#recoilStore/index";
-import Loading from '#components/Loading';
 import { getDateDiff, getFormatedDate } from '#utils/date';
 import { shuffleArray, xmlToJson } from '#utils/index';
 import Link from "next/link";
 
 export default function ListArea() {
   const setDataList = useSetRecoilState(dataListSelector);
-  const getDataList = useRecoilValue(dataList);
+  const getDataList:any = useRecoilValue(dataList);
 
   const [category, setCategory] = useState("calendar");
   const [loading, setLoading] = useState(new Array(12).fill(0));
-  const [weather, setWeather] = useState({});
-  const [evCharger, setEvCharger] = useState({});
+  const [weather, setWeather]:any = useState({});
+  const [evCharger, setEvCharger]:any = useState({});
 
   useEffect(() => {
     getCalendarList();
