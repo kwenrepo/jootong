@@ -482,3 +482,127 @@
     }
   }
 }
+
+@media (max-width: 460px) {
+  .wrap{
+    width: 100%;
+  
+    .inner{
+      .item_list_wrap{
+        width: 100%;
+        --card-count:1;
+  
+        .item_list_grid{
+          margin-top:10px;
+          width: 100%;
+          display: grid;
+          grid-template-columns: repeat(var(--card-count), 1fr);
+          gap:8px;
+          
+          li{
+            border-radius: 4px;
+            box-shadow: 4px 4px 12px 0 rgba(95, 93, 93, 0.2);
+            overflow: hidden;
+          
+            a{
+              display: flex;
+              flex-direction: column;
+              min-height: 180px;
+              padding:10px 12px;
+              overflow: hidden;
+  
+              .item_header{
+                width: 100%;
+                overflow: hidden;
+    
+                .item_title{
+                  display: block;
+                  font-weight: bold;
+                  font-size: 24px;
+                  width: 100%;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  overflow: hidden;
+    
+                }
+              }
+    
+              .item_body{
+                .cap{
+                  font-size: 14px;
+                  text-align: right;
+                  margin-bottom:6px;
+                }
+                .summary_calendar{
+                  position: relative;
+                  padding:5px;
+                  border:1px solid #ddd;
+    
+                  .day_number{
+                    font-size: 12px;
+                    display: flex;
+                    justify-content: flex-end;
+                    transition: 0.1s;
+                  }
+            
+                  .history_item{
+                    margin-top:10px;
+            
+                    .text{
+                      width: 100%;
+                      text-align: right;
+                      span{
+                        font-size: 14px;
+                        margin-right:4px;
+                        
+                      }
+                    }
+              
+                  }
+                }
+              }
+    
+              .item_bottom{
+                margin-top:10px;
+                span{
+                  display: flex;
+                  align-items: center;
+                  justify-content: flex-end;
+                  &.from_date{
+                    font-size: 12px;
+                  }
+                  
+                  &.new{
+                    &::before{
+                      content: "";
+                      display: block;
+                      width: 5px;
+                      height: 5px;
+                      border-radius: 50%;
+                      background: red;
+                      margin-right:4px;
+                    }
+                  }
+                }
+                
+              }
+            }
+           
+            img{
+              width: 100%;
+            }
+          }
+        }
+      }
+  
+      .empty{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        padding:10px 0;
+      }
+  
+    }
+  }
+}

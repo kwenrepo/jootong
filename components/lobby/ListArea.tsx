@@ -6,13 +6,20 @@ import { getDateDiff, getFormatedDate } from '#utils/date';
 import { shuffleArray, xmlToJson } from '#utils/index';
 import Link from "next/link";
 
+type Weather = { 
+  informGrade: [],
+  informCause : string,
+  create_date: string,
+  dataTime : string
+};
+
 export default function ListArea() {
   const setDataList = useSetRecoilState(dataListSelector);
   const getDataList:any = useRecoilValue(dataList);
 
   const [category, setCategory] = useState("calendar");
   const [loading, setLoading] = useState(new Array(12).fill(0));
-  const [weather, setWeather]:any = useState({});
+  const [weather, setWeather] = useState<Weather | null>(null);
   const [evCharger, setEvCharger]:any = useState({});
 
   useEffect(() => {
@@ -118,7 +125,7 @@ export default function ListArea() {
           </div>
 
           {category === 'public' && <ul className={css.item_list_grid}>
-            {weather.informGrade?.length > 0 ?
+            {weather?.informGrade?.length > 0 ?
               <li>
                 <Link href={'/publicdata/dust'}>
                   <div className={css.item_header}>
@@ -182,7 +189,7 @@ export default function ListArea() {
               </li>
             }
 
-            {evCharger.summaryList?.length > 0 ?
+            {evCharger?.summaryList?.length > 0 ?
               <li>
                 <Link href={'/publicdata/evcharger'}>
                   <div className={css.item_header}>
@@ -247,7 +254,7 @@ export default function ListArea() {
           {category === 'calendar' && <ul className={css.item_list_grid}>
             { getDataList.length > 0 ? getDataList.map((item)=>{
               return (
-                <li>
+                <li key={Math.random()}>
                   <Link href={`/${item.id}/${item.title}`}>
                     <div className={css.item_header}>
                       <span className={css.item_title}>{item.title}</span>
