@@ -1,10 +1,10 @@
 import css from './support.module.scss'
 import {useState, useEffect, useRef, useCallback } from "react";
 import { useRecoilValue } from 'recoil';
-import { user } from "#recoilStore/index";
+import { user } from "@recoilStore/index";
 import { useRouter } from 'next/router';
-import { Layout, Navigator, Alert } from '#components/index';
-import { openWindow } from '#utils/openwindow';
+import { Layout, Navigator, Alert } from '@components/index';
+import { openWindow } from '@utils/openwindow';
 
 export default function support(){
   const getUser = useRecoilValue(user);

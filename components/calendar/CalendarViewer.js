@@ -2,10 +2,10 @@ import css from './CalendarViewer.module.scss';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
-import { user } from "#recoilStore/index";
+import { user } from "@recoilStore/index";
 import html2canvas from "html2canvas";
-import { getToday } from '#utils/date';
-import { Alert } from '#components/index';
+import { getToday } from '@utils/date';
+import { Alert } from '@components/index';
 
 export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, monthItemList=[]}){
   const getUser = useRecoilValue(user);

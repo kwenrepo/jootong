@@ -1,9 +1,8 @@
 import css from './ListArea.module.scss';
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { dataList, dataListSelector } from "#recoilStore/index";
-import { getDateDiff, getFormatedDate } from '#utils/date';
-import { shuffleArray, xmlToJson } from '#utils/index';
+import { dataList, dataListSelector } from "@recoilStore/index";
+import { shuffleArray, xmlToJson, getDateDiff, getFormatedDate } from '@utils/index';
 import Link from "next/link";
 
 type Weather = { 

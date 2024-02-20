@@ -1,7 +1,7 @@
 import crypto from 'crypto';
-import { executeQuery } from '#database/index';
-import { randomUUID } from "#utils/randomUUID";
-import { getFormatedDate } from "#utils/date";
+import { executeQuery } from '@database/index';
+import { randomUUID } from "@utils/randomUUID";
+import { getFormatedDate } from "@utils/date";
 
 export default async function handler(req, res) {
   if (req.method === "POST"){

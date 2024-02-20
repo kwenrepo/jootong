@@ -1,7 +1,7 @@
 import css from './forgotpassword.module.scss';
 import { useState, useRef } from "react";
 import { useRouter } from 'next/router';
-import { Layout, Navigator, Alert, Loading } from '#components/index';
+import { Layout, Navigator, Alert, Loading } from '@components/index';
 
 export default function forgetpassword() {
   const router = useRouter();

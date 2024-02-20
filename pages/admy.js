@@ -1,13 +1,13 @@
 import css from './admin.module.scss'
-import Header from '#components/Header';
+import Header from '@components/Header';
 import {useState, useEffect, useRef, useContext} from "react"
 import { useSession, signIn, getSession } from "next-auth/react"
 import { useRecoilValue } from 'recoil';
-import { user } from "#recoilStore/index";
+import { user } from "@recoilStore/index";
 import { useRouter } from 'next/router';
-import Alert from '#components/modal/Alert';
-import { getDateDiff } from '#utils/date';
-import { openWindow } from '#utils/openwindow'
+import Alert from '@components/modal/Alert';
+import { getDateDiff } from '@utils/date';
+import { openWindow } from '@utils/openwindow'
 
 export default function admy(){
   const getUser = useRecoilValue(user);

@@ -2,11 +2,11 @@ import css from './mypage.module.scss';
 import {useState, useEffect, useRef } from "react";
 import { signOut } from "next-auth/react";
 import { useRecoilValue } from 'recoil';
-import { user } from "#recoilStore/index"
+import { user } from "@recoilStore/index"
 import { useRouter } from 'next/router';
-import { Layout, Navigator, Alert, Loading } from '#components/index';
-import Profile from "#components/mypage/Profile";
-import SupportHistory  from "#components/mypage/SupportHistory"
+import { Layout, Navigator, Alert, Loading } from '@components/index';
+import Profile from "@components/mypage/Profile";
+import SupportHistory  from "@components/mypage/SupportHistory"
 export default function mypage(){
   const getUser = useRecoilValue(user);
 

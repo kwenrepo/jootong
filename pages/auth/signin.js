@@ -2,11 +2,11 @@ import css from './signin.module.scss';
 import { signIn, getSession } from "next-auth/react"
 import { useState, useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { user, userSelector } from "#recoilStore/index";
+import { user, userSelector } from "@recoilStore/index";
 import { useRouter } from 'next/router';
 import Link from "next/link";
-import SnsSignup from "#components/auth/SnsSignup";
-import {Layout, Alert, Loading} from '#components/index';
+import SnsSignup from "@components/auth/SnsSignup";
+import {Layout, Alert, Loading} from '@components/index';
 
 export default function signin() {
   const getUser = useRecoilValue(user);

@@ -1,12 +1,12 @@
 import css from './UserCard.module.scss';
 import { signOut } from "next-auth/react";
 import { useRecoilValue } from 'recoil';
-import { user } from "#recoilStore/index"
+import { user } from "@recoilStore/index"
 import { useEffect, useState} from "react";
 import Link from "next/link";
-import Loading from '#components/Loading'
-import { openWindow } from '#utils/openwindow';
-import { getDateDiff } from '#utils/date';
+import Loading from '@components/Loading'
+import { openWindow } from '@utils/openwindow';
+import { getDateDiff } from '@utils/date';
 
 export default function UserCard({ setUserArea, setAlarm, myDataList, setMyDataList, setAlertData }) {
   const getUser = useRecoilValue(user);

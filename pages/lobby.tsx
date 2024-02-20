@@ -1,5 +1,5 @@
 import css from './lobby.module.scss';
-import ListArea from '#components/lobby/ListArea';
+import { ListArea } from '@components/index';
 
 export default function lobby() {
   return (

@@ -3,10 +3,10 @@ import { signIn, getSession} from "next-auth/react"
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { user, userSelector } from "#recoilStore/index";
-import { isEmail } from "#utils/regexp/isEmail";
-import { isPassword } from "#utils/regexp/isPassword";
-import { Layout, Alert, Loading } from '#components/index';
+import { user, userSelector } from "@recoilStore/index";
+import { isEmail } from "@utils/regexp/isEmail";
+import { isPassword } from "@utils/regexp/isPassword";
+import { Layout, Alert, Loading } from '@components/index';
 import Link from "next/link";
 
 export default function signup({}) {

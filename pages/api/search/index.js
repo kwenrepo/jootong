@@ -1,4 +1,4 @@
-import { executeQuery } from '#database/index';
+import { executeQuery } from '@database/index';
 
 export default async function handler(req, res) {
   if(req.method === "GET"){

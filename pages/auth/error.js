@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { user } from "#recoilStore/index";
+import { user } from "@recoilStore/index";
 import { useEffect } from 'react';
 import { useRouter } from "next/router";
 

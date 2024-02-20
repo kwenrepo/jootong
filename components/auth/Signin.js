@@ -1,10 +1,10 @@
 import css from './Signin.module.scss';
 import { signIn, getSession } from "next-auth/react";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { user, userSelector } from "#recoilStore/index";
+import { user, userSelector } from "@recoilStore/index";
 import { useEffect, useState } from 'react';
 import Link from "next/link";
-import Loading from '#components/Loading';
+import Loading from '@components/Loading';
 
 export default function Signin({ setLoginArea, setSignupArea }) {
   const getUser = useRecoilValue(user);

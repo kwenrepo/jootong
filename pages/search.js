@@ -1,11 +1,11 @@
 import css from "./search.module.scss";
 import { useState, useEffect, useRef } from "react";
-import Alert from '#components/modal/Alert';
-import Layout from '#components/Layout';
+import Alert from '@components/modal/Alert';
+import Layout from '@components/Layout';
 import { useRouter } from 'next/router';
 import Link from "next/link";
-import { getDateDiff } from '#utils/date';
-import Loading from '#components/Loading';
+import { getDateDiff } from '@utils/date';
+import Loading from '@components/Loading';
 
 export default function search() {
   const router = useRouter();

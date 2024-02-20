@@ -3,9 +3,9 @@ import { signOut } from "next-auth/react";
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { user, userSelector } from "#recoilStore/index";
+import { user, userSelector } from "@recoilStore/index";
 import Link from "next/link";
-import Loading from '#components/Loading';
+import Loading from '@components/Loading';
 
 export default function SnsSignup({setAlertData, setSnsSignup, callbackURL}) {
   const getUser = useRecoilValue(user);

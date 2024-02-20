@@ -1,13 +1,13 @@
 import css from './Signup.module.scss';
 import { signIn, getSession} from "next-auth/react";
 import { useSetRecoilState } from 'recoil';
-import { userSelector } from "#recoilStore/index";
+import { userSelector } from "@recoilStore/index";
 import { useRouter } from 'next/router';
 import Link from "next/link";
 import { useRef, useState, useContext } from 'react';
-import { isEmail } from "#utils/regexp/isEmail";
-import { isPassword } from "#utils/regexp/isPassword";
-import Loading from '#components/Loading'
+import { isEmail } from "@utils/regexp/isEmail";
+import { isPassword } from "@utils/regexp/isPassword";
+import Loading from '@components/Loading'
 
 export default function Signup({ setSignupArea, setAlertData}) {
   const setUser = useSetRecoilState(userSelector);

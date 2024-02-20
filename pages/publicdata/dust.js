@@ -1,8 +1,8 @@
 import css from './dust.module.scss';
 import { useEffect, useState } from 'react';
-import { Layout, Loading } from '#components/index';
-import { getDateDiff, getFormatedDate } from '#utils/date';
-import { shuffleArray } from '#utils/index';
+import { Layout, Loading } from '@components/index';
+import { getDateDiff, getFormatedDate } from '@utils/date';
+import { shuffleArray } from '@utils/index';
 import { useRouter } from 'next/router';
 
 export default function weather(){

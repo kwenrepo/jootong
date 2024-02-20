@@ -2,9 +2,9 @@ import css from './UserStatus.module.scss';
 import { signOut, getSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { user, userSelector } from "#recoilStore/index";
+import { user, userSelector } from "@recoilStore/index";
 import { useRouter } from 'next/router';
-import { Alert, Signin, Signup, SnsSignup, UserCard } from '#components/index';
+import { Alert, Signin, Signup, SnsSignup, UserCard } from '@components/index';
 
 export default function UserStatus() {
   const getUser = useRecoilValue(user);

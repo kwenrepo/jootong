@@ -1,10 +1,10 @@
-import { executeQuery } from '#database/index';
+import { executeQuery } from '@database/index';
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
-import { getFormatedDate } from "#utils/date";
+import { getFormatedDate } from "@utils/date";
 import crypto from 'crypto';
 
 export const authOptions = {

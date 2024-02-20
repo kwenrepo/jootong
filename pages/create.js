@@ -1,9 +1,9 @@
 import css from "./create.module.scss";
 import { useState, useEffect, useRef } from "react";
 import { useRecoilValue } from 'recoil';
-import { user } from "#recoilStore/index"
-import { Layout, Navigator, Alert } from '#components/index';
-import { CalendarEditor } from "#components/calendar";
+import { user } from "@recoilStore/index"
+import { Layout, Navigator, Alert } from '@components/index';
+import { CalendarEditor } from "@components/calendar";
 
 export default function create() {
   const getUser = useRecoilValue(user);

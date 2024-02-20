@@ -3,10 +3,10 @@ import css from './CalendarEditor.module.scss'
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
-import { user } from "#recoilStore/index";
-import { getToday } from '#utils/date';
+import { user } from "@recoilStore/index";
+import { getToday } from '@utils/date';
 import html2canvas from "html2canvas";
-import { Alert } from '#components/index';
+import { Alert } from '@components/index';
 
 export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, monthItemList = [], setMonthItemList, isOpen = 0}){
   const getUser = useRecoilValue(user);

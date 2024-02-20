@@ -1,11 +1,11 @@
 import css from './calendar.module.scss';
-import { executeQuery } from '#database/index';
+import { executeQuery } from '@database/index';
 import { useEffect, useState } from 'react';
 import { useRecoilValue} from 'recoil';
-import { user } from "#recoilStore/index";
+import { user } from "@recoilStore/index";
 import { useRouter } from 'next/router';
-import {  Layout, Alert, Navigator } from '#components/index';
-import { CalendarEditor, CalendarViewer }from "#components/calendar";
+import {  Layout, Alert, Navigator } from '@components/index';
+import { CalendarEditor, CalendarViewer }from "@components/calendar";
 
 export default function calendar(props){
   const getUser = useRecoilValue(user);

@@ -1,5 +1,5 @@
-import { executeQuery } from '#database/index';
-import { getFormatedDate } from "#utils/date";
+import { executeQuery } from '@database/index';
+import { getFormatedDate } from "@utils/date";
 
 export default async function handler(req, res) {
   if(req.method === "GET"){

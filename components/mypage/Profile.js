@@ -1,9 +1,9 @@
 import css from './Profile.module.scss';
 import { useState, useEffect, useRef } from "react";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { user, userSelector } from "#recoilStore/index";
-import { isNickname } from "#utils/regexp/isNickname";
-import { isPassword } from "#utils/regexp/isPassword";
+import { user, userSelector } from "@recoilStore/index";
+import { isNickname } from "@utils/regexp/isNickname";
+import { isPassword } from "@utils/regexp/isPassword";
 
 export default function Profile({setIsLoading, setAlertData}){
   const getUser = useRecoilValue(user);

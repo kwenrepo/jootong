@@ -1,7 +1,4 @@
 import css from './Alert.module.scss'
-import { useSession, signOut } from "next-auth/react"
-import { useEffect, useState, useRef } from 'react'
-import Link from "next/link";
 
 export default function Alert({props}) {
   return(

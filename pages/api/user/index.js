@@ -1,11 +1,11 @@
 import crypto from 'crypto';
 import nodeMailer from 'nodemailer';
-import { executeQuery } from '#database/index';
-import { randomUUID } from "#utils/randomUUID";
-import { getFormatedDate } from "#utils/date";
-import { isEmail } from "#utils/regexp/isEmail";
-import { isPassword } from "#utils/regexp/isPassword";
-import { isNickname } from "#utils/regexp/isNickname";
+import { executeQuery } from '@database/index';
+import { randomUUID } from "@utils/randomUUID";
+import { getFormatedDate } from "@utils/date";
+import { isEmail } from "@utils/regexp/isEmail";
+import { isPassword } from "@utils/regexp/isPassword";
+import { isNickname } from "@utils/regexp/isNickname";
 
 export default async function handler(req, res) {
   if(req.method === "GET"){

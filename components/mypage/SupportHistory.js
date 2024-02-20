@@ -1,8 +1,8 @@
 import css from './SupportHistory.module.scss';
 import { useState, useEffect, useRef } from "react";
 import { useRecoilValue } from 'recoil';
-import { user } from "#recoilStore/index"
-import { getFormatedDate } from "#utils/date";
+import { user } from "@recoilStore/index"
+import { getFormatedDate } from "@utils/date";
 import { useRouter } from 'next/router';
 import Link from "next/link";
 
