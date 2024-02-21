@@ -1,7 +1,7 @@
 
 import css from './Loading.module.scss';
 
-export default function Loading({shape}) {
+export default function Loading() {
 
   return (
     <div className={css.wrap}>

@@ -1,5 +1,4 @@
 import css from './Header.module.scss';
-import { useEffect } from 'next/router';
 import UserStatus from './auth/UserStatus';
 import Link from "next/link";
 

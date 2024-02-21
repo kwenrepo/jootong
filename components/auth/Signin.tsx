@@ -7,7 +7,7 @@ import Link from "next/link";
 import Loading from '@components/Loading';
 
 export default function Signin({ setLoginArea, setSignupArea }) {
-  const getUser = useRecoilValue(user);
+  const getUser:any = useRecoilValue(user);
   const setUser = useSetRecoilState(userSelector);
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -38,7 +38,7 @@ export default function Signin({ setLoginArea, setSignupArea }) {
     })
   }
 
-  useEffect(()=>{
+  useEffect(():any=>{
     if(getUser.user_key){
       setLoginArea(false)
       return false;
