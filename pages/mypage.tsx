@@ -8,18 +8,10 @@ import { Layout, Navigator, Alert, Loading } from '@components/index';
 import Profile from "@components/mypage/Profile";
 import SupportHistory  from "@components/mypage/SupportHistory"
 export default function mypage(){
-  const getUser = useRecoilValue(user);
-
-  const router = useRouter();
-  const [alertData, setAlertData] = useState({
-    isAlert:false,
-    message:"",
-    confirm:<button></button>,
-    cancel:<button></button>
-  });
-
-  const password = useRef("")
-  const [isPassword, setIsPassword] = useState();
+  const getUser:GetUser = useRecoilValue(user);
+  const [alertData, setAlertData] = useState<Alert>();
+  const password = useRef(null)
+  const [isPassword, setIsPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   function checkPassword(){

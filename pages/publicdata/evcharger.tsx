@@ -1,7 +1,7 @@
 import css from './evcharger.module.scss';
 import { useEffect, useState, useRef } from 'react';
 import { Layout, Loading } from '@components/index';
-import { getDateDiff, getFormatedDate } from '@utils/date';
+import { getDateDiff, getFormatedDate } from '@utils/index';
 import { xmlToJson } from '@utils/index';
 import { useRouter } from 'next/router';
 

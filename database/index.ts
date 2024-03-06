@@ -17,7 +17,7 @@ pool.getConnection((err, connection) => {
   connection.release();
 })
 
-export const executeQuery = (query, arrParams) => {
+export const executeQuery = (query, arrParams?):any => {
   return new Promise((resolve, reject)=>{
     try{
       pool.query(query, arrParams, (err, data) =>{

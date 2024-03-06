@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from "next/router";
 
 export default function error({  }) {
-  const getUser = useRecoilValue(user);
+  const getUser:GetUser = useRecoilValue(user);
   const router = useRouter()
 
   useEffect(()=>{

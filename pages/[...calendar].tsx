@@ -8,7 +8,7 @@ import {  Layout, Alert, Navigator } from '@components/index';
 import { CalendarEditor, CalendarViewer }from "@components/calendar";
 
 export default function calendar(props){
-  const getUser = useRecoilValue(user);
+  const getUser:GetUser = useRecoilValue(user);
   const router = useRouter();
   const [title, setTitle] = useState(props.title);
   const [monthItemList, setMonthItemList] = useState(JSON.parse(props.content));

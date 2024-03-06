@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { Alert, Signin, Signup, SnsSignup, UserCard } from '@components/index';
 
 export default function UserStatus() {
-  const getUser = useRecoilValue(user);
+  const getUser:GetUser = useRecoilValue(user);
   const setUser = useSetRecoilState(userSelector);
  
   const [alertData, setAlertData] = useState({
@@ -81,7 +81,7 @@ export default function UserStatus() {
             </aside>
           )}
 
-          {snsSignup && <SnsSignup setAlertData={setAlertData} setSnsSignup={setSnsSignup}/> }
+          {snsSignup && <SnsSignup setAlertData={setAlertData} setSnsSignup={setSnsSignup} callbackURL=""/> }
         </div>
       )}
 

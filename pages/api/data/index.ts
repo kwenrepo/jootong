@@ -1,6 +1,6 @@
 import { executeQuery } from '@database/index';
 import { randomUUID } from "@utils/randomUUID";
-import { getFormatedDate } from "@utils/date";
+import { getFormatedDate } from "@utils/index";
 
 export default async function handler(req, res) {
   if(req.method === "GET"){

@@ -4,19 +4,14 @@ import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { user } from "@recoilStore/index";
 import html2canvas from "html2canvas";
-import { getToday } from '@utils/date';
+import { getToday } from '@utils/index';
 import { Alert } from '@components/index';
 
 export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, monthItemList=[]}){
-  const getUser = useRecoilValue(user);
+  const getUser:GetUser = useRecoilValue(user);
   const router = useRouter();
   const captureRef = useRef(null);
-  const [alertData, setAlertData] = useState({
-    isAlert:false,
-    message:"",
-    confirm:<button></button>,
-    cancel:<button></button>
-  });
+  const [alertData, setAlertData] = useState<Alert>();
   const [selectMonth, setSelectMonth] = useState(new Date(getToday()));
   const currentCalendar = useMemo(()=>{
     if(selectMonth){
@@ -243,9 +238,9 @@ export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, mont
                   return (
                     <li key={item.key + new Date().getTime()}>
                       <div className={css.group_name} onClick={(e)=>{ 
-                        let height = e.target.closest('li').getBoundingClientRect().height;
-                        let scrollHeight = e.target.closest('li').scrollHeight;
-                        height === scrollHeight ? e.target.closest('li').style.height = `24px` : e.target.closest('li').style.height = `${scrollHeight}px`
+                        let height = (e.target as HTMLElement).closest('li').getBoundingClientRect().height;
+                        let scrollHeight = (e.target as HTMLElement).closest('li').scrollHeight;
+                        height === scrollHeight ? (e.target as HTMLElement).closest('li').style.height = `24px` : (e.target as HTMLElement).closest('li').style.height = `${scrollHeight}px`
                       }}>
                         <span>{item.key}</span>
                         <span>{(item.total).toLocaleString('ko-KR')}</span>

@@ -7,11 +7,11 @@ import { user, userSelector } from "@recoilStore/index";
 import Link from "next/link";
 import Loading from '@components/Loading';
 
-export default function SnsSignup({setAlertData, setSnsSignup, callbackURL}) {
-  const getUser = useRecoilValue(user);
+export default function SnsSignup({setAlertData, setSnsSignup, callbackURL }) {
+  const getUser:GetUser = useRecoilValue(user);
   const setUser = useSetRecoilState(userSelector);
   const router = useRouter();
-  const agree = useRef(false);
+  const agree = useRef(null);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -37,14 +37,14 @@ export default function SnsSignup({setAlertData, setSnsSignup, callbackURL}) {
             isAlert:true,
             message:<span>🎉회원가입을 축하합니다!🔥🔥 <br /> [기념선물지급 - 닉네임변경권] <br /> 마이페이지에서 사용 가능합니다</span>,
             confirm:<button onClick={()=>{
-              if(callbackURL){
+              if(callbackURL !== ''){
                 window.opener.parentCallback({method:"mypage"});
               } else {
                 router.push("/mypage")
               }
             }}>마이페이지</button>,
             cancel:<button onClick={()=>{
-              if(callbackURL){
+              if(callbackURL !== ''){
                 router.push(callbackURL);
               } else {
                 router.push("/");

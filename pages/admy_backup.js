@@ -6,19 +6,13 @@ import { useRecoilValue } from 'recoil';
 import { user } from "@recoilStore/index";
 import { useRouter } from 'next/router';
 import Alert from '@components/modal/Alert';
-import { getDateDiff } from '@utils/date';
+import { getDateDiff } from '@utils/index';
 import { openWindow } from '@utils/openwindow'
 
 export default function admy(){
-  const getUser = useRecoilValue(user);
-
+  const getUser:GetUser = useRecoilValue(user);
   const router = useRouter();
-  const [alertData, setAlertData] = useState({
-    isAlert:false,
-    message:"",
-    confirm:<button></button>,
-    cancel:<button></button>
-  });
+  const [alertData, setAlertData] = useState<Alert>();
   const [totalMember, setTotalMember] = useState(0);
   const [totalRoomList, setTotalRoomList] = useState([]);
   const [totalMessage, setTotalMessage] = useState([]);
@@ -94,10 +88,8 @@ export default function admy(){
       redirect: false
     }).then( async ({ ok, error }) => {
       const session = await getSession();
-      console.log(ok, session?.user.user_key);
 
       if (ok && session) {
-        setLoading(false);
         setIsLogin(true);
         getTotalMember();
         getTotalRoomList();
@@ -165,8 +157,8 @@ export default function admy(){
 
     let data = {
       newNickname : admin.current.nickname,
-      nickname : session.user.nickname,
-      user_key: session.user.user_key,
+      nickname : getUser.nickname,
+      user_key: getUser.user_key,
     }
 
     fetch("/api/user?target=nickname", {
@@ -180,15 +172,7 @@ export default function admy(){
     .then(async (data) => {
       console.log(data)
       if(data.status){
-        session.user.nickname = data.nickname;
-
-        await update({
-          ...session,
-          user:{
-            ...session?.user,
-            nickname : data.nickname
-          }
-        })
+        getUser.nickname = data.nickname;
 
         setAlertData({
           isAlert:true,

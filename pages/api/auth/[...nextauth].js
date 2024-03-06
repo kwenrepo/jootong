@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
-import { getFormatedDate } from "@utils/date";
+import { getFormatedDate } from "@utils/index";
 import crypto from 'crypto';
 
 export const authOptions = {

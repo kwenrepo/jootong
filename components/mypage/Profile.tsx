@@ -6,7 +6,7 @@ import { isNickname } from "@utils/regexp/isNickname";
 import { isPassword } from "@utils/regexp/isPassword";
 
 export default function Profile({setIsLoading, setAlertData}){
-  const getUser = useRecoilValue(user);
+  const getUser:GetUser = useRecoilValue(user);
   const setUser = useSetRecoilState(userSelector);
 
   const [changeNickname, setChangeNickname] = useState("없음");

@@ -7,14 +7,9 @@ import { Layout, Navigator, Alert } from '@components/index';
 import { openWindow } from '@utils/openwindow';
 
 export default function support(){
-  const getUser = useRecoilValue(user);
+  const getUser:GetUser = useRecoilValue(user);
   const router = useRouter();
-  const [alertData, setAlertData] = useState({
-    isAlert:false,
-    message:"",
-    confirm:<button></button>,
-    cancel:<button></button>
-  });
+  const [alertData, setAlertData] = useState<Alert>();
 
   const question = useRef({
     title: "",

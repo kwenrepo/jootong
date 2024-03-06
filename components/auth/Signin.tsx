@@ -38,10 +38,10 @@ export default function Signin({ setLoginArea, setSignupArea }) {
     })
   }
 
-  useEffect(():any=>{
+  useEffect(()=>{
     if(getUser.user_key){
       setLoginArea(false)
-      return false;
+      return;
     }
     if(localStorage.getItem("login")) setEmail(localStorage.getItem("login")) ;
   }, [getUser])

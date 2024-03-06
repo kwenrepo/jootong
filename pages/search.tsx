@@ -4,11 +4,10 @@ import Alert from '@components/modal/Alert';
 import Layout from '@components/Layout';
 import { useRouter } from 'next/router';
 import Link from "next/link";
-import { getDateDiff } from '@utils/date';
+import { getDateDiff } from '@utils/index';
 import Loading from '@components/Loading';
 
 export default function search() {
-  const router = useRouter();
   const [keyword, setKeyword] = useState('');
   const [tempKeyword, setTempKeyword] = useState(keyword);
   const [searchList, setSearchList] = useState([])

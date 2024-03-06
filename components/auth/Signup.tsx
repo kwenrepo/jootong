@@ -12,10 +12,10 @@ import Loading from '@components/Loading'
 export default function Signup({ setSignupArea, setAlertData}) {
   const setUser = useSetRecoilState(userSelector);
   const router = useRouter()
-  const email = useRef();
-  const password = useRef();
-  const checkedPassword = useRef();
-  const agree = useRef();
+  const email = useRef(null);
+  const password = useRef(null);
+  const checkedPassword = useRef(null);
+  const agree = useRef(null);
 
   const [passwordHidden, setPasswordHidden] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')

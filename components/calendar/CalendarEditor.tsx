@@ -4,24 +4,19 @@ import { useEffect, useRef, useState, useMemo } from 'react'
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { user } from "@recoilStore/index";
-import { getToday } from '@utils/date';
+import { getToday } from '@utils/index';
 import html2canvas from "html2canvas";
 import { Alert } from '@components/index';
 
 export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, monthItemList = [], setMonthItemList, isOpen = 0}){
-  const getUser = useRecoilValue(user);
+  const getUser:GetUser = useRecoilValue(user);
   const router = useRouter();
   const captureRef = useRef(null);
-  const [alertData, setAlertData] = useState({
-    isAlert:false,
-    message:"",
-    confirm:<button></button>,
-    cancel:<button></button>
-  });
+  const [alertData, setAlertData] = useState<Alert>();
   const [selectMonth, setSelectMonth] = useState(new Date(getToday()));
   const [editDate, setEditDate] = useState(0);
-  const [addItem, setAddItem] = useState({})
-  const [optionIsOpen, setOptionIsOpen] = useState(isOpen);
+  const [addItem, setAddItem] = useState<any>({})
+  const [optionIsOpen, setOptionIsOpen] = useState(isOpen === 1 ? true : false);
   const currentCalendar = useMemo(()=>{
     if(selectMonth){
       const year = selectMonth.getFullYear();
@@ -368,11 +363,11 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
         date:editDate,
         yearMonth: currentCalendar.yearMonth
       }]);
-      setEditDate('');
+      setEditDate(null);
       addItemHandler['reset']();
     },
     cancel : function(){
-      setEditDate('');
+      setEditDate(null);
       addItemHandler['reset']();
     },
     delete: function(date, target){
@@ -388,7 +383,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
       monthItemList[addItem.editIndex].yearMonth = addItem.yearMonth;
 
       setMonthItemList([...monthItemList])
-      setEditDate("");
+      setEditDate(null);
       addItemHandler['reset']();
 
     }
@@ -434,9 +429,9 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
                   return (
                     <li key={item.key + new Date().getTime()}>
                       <div className={css.group_name} onClick={(e)=>{ 
-                        let height = e.target.closest('li').getBoundingClientRect().height;
-                        let scrollHeight = e.target.closest('li').scrollHeight;
-                        height === scrollHeight ? e.target.closest('li').style.height = `24px` : e.target.closest('li').style.height = `${scrollHeight}px`
+                        let height = (e.target as HTMLElement).closest('li').getBoundingClientRect().height;
+                        let scrollHeight = (e.target as HTMLElement).closest('li').scrollHeight;
+                        height === scrollHeight ? (e.target as HTMLElement).closest('li').style.height = `24px` : (e.target as HTMLElement).closest('li').style.height = `${scrollHeight}px`
                       }}>
                         <span>{item.key}</span>
                         <span>{(item.total).toLocaleString('ko-KR')}</span>
@@ -552,7 +547,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
 
         <div className={css.option}>
           <label className={css.open}>
-            <input type="checkbox" checked={optionIsOpen || false} onChange={(e)=>{setOptionIsOpen(e.target.checked)}} />
+            <input type="checkbox" checked={optionIsOpen ? true : false} onChange={(e)=>{setOptionIsOpen(e.target.checked)}} />
             <i></i>
             <span>검색 리스트 보여지기</span>
           </label>

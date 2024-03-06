@@ -8,12 +8,7 @@ export default function forgetpassword() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isChange, setIsChange] = useState(false)
-  const [alertData, setAlertData] = useState({
-    isAlert:false,
-    message:"",
-    confirm:<button></button>,
-    cancel:<button></button>
-  });
+  const [alertData, setAlertData] = useState<Alert>();
   const user = useRef({
     email:"",
     password: ""
@@ -73,12 +68,12 @@ export default function forgetpassword() {
 
             { isChange ? 
               <a href="/auth/signin">로그인 하러 가기</a> : 
-              <button onClick={(e)=>{changePassword(e)}}>비밀번호 찾기</button> 
+              <button onClick={(e)=>{changePassword()}}>비밀번호 찾기</button> 
             }
 
             <div className={css.error_message}>
               {isLoading 
-                ?<Loading shape={{width:"20px",height:"20px",border:"2px dashed #7c25df"}} />
+                ?<Loading />
                 :errorMessage
               }
             </div>

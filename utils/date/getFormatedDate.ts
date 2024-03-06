@@ -1,16 +1,16 @@
-export const getFormatedDate = (data = {}) => {
+export const getFormatedDate = (data:any = {}) => {
   let date = data.target ? new Date(data.target) : new Date();
 
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  month < 10 ? month = '0'+ month : null;
-  let day = date.getDate();
+  let year:string|number = date.getFullYear();
+  let month:string|number = date.getMonth() + 1;
+  month < 10 ? month = '0' + month : null;
+  let day:string|number = date.getDate();
   day < 10 ? day = '0'+ day : null;
-  let hour = date.getHours();
+  let hour:string|number = date.getHours();
   hour < 10 ? hour = '0'+ hour : null;
-  let minute = date.getMinutes();
+  let minute:string|number = date.getMinutes();
   minute < 10 ? minute = '0' + minute : null;
-  let second = date.getSeconds();
+  let second:string|number = date.getSeconds();
   second < 10 ? second = '0' + second : null;
 
   switch(data.format){
@@ -23,7 +23,7 @@ export const getFormatedDate = (data = {}) => {
     case "YYYY, MM, DD":
       return year + ',' + month + ',' + day;
     case "YYYYMMDD":
-      return year+month+day;
+      return year + '' + month + '' + day;
     case "YYYY-MM-DD":
       return year + '-' + month + '-' + day;
     default :

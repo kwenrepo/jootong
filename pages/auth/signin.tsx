@@ -9,7 +9,7 @@ import SnsSignup from "@components/auth/SnsSignup";
 import {Layout, Alert, Loading} from '@components/index';
 
 export default function signin() {
-  const getUser = useRecoilValue(user);
+  const getUser:GetUser = useRecoilValue(user);
   const setUser = useSetRecoilState(userSelector);
 
   const router = useRouter()
@@ -19,13 +19,7 @@ export default function signin() {
   const [password, setPassword] = useState('');
   const [agree, setAgree] = useState(false);
   const [snsSignup, setSnsSignup] = useState(false);
-  const [alertData, setAlertData] = useState({
-    isAlert:false,
-    message:"",
-    confirm:<button></button>,
-    cancel:<button></button>
-  });
-
+  const [alertData, setAlertData] = useState<Alert>();
   
   const login = function(e){
     e.preventDefault()

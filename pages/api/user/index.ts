@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import nodeMailer from 'nodemailer';
 import { executeQuery } from '@database/index';
 import { randomUUID } from "@utils/randomUUID";
-import { getFormatedDate } from "@utils/date";
+import { getFormatedDate } from "@utils/index";
 import { isEmail } from "@utils/regexp/isEmail";
 import { isPassword } from "@utils/regexp/isPassword";
 import { isNickname } from "@utils/regexp/isNickname";
@@ -102,19 +102,8 @@ export default async function handler(req, res) {
                 }, function(err){
                   res.send(err);
                 });
-              }, function(err){
-                res.send({
-                  status:false,
-                  message:err
-                });
-              });
-            }, function(err){
-              res.send({
-                status:false,
-                message:err
               });
             });
-            
           } else {
             res.send({
               status:false,
@@ -400,11 +389,7 @@ export default async function handler(req, res) {
               }, function(err){
                 res.send(err);
               });
-            }, function(err){
-              res.send(err);
             });
-          }, function(err){
-            res.send(err);
           });
         }else{
           if(data[0]){
@@ -461,19 +446,8 @@ export default async function handler(req, res) {
                 }, function(err){
                   res.send(err);
                 });
-              }, function(err){
-                res.send({
-                  status:false,
-                  message:err
-                });
-              });
-            }, function(err){
-              res.send({
-                status:false,
-                message:err
               });
             });
-    
           } else {
             res.send({
               status:false,

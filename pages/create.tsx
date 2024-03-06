@@ -1,12 +1,9 @@
 import css from "./create.module.scss";
-import { useState, useEffect, useRef } from "react";
-import { useRecoilValue } from 'recoil';
-import { user } from "@recoilStore/index"
+import { useState } from "react";
 import { Layout, Navigator, Alert } from '@components/index';
 import { CalendarEditor } from "@components/calendar";
 
 export default function create() {
-  const getUser = useRecoilValue(user);
   const [title, setTitle] = useState("");
   const [monthItemList, setMonthItemList] = useState([]);
   const [alertData, setAlertData] = useState({
@@ -21,7 +18,7 @@ export default function create() {
       <div className={css.wrap}>
         <div className={css.inner}>
           <Navigator text={"나만의 데이터를 만들어 보세요."}/>
-          <CalendarEditor title={title} setTitle={setTitle} monthItemList={monthItemList} setMonthItemList={setMonthItemList}/> 
+          <CalendarEditor title={title} setTitle={setTitle} monthItemList={monthItemList} setMonthItemList={setMonthItemList} isEdit setIsEdit /> 
         </div>
 
         {alertData.isAlert && (

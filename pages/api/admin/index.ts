@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import { executeQuery } from '@database/index';
 import { randomUUID } from "@utils/randomUUID";
-import { getFormatedDate } from "@utils/date";
+import { getFormatedDate } from "@utils/index";
 
 export default async function handler(req, res) {
   if (req.method === "POST"){
@@ -41,16 +41,6 @@ export default async function handler(req, res) {
             }, function(err){
               res.send(err);
             });
-          }, function(err){
-            res.send({
-              status:false,
-              message:err
-            });
-          });
-        }, function(err){
-          res.send({
-            status:false,
-            message:err
           });
         });
       } else {

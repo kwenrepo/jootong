@@ -10,25 +10,18 @@ import { Layout, Alert, Loading } from '@components/index';
 import Link from "next/link";
 
 export default function signup({}) {
-  const getUser = useRecoilValue(user);
+  const getUser:GetUser = useRecoilValue(user);
   const setUser = useSetRecoilState(userSelector);
-
   const router = useRouter()
-  const email = useRef();
-  const password = useRef();
-  const checkedPassword = useRef();
-  const agree = useRef();
-
+  const email = useRef(null);
+  const password = useRef(null);
+  const checkedPassword = useRef(null);
+  const agree = useRef(null);
   const [passwordHidden, setPasswordHidden] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
   const [loading, setLoading] = useState(false);
+  const [alertData, setAlertData] = useState<Alert>();
 
-  const [alertData, setAlertData] = useState({
-    isAlert:false,
-    message:"",
-    confirm:<button></button>,
-    cancel:<button></button>
-  });
 
   const changeEmail = function(e){
     if(getUser.user_key){

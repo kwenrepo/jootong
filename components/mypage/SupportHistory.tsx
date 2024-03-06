@@ -2,12 +2,12 @@ import css from './SupportHistory.module.scss';
 import { useState, useEffect, useRef } from "react";
 import { useRecoilValue } from 'recoil';
 import { user } from "@recoilStore/index"
-import { getFormatedDate } from "@utils/date";
+import { getFormatedDate } from "@utils/index";
 import { useRouter } from 'next/router';
 import Link from "next/link";
 
 export default function SupportHistory(){
-  const getUser = useRecoilValue(user);
+  const getUser:GetUser = useRecoilValue(user);
   const router = useRouter();
 
   const [isHistory, setIsHistory] = useState(false)
