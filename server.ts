@@ -22,8 +22,6 @@ app
   .then(() => {
     console.log(`========================================== APP Prepare Done ${process.env.NODE_ENV} ==========================================================`);
     
-    let isAppGoingToBeClosed = false; // HTTP 연결을 종료시킬 미들웨어에서 사용할 변수
-    
     const server = express();
     server.use(requestIp.mw());
     server.use("/public", express.static(__dirname + "/public"))
@@ -47,10 +45,7 @@ app
     server.use(function(req, res, next) {
       // console.log('=== userInfo : ', UAParser(req.headers["user-agent"]).device, UAParser(req.headers["user-agent"]).os, req.clientIp, new Date().toLocaleString() )
 
-      // 프로세스 종료 예정이라면 연결을 종료한다
-      if (isAppGoingToBeClosed) {
-        res.set('Connection', 'close')
-      }else if(!dev && (!req.secure || !req.headers?.host?.includes("www"))){
+      if(!dev && (!req.secure || !req.headers?.host?.includes("www"))){
         res.redirect('https://www.jootong.com');
       } else {
         next();
@@ -71,18 +66,6 @@ app
         res.end("internal server error");
       }
     });
-
-    process.on('SIGINT', function() { // SIGINT 신호가 수신되었을 때
-
-      isAppGoingToBeClosed = true;
-
-      // pm2 재시작 신호가 들어오면 서버를 종료시킨다.
-      // listeningServer: server.listen 메소드가 리턴하는 서버 인스턴스를 할당한 변수
-      listeningServer.close(function(err) {
-        console.log('server closed')
-        process.exit(err ? 1 : 0)
-      })
-    })
   })
   .catch((ex) => {
     console.log(ex.stack);
