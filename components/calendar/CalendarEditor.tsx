@@ -2,21 +2,20 @@
 import css from './CalendarEditor.module.scss'
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { useRouter } from 'next/router';
-import { useRecoilValue } from 'recoil';
-import { user } from "@recoilStore/index";
 import { getToday } from '@utils/index';
 import html2canvas from "html2canvas";
 import { Alert } from '@components/index';
 
-export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, monthItemList = [], setMonthItemList, isOpen = 0}){
-  const getUser:GetUser = useRecoilValue(user);
+export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, monthItemList = [], setMonthItemList}){
   const router = useRouter();
   const captureRef = useRef(null);
-  const [alertData, setAlertData] = useState<Alert>();
+  const [alertData, setAlertData] = useState<Alert>({
+    isAlert: false
+  });
+  const [editList, setEditList] = useState([]);
   const [selectMonth, setSelectMonth] = useState(new Date(getToday()));
   const [editDate, setEditDate] = useState(0);
   const [addItem, setAddItem] = useState<any>({})
-  const [optionIsOpen, setOptionIsOpen] = useState(isOpen === 1 ? true : false);
   const currentCalendar = useMemo(()=>{
     if(selectMonth){
       const year = selectMonth.getFullYear();
@@ -131,58 +130,14 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
         }}>확인</button>
       })
       return false;
-    } else if(!getUser.user_key){
-      setAlertData({
-        isAlert:true,
-        message:<span>익명으로 저장 하시면 수정이 불가합니다.</span>,
-        confirm:<button onClick={()=>{ 
-          let arrayToJson = JSON.stringify(monthItemList);
-          let data = {
-            user_key : getUser.user_key || '',
-            title,
-            content : arrayToJson,
-            nickname : getUser.nickname || '',
-            is_open : optionIsOpen
-          }
-      
-          fetch("/api/data?keyword=calendar", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data)
-          })
-          .then((response) => response.json())
-          .then((result) => {
-            if(result.status){
-              const { data } = result;
-              setAlertData({
-                isAlert:true,
-                message:<span>저장이 완료 되었습니다.</span>,
-                confirm:<button onClick={()=>{ 
-                  router.push({
-                    pathname: '/' + data.boardID + '/' + data.title
-                  })
-                }}>보러가기</button>,
-                cancel:<button onClick={()=>{ router.back(); }}>확인</button>
-              })
-            }
-      
-          });
-        }}>확인 </button>,
-        cancel:<button onClick={()=>{
-          router.push('/auth/signin')
-        }}>로그인</button>
-      })
-      return false;
-    }else{
+    } else{
       let arrayToJson = JSON.stringify(monthItemList);
       let data = {
-        user_key : getUser.user_key || '',
+        user_key : '',
         title,
         content : arrayToJson,
-        nickname : getUser.nickname || '',
-        is_open : optionIsOpen
+        nickname : '',
+        is_open : 0
       }
       fetch("/api/data?keyword=calendar", {
         method: "POST",
@@ -202,8 +157,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
               router.push({
                 pathname: '/' + data.boardID + '/' + data.title
               })
-            }}>보러가기</button>,
-            cancel:<button onClick={()=>{ router.back(); }}>확인</button>
+            }}>확인</button>,
           })
         }
   
@@ -241,7 +195,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
       title,
       content : arrayToJson,
       edit_key : router.query.calendar[0],
-      is_open : optionIsOpen
+      is_open : 0
     }
 
     fetch("/api/data?keyword=calendar", {
@@ -260,13 +214,17 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
           message:<span>수정이 완료 되었습니다.</span>,
           confirm:<button onClick={()=>{
             setMonthItemList(monthItemList);
-            setIsEdit({...isEdit, status:false});
+            setIsEdit({status:false});
           }}>확인</button>,
         })
       }
 
     });
     
+  }
+
+  function cancel(){
+    setIsEdit({status:false})
   }
 
   async function capture() {
@@ -398,9 +356,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
     }
   }
 
-  useEffect(()=>{
-    setTitle(title);
-  }, [title])
+
   return(
     <>
       <section className={css.wrap}>
@@ -423,7 +379,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
             </div>
             
             {summaryList?.length > 0 && <div className={css.summary_list}>
-              <div className={css.title}>이번달 간추린 내역</div>
+              <div className={css.title}>요약</div>
               <ul className={css.item_list}>
                 {summaryList.map((item)=>{
                   return (
@@ -507,8 +463,6 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
             }
 
             </div>
-
-
             
             {editDate > 0 && 
               <div className={css.edit_box}>
@@ -521,7 +475,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
                     </dd>
                   </dl>
                   <dl>
-                    <dt>내역</dt>
+                    <dt>내역(단가)</dt>
                     <dd>
                       <input type='text' placeholder='0' name='value' value={(addItem.value || 0).toLocaleString()} onChange={(e)=>{addItemHandler['add'](e)}}  />
                     </dd>
@@ -544,28 +498,22 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
             }
           </div>
         </div>
-
-        <div className={css.option}>
-          <label className={css.open}>
-            <input type="checkbox" checked={optionIsOpen ? true : false} onChange={(e)=>{setOptionIsOpen(e.target.checked)}} />
-            <i></i>
-            <span>검색 리스트 보여지기</span>
-          </label>
-        </div>
         
         <div className={css.button_wrap}>
           {isEdit?.status
             ? <>
-                <button className={css.edit} onClick={()=> edit()}><i></i>수정 완료</button>
-                <button className={css.cancel} onClick={()=> { setIsEdit({...isEdit, status:false}) }}><i></i>취소 하기</button>
+                <button className={css.edit} onClick={()=> edit()}><i></i>저장 하기</button>
+                <button className={css.cancel} onClick={()=> { cancel() }}><i></i>취소 하기</button>
               </>
             : <>
                 <button className={css.confirm} onClick={()=> save()}>
                   <i></i>
-                  저장하고 공유하기</button>
+                  저장 하기
+                </button>
                 <button className={css.capture} onClick={()=> capture()}>
                   <i></i>
-                  캡쳐 하기</button>
+                  캡쳐 하기
+                </button>
               </> 
           }
         </div>

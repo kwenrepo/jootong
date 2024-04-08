@@ -11,7 +11,9 @@ export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, mont
   const getUser:GetUser = useRecoilValue(user);
   const router = useRouter();
   const captureRef = useRef(null);
-  const [alertData, setAlertData] = useState<Alert>();
+  const [alertData, setAlertData] = useState<Alert>({
+    isAlert:false
+  });
   const [selectMonth, setSelectMonth] = useState(new Date(getToday()));
   const currentCalendar = useMemo(()=>{
     if(selectMonth){
@@ -232,7 +234,7 @@ export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, mont
             </div>
             
             {summaryList?.length > 0 && <div className={css.summary_list}>
-              <div className={css.title}>이번달 간추린 내역</div>
+              <div className={css.title}>요약</div>
               <ul className={css.item_list}>
                 {summaryList.map((item)=>{
                   return (
@@ -311,8 +313,7 @@ export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, mont
           <button className={css.capture} onClick={()=> capture()}>
             <i></i>캡쳐 하기
           </button>
-          {getUser.user_key && getUser.user_key === isEdit.user_key && <button className={css.edit} onClick={()=> setIsEdit({...isEdit, status:true})}><i></i>수정 하기</button>}
-          {getUser.user_key && getUser.user_key === isEdit.user_key && <button className={css.delete} onClick={() => {calendarDelete()}}><i></i>삭제 하기</button>}
+          <button className={css.edit} onClick={()=> setIsEdit({status:true})}><i></i>수정 하기</button>
         </div>
       </section>
 

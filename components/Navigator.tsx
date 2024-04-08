@@ -7,10 +7,10 @@ export default function Navigator({text = ""}) {
   return (
     <nav className={css.nav}>
       <span>{text}</span>
-      <button onClick={() => { router.back(); }}>
+      {/* <button onClick={() => { router.back(); }}>
         <i></i>
         back
-      </button>
+      </button> */}
     </nav>
   );
 }

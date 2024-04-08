@@ -1,10 +1,8 @@
 import Layout from '@components/Layout';
-import Lobby from './lobby';
+import Create from './create';
 
 export default function Home() {
   return (
-    <Layout>
-      <Lobby />
-    </Layout>
+    <Create />
   )
 }

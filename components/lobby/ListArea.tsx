@@ -112,10 +112,10 @@ export default function ListArea() {
         <div className={css.item_list_wrap}>
           <div className={css.category_list}>
             <div className={css.list_tab}>
-              <button className={category==='public' ? css.on : ''} onClick={()=>{categoryHandler['public']()}}>
+              {/* <button className={category==='public' ? css.on : ''} onClick={()=>{categoryHandler['public']()}}>
                 <i>📈</i>
                 <span>공공데이터</span>
-              </button>
+              </button> */}
               <button className={category==='calendar' ? css.on : ''} onClick={()=>{categoryHandler['calendar']()}}>
                 <i>📅</i>
                 <span>공유달력</span>

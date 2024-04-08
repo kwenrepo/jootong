@@ -1,19 +1,15 @@
 import css from './calendar.module.scss';
 import { executeQuery } from '@database/index';
 import { useEffect, useState } from 'react';
-import { useRecoilValue} from 'recoil';
-import { user } from "@recoilStore/index";
 import { useRouter } from 'next/router';
-import {  Layout, Alert, Navigator } from '@components/index';
+import { Layout, Alert, Navigator } from '@components/index';
 import { CalendarEditor, CalendarViewer }from "@components/calendar";
 
 export default function calendar(props){
-  const getUser:GetUser = useRecoilValue(user);
   const router = useRouter();
   const [title, setTitle] = useState(props.title);
   const [monthItemList, setMonthItemList] = useState(JSON.parse(props.content));
   const [isEdit, setIsEdit] = useState({
-    user_key:'',
     status:false
   });
   
@@ -25,9 +21,9 @@ export default function calendar(props){
   });
 
   useEffect(()=>{
-    setIsEdit({...isEdit, user_key: getUser.user_key})
+    setIsEdit({...isEdit})
 
-  }, [getUser.user_key])
+  }, [isEdit])
   return(
     <Layout title={title}>
 
@@ -36,7 +32,7 @@ export default function calendar(props){
 
         <div className={css.inner}>
           {isEdit.status 
-            ? <CalendarEditor title={title} setTitle={setTitle} isEdit={isEdit} setIsEdit={setIsEdit} monthItemList={monthItemList} setMonthItemList={setMonthItemList} isOpen={props.is_open}/> 
+            ? <CalendarEditor title={title} setTitle={setTitle} isEdit={isEdit} setIsEdit={setIsEdit} monthItemList={monthItemList} setMonthItemList={setMonthItemList}/> 
             : <CalendarViewer title={title} setTitle={setTitle} isEdit={isEdit} setIsEdit={setIsEdit} monthItemList={monthItemList}/>
           }
         </div>   
