@@ -1,5 +1,4 @@
 import css from './Header.module.scss';
-// import UserStatus from './auth/UserStatus';
 import Link from "next/link";
 
 export default function Header() {
@@ -16,11 +15,6 @@ export default function Header() {
           <Link className={css.create} href="/create">
             <i></i>
           </Link>
-          {/* <Link className={css.search} href="/search">
-            <i></i>
-          </Link>
-
-          <UserStatus /> */}
         </div>
       </div>
     </div>

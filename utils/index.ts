@@ -1,10 +1,10 @@
-import debounce from "./debounce";
 import { shuffleArray } from "./shuffleArray";
 import { xmlToJson } from "./xmlToJson";
-import { getDateDiff, getFormatedDate, getToday } from './date';
+import { getDateDiff } from './date/getDateDiff';
+import { getFormatedDate } from './date/getFormatedDate';
+import { getToday } from './date/getToday';
 
 export { 
-  debounce, 
   shuffleArray,
   xmlToJson,
   getDateDiff,

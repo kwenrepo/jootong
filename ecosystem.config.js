@@ -2,12 +2,10 @@ module.exports = {
   apps: [
     {
       name: "web-dev",
-      script: "server.js",
+      script: "server.ts",
       instances: 1, // NOTE: dev 는 클러스터가 아닌 fork 모드로 실행한다
       exec_mode: "fork", // NOTE: CPU 수만큼 인스턴스를 만들고 클러스터 모드로 프로세스 실행
       wait_ready: true,
-      output:"./log/log-out.log",
-      error:"./log/log-error.log",
       listen_timeout: 5000,
       kill_timeout: 5000,
       autorestart: true,
@@ -20,7 +18,8 @@ module.exports = {
     },
     {
       name: "web-prod",
-      script: "server.js",
+      script: "server.ts",
+      interpreter:'node',
       instances: 1,
       exec_mode: "cluster", // NOTE: CPU 수만큼 인스턴스를 만들고 클러스터 모드로 프로세스 실행
       wait_ready: true,

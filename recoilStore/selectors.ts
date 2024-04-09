@@ -12,7 +12,7 @@ export const userSelector = selector({
 export const dataListSelector = selector({
   key:"dataListSelector" + new Date().getTime(),
   get: ({get}) => get(dataList),
-  set: ({set}, newList) => {
+  set: ({set}, newList:any[]) => {
     newList = newList.map((item)=>{
       item.summaryOfContent = Object.values(JSON.parse(item.content))[0];
       return item;
@@ -25,7 +25,7 @@ export const dataListSelector = selector({
 export const calendarDataListSelector = selector({
   key:"calendarDataListSelector" + new Date().getTime(),
   get: ({get}) => get(calendarDataList),
-  set: ({set}, newList) => {
+  set: ({set}, newList:any[]) => {
     newList = newList.map((item)=>{
       item.summaryOfContent = Object.values(JSON.parse(item.content))[0];
       return item;

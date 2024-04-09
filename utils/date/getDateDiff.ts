@@ -1,10 +1,10 @@
 import { getFormatedDate } from './getFormatedDate';
 
 export const getDateDiff = (target) =>{
-  const diff = new Date(getFormatedDate()) - new Date(target);
-  const day = parseInt(diff / (1000 * 60 * 60 * 24));
-  const hour = parseInt(diff / (60 * 60 * 1000));
-  const minute = parseInt(diff / (60 * 1000));
+  const diff = +new Date(getFormatedDate()) - +new Date(target);
+  const day = diff / (1000 * 60 * 60 * 24);
+  const hour = diff / (60 * 60 * 1000);
+  const minute = diff / (60 * 1000);
 
   if(day){
     return {
