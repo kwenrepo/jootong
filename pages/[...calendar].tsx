@@ -20,10 +20,6 @@ export default function calendar(props){
     cancel:<button></button>
   });
 
-  useEffect(()=>{
-    setIsEdit({...isEdit})
-
-  }, [isEdit])
   return(
     <Layout title={title}>
 

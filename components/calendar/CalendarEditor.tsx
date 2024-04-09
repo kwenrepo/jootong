@@ -12,7 +12,6 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
   const [alertData, setAlertData] = useState<Alert>({
     isAlert: false
   });
-  const [editList, setEditList] = useState([]);
   const [selectMonth, setSelectMonth] = useState(new Date(getToday()));
   const [editDate, setEditDate] = useState(0);
   const [addItem, setAddItem] = useState<any>({})
@@ -224,7 +223,12 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
   }
 
   function cancel(){
-    setIsEdit({status:false})
+    let remainItemList = JSON.parse(sessionStorage.getItem('calendar'))
+    setMonthItemList([...remainItemList]);
+    setTitle(sessionStorage.getItem('title'))
+    setIsEdit({
+      status:false
+    })
   }
 
   async function capture() {
@@ -232,7 +236,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
 
     try {
       const target = captureRef.current;
-      const canvas = await html2canvas(target, { scale: 1 });
+      const canvas = await html2canvas(target);
       // canvas.toBlob((blob) => {
       //   if (blob !== null) {
       //     saveAs(blob, `calendar_${currentCalendar.year}_${currentCalendar.month + 1}.png`);
@@ -276,7 +280,7 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
       })
     },
     edit: function(i, target){
-      setEditDate(i)
+      setEditDate(i);
       const found = monthItemList.findIndex((item) => item.date === i && item.explain === target.explain && item.yearMonth === target.yearMonth);
       
       setAddItem({
@@ -356,6 +360,10 @@ export default function CalendarEditor({title, setTitle, isEdit, setIsEdit, mont
     }
   }
 
+  useEffect(()=>{
+    sessionStorage.setItem('calendar', JSON.stringify(monthItemList))
+    sessionStorage.setItem('title', title)
+  }, [])
 
   return(
     <>

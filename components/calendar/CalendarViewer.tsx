@@ -2,13 +2,11 @@ import css from './CalendarViewer.module.scss';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
-import { user } from "@recoilStore/index";
 import html2canvas from "html2canvas";
 import { getToday } from '@utils/index';
 import { Alert } from '@components/index';
 
 export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, monthItemList=[]}){
-  const getUser:GetUser = useRecoilValue(user);
   const router = useRouter();
   const captureRef = useRef(null);
   const [alertData, setAlertData] = useState<Alert>({
@@ -145,7 +143,7 @@ export default function CalendarViewer({title, setTitle, isEdit, setIsEdit, mont
     if (!captureRef.current) return;
 
     try {
-      const canvas = await html2canvas(captureRef.current, { scale: 1 });
+      const canvas = await html2canvas(captureRef.current);
       // canvas.toBlob((blob) => {
       //   console.log(blob)
       //   if (blob !== null) {

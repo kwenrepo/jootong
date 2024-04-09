@@ -1,5 +1,5 @@
 import { selector } from "recoil";
-import { user,dataList, calendarDataList } from "./atoms";
+import { user, dataList, calendarDataList, title } from "./atoms";
 
 export const userSelector = selector({
   key:"userSelector" + new Date().getTime(),
@@ -31,5 +31,13 @@ export const calendarDataListSelector = selector({
       return item;
     })
     set(calendarDataList, newList);
+  }
+})
+
+export const titleSelector = selector({
+  key:"titleSelector" + new Date().getTime(),
+  get: ({get}) => get(title),
+  set: ({set}, newTitle) => {
+    set(title, newTitle);
   }
 })

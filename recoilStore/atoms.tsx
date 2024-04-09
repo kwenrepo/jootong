@@ -15,3 +15,8 @@ export const calendarDataList = atom({
   default:[]
 })
 
+export const title = atom({
+  key:"title"+ new Date().getTime(),
+  default:[]
+})
+
