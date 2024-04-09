@@ -63,7 +63,7 @@ export async function getStaticPaths() {
     params: { calendar:[item.id, item.title] },
   }));
 
-  return { paths, fallback: false };
+  return { paths, fallback: 'blocking' };
 }
 
 export async function getStaticProps({params}) {
@@ -79,7 +79,7 @@ export async function getStaticProps({params}) {
     }
   });
 
-  if (!getMonthItemList.status) {
+  if (!getMonthItemList.data[0]) {
     return {
       notFound: true,
     }
