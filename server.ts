@@ -9,8 +9,8 @@ const dev = process.env.NODE_ENV === "development";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 const httpsOptions = {
-  key: fs.readFileSync("./jootong_com.key"),
-  cert: fs.readFileSync("./jootong_com.pem")
+  key: fs.readFileSync("./www_jootong_com.key"),
+  cert: fs.readFileSync("./www_jootong_com.pem")
 };
 const requestIp = require("request-ip");
 const UAParser = require("ua-parser-js");
